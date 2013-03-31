@@ -16,23 +16,18 @@ import java.util.*;
  * @since 0.0.1
  */
 public class BFSStrategy implements GraphSearchStrategy {
-    private List<GraphNode> nodes;
     private List<GraphNode> backupNodes;
     private List<GraphNode> path;
 
     @Override
     public void init(List<GraphNode> nodes) {
-        this.nodes = new LinkedList<GraphNode>();
-        Cloner cloner = new Cloner();
-        for (GraphNode node : nodes) {
-            this.nodes.add(cloner.deepClone(node));
-        }
         this.backupNodes = nodes;
     }
 
     @Override
     public List<GraphNode> traverse(int startNode) {
-        for (GraphNode node : this.nodes) {
+        List<GraphNode> nodes = this.cloneNodes(this.backupNodes);
+        for (GraphNode node : nodes) {
             if (node.equals(this.backupNodes.get(startNode))) {
                 return this.traverse(node);
             }
@@ -42,14 +37,15 @@ public class BFSStrategy implements GraphSearchStrategy {
 
     @Override
     public List<GraphNode> traverse(int startNode, int endNode) {
+        List<GraphNode> nodes = this.cloneNodes(this.backupNodes);
         GraphNode start = null, end = null;
-        for (GraphNode node : this.nodes) {
+        for (GraphNode node : nodes) {
             if (node.equals(this.backupNodes.get(startNode))) {
                 start = node;
                 break;
             }
         }
-        for (GraphNode node : this.nodes) {
+        for (GraphNode node : nodes) {
             if (node.equals(this.backupNodes.get(endNode))) {
                 end = node;
                 break;
@@ -110,15 +106,12 @@ public class BFSStrategy implements GraphSearchStrategy {
         return null;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("BFSStrategy");
-        sb.append("{nodes=").append(nodes.size());
-        for (GraphNode node : this.nodes) {
-            sb.append("{node=").append(node);
+    private List<GraphNode> cloneNodes(List<GraphNode> nodes) {
+        List<GraphNode> nodeList = new LinkedList<GraphNode>();
+        Cloner cloner = new Cloner();
+        for (GraphNode node : nodes) {
+            nodeList.add(cloner.deepClone(node));
         }
-        sb.append('}');
-        return sb.toString();
+        return nodeList;
     }
 }
