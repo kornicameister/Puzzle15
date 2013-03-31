@@ -1,9 +1,10 @@
 package org.kornicameister.sise.core.io;
 
 import org.apache.commons.cli.*;
-import org.kornicameister.sise.core.graph.Graph;
 import org.kornicameister.sise.core.graph.Graphs;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -80,9 +81,10 @@ public class CLIWrapper {
         return CLIWrapper;
     }
 
-    public Graph newGraph(String[] args) {
+    public Map<CLIArguments, Object> parse(String[] args) {
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
+        Map<CLIArguments, Object> argMap = new HashMap<>();
         try {
             cmd = parser.parse(this.options, args);
 
@@ -103,8 +105,10 @@ public class CLIWrapper {
                 Properties mode = cmd.getOptionProperties("f");
                 if (mode.keySet().contains("cmd")) {
                     cmdInputEnabled = true;
+                    argMap.put(CLIArguments.INPUT, System.in);
                 } else if (mode.keySet().contains("file")) {
                     inputFilePath = (String) mode.get("file");
+                    argMap.put(CLIArguments.INPUT, inputFilePath);
                 }
                 LOGGER.info(String.format("Input mode detected, [mode=%s,src=%s]",
                         (cmdInputEnabled ? "cmd" : "file"),
@@ -125,11 +129,15 @@ public class CLIWrapper {
                 String order;
                 if (!heuristicEnabled) {
                     if ((order = (String) cmd.getParsedOptionValue(graphs.getAcronym())) != null) {
+                        argMap.put(CLIArguments.STRATEGY, graphs);
+                        argMap.put(CLIArguments.ORDER, order);
                         LOGGER.info(String.format("Algorithm detected [algorithm=%s / order=%s]", graphs.name(), order));
                         break;
                     }
                 } else {
                     if (strategy.equals(graphs.getAcronym())) {
+                        argMap.put(CLIArguments.STRATEGY, graphs);
+                        argMap.put(CLIArguments.HEURISTIC, heuristicId);
                         LOGGER.info(String.format("Algorithm detected [algorithm=%s / heuristicId=%d]", graphs.name(), heuristicId));
                         break;
                     }
@@ -139,7 +147,7 @@ public class CLIWrapper {
             System.err.println(e.getLocalizedMessage());
             this.printHelp();
         }
-        return null;
+        return argMap;
     }
 
     private void printHelp() {

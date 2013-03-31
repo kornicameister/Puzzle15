@@ -14,6 +14,6 @@ import org.kornicameister.sise.core.io.CLIWrapper;
 public class Puzzle {
 
     public static void main(String[] args) throws Exception {
-        CLIWrapper.getCMD().newGraph(args);
+        System.out.println(CLIWrapper.getCMD().parse(args));
     }
 }
