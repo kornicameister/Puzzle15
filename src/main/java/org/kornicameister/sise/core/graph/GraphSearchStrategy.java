@@ -6,7 +6,7 @@ import java.util.List;
  * GraphSearchStrategy is an interface
  * which shows how to traverse through
  * the graph. It can be easily swapped
- * in {@link Graph} class.
+ * in {@link org.kornicameister.sise.core.Graph} class.
  * <p/>
  * Default search strategy includes two
  * method one tries to go trough the whole graph
@@ -19,6 +19,13 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface GraphSearchStrategy {
+    /**
+     * Initialize strategy by providing list
+     * of nodes. It will be copied to prevent
+     * overriding of the nodes read from the input.
+     *
+     * @param nodes original list of nodes
+     */
     void init(List<GraphNode> nodes);
 
     List<GraphNode> traverse(int startNode);

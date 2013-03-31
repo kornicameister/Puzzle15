@@ -1,6 +1,7 @@
 package org.kornicameister.sise.core.strategies;
 
 import com.rits.cloning.Cloner;
+import org.kornicameister.sise.core.graph.GraphEdge;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.GraphSearchStrategy;
 
@@ -55,8 +56,8 @@ public class BFSStrategy implements GraphSearchStrategy {
     }
 
     protected List<GraphNode> traverse(GraphNode startNode) {
-        this.path = new ArrayList<GraphNode>();
-        Queue<GraphNode> queue = new ArrayDeque<GraphNode>();
+        this.path = new ArrayList<>();
+        Queue<GraphNode> queue = new ArrayDeque<>();
         startNode.setVisited(true);
         this.path.add(startNode);
         queue.add(startNode);
@@ -75,8 +76,8 @@ public class BFSStrategy implements GraphSearchStrategy {
     }
 
     protected List<GraphNode> traverse(GraphNode startNode, GraphNode endNode) {
-        this.path = new ArrayList<GraphNode>();
-        Queue<GraphNode> queue = new ArrayDeque<GraphNode>();
+        this.path = new ArrayList<>();
+        Queue<GraphNode> queue = new ArrayDeque<>();
         startNode.setVisited(true);
         this.path.add(startNode);
         queue.add(startNode);
@@ -98,16 +99,16 @@ public class BFSStrategy implements GraphSearchStrategy {
     }
 
     protected GraphNode getNextUnvisited(GraphNode node) {
-        for (GraphNode neighbour : node.getNeighbours()) {
-            if (!neighbour.isVisited()) {
-                return neighbour;
+        for (GraphEdge neighbour : node.getNeighbours()) {
+            if (neighbour.isAccessible()) {
+                return neighbour.getSuccessor();
             }
         }
         return null;
     }
 
     private List<GraphNode> cloneNodes(List<GraphNode> nodes) {
-        List<GraphNode> nodeList = new LinkedList<GraphNode>();
+        List<GraphNode> nodeList = new LinkedList<>();
         Cloner cloner = new Cloner();
         for (GraphNode node : nodes) {
             nodeList.add(cloner.deepClone(node));

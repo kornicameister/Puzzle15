@@ -8,9 +8,9 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface GraphNode extends Comparable {
-    void addNeighbour(GraphNode node);
+    void addNeighbour(GraphNode node, NodeAccessibleStrategy strategy);
 
-    List<GraphNode> getNeighbours();
+    List<GraphEdge> getNeighbours();
 
     boolean isVisited();
 

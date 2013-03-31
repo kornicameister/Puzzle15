@@ -1,4 +1,8 @@
-package org.kornicameister.sise.core.graph;
+package org.kornicameister.sise.core;
+
+import org.kornicameister.sise.core.graph.GraphEdge;
+import org.kornicameister.sise.core.graph.GraphNode;
+import org.kornicameister.sise.core.graph.NodeAccessibleStrategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,10 +20,10 @@ import java.util.List;
  */
 public class Node implements GraphNode {
     private String label = "";
-    private List<GraphNode> neighbours = new ArrayList<GraphNode>();
+    private List<GraphEdge> neighbours = new ArrayList<>();
     private boolean visited = false;
 
-    public Node(final String label, GraphNode... neighbours) {
+    public Node(final String label, GraphEdge... neighbours) {
         this.label = label;
         this.neighbours.addAll(Arrays.asList(neighbours));
     }
@@ -29,12 +33,12 @@ public class Node implements GraphNode {
     }
 
     @Override
-    public void addNeighbour(GraphNode graphNode) {
-        this.neighbours.add(graphNode);
+    public void addNeighbour(GraphNode graphNode, NodeAccessibleStrategy strategy) {
+        this.neighbours.add(new Edge(this, graphNode, strategy));
     }
 
     @Override
-    public List<GraphNode> getNeighbours() {
+    public List<GraphEdge> getNeighbours() {
         return neighbours;
     }
 

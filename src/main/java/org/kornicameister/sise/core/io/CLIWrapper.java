@@ -1,7 +1,7 @@
 package org.kornicameister.sise.core.io;
 
 import org.apache.commons.cli.*;
-import org.kornicameister.sise.core.graph.Graphs;
+import org.kornicameister.sise.core.Graphs;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -157,10 +157,6 @@ public class CLIWrapper {
                 "",
                 this.options,
                 this.helpFooter);
-    }
-
-    public Options getOptions() {
-        return options;
     }
 
     @Override

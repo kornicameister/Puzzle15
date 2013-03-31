@@ -1,4 +1,7 @@
-package org.kornicameister.sise.core.graph;
+package org.kornicameister.sise.core;
+
+import org.kornicameister.sise.core.graph.GraphNode;
+import org.kornicameister.sise.core.graph.GraphSearchStrategy;
 
 import java.util.ArrayList;
 import java.util.Arrays;

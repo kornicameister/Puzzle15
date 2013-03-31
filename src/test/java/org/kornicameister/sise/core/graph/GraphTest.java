@@ -3,7 +3,10 @@ package org.kornicameister.sise.core.graph;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kornicameister.sise.core.Graph;
+import org.kornicameister.sise.core.Node;
 import org.kornicameister.sise.core.strategies.BFSStrategy;
+import org.kornicameister.sise.core.strategies.UnvisitedAccessibleStrategy;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,6 +27,7 @@ public class GraphTest {
         int graphNodes = 0;
         int currentNode = 0;
         GraphNode[] nodes = new GraphNode[0];
+        final UnvisitedAccessibleStrategy strategy = new UnvisitedAccessibleStrategy();
         while (scanner.hasNextLine()) {
             if (graphNodes == 0) {
                 graphNodes = scanner.nextInt();
@@ -36,7 +40,7 @@ public class GraphTest {
                 final String line = scanner.next();
                 String[] neighbours = line.split(",");
                 for (int i = 0; i < neighbours.length; i++) {
-                    nodes[currentNode].addNeighbour(nodes[Integer.parseInt(neighbours[i])]);
+                    nodes[currentNode].addNeighbour(nodes[Integer.parseInt(neighbours[i])], strategy);
                 }
                 currentNode++;
             }

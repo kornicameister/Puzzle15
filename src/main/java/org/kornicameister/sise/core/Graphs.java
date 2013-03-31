@@ -1,4 +1,4 @@
-package org.kornicameister.sise.core.graph;
+package org.kornicameister.sise.core;
 
 /**
  * Indicates types of used algorithm..quite useful

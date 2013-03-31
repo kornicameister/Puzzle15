@@ -1,6 +1,6 @@
 package org.kornicameister.sise.puzzle;
 
-import org.kornicameister.sise.core.graph.Graph;
+import org.kornicameister.sise.core.Graph;
 
 /**
  * @author kornicameister
