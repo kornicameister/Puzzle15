@@ -36,7 +36,7 @@ public class GraphTest {
                 final String line = scanner.next();
                 String[] neighbours = line.split(",");
                 for (int i = 0; i < neighbours.length; i++) {
-                    nodes[currentNode].addNeighbour(nodes[Integer.parseInt(neighbours[i]) - 1]);
+                    nodes[currentNode].addNeighbour(nodes[Integer.parseInt(neighbours[i])]);
                 }
                 currentNode++;
             }
