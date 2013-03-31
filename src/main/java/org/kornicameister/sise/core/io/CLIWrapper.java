@@ -1,8 +1,8 @@
 package org.kornicameister.sise.core.io;
 
 import org.apache.commons.cli.*;
-import org.kornicameister.sise.core.Graphs;
 import org.kornicameister.sise.core.graph.Graph;
+import org.kornicameister.sise.core.graph.Graphs;
 
 import java.util.Properties;
 import java.util.logging.Logger;
