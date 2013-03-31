@@ -1,9 +1,9 @@
 package org.kornicameister.sise.core.graph;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * Graph points to how graph
@@ -17,11 +17,12 @@ import java.util.TreeSet;
  * @since 0.0.1
  */
 public class Graph implements Iterable<GraphNode> {
-    private final Set<GraphNode> nodes;
+    private final List<GraphNode> nodes;
     private GraphSearchStrategy strategy;
+    private List<GraphNode> path;
 
     public Graph(GraphNode... nodes) {
-        this.nodes = new TreeSet<GraphNode>(Arrays.asList(nodes));
+        this.nodes = new ArrayList<GraphNode>(Arrays.asList(nodes));
     }
 
     public Graph(GraphSearchStrategy strategy, GraphNode... nodes) {
@@ -29,12 +30,14 @@ public class Graph implements Iterable<GraphNode> {
         this.strategy = strategy;
     }
 
-    public void traverse(GraphNode startNode) {
-        this.strategy.traverse(startNode);
+    public void traverse(int startNode) {
+        this.strategy.init(this.nodes);
+        this.path = this.strategy.traverse(startNode);
     }
 
-    public void traverse(GraphNode startNode, GraphNode endNode) {
-        this.strategy.traverse(startNode, endNode);
+    public void traverse(int startNode, int endNode) {
+        this.strategy.init(this.nodes);
+        this.path = this.strategy.traverse(startNode, endNode);
     }
 
     public GraphSearchStrategy getStrategy() {
@@ -45,11 +48,15 @@ public class Graph implements Iterable<GraphNode> {
         this.strategy = strategy;
     }
 
+    public List<GraphNode> getPath() {
+        return path;
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Graph");
-        sb.append("{nodes=").append(nodes);
+        sb.append("{nodes=").append(nodes.size());
         sb.append(", strategy=").append(strategy);
         sb.append('}');
         return sb.toString();

@@ -1,8 +1,8 @@
 package org.kornicameister.sise.core.graph;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.List;
 
 /**
  * Node is class that describes functionality of
@@ -14,15 +14,14 @@ import java.util.TreeSet;
  * @version 0.0.1
  * @since 0.0.1
  */
-public abstract class Node implements Comparable<Node>, GraphNode {
-    private final String label;
-    private final Set<GraphNode> neighbours;
-    private boolean visited;
+public class Node implements GraphNode {
+    private String label = "";
+    private List<GraphNode> neighbours = new ArrayList<GraphNode>();
+    private boolean visited = false;
 
     public Node(final String label, GraphNode... neighbours) {
         this.label = label;
-        this.neighbours = new TreeSet<GraphNode>(Arrays.asList(neighbours));
-        this.visited = false;
+        this.neighbours.addAll(Arrays.asList(neighbours));
     }
 
     public String getLabel() {
@@ -30,7 +29,12 @@ public abstract class Node implements Comparable<Node>, GraphNode {
     }
 
     @Override
-    public Set<GraphNode> getNeighbours() {
+    public void addNeighbour(GraphNode graphNode) {
+        this.neighbours.add(graphNode);
+    }
+
+    @Override
+    public List<GraphNode> getNeighbours() {
         return neighbours;
     }
 
@@ -49,11 +53,10 @@ public abstract class Node implements Comparable<Node>, GraphNode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Node that = (Node) o;
+        Node node = (Node) o;
 
-        return visited == that.visited
-                && label.equals(that.label)
-                && neighbours.equals(that.neighbours);
+        return label.equals(node.label)
+                && new Integer(neighbours.size()).equals(new Integer(node.neighbours.size()));
     }
 
     @Override
@@ -68,10 +71,18 @@ public abstract class Node implements Comparable<Node>, GraphNode {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Node");
-        sb.append("{label='").append(label).append('\'');
-        sb.append(", neighbours=").append(neighbours);
-        sb.append(", visited=").append(visited);
+        sb.append("{label='").append(this.label);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(Object object) {
+        if (object instanceof Node) {
+            Node node = (Node) object;
+            int result = Boolean.compare(this.visited, node.visited);
+            return result * -1;
+        }
+        return 0;
     }
 }

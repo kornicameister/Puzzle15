@@ -1,5 +1,7 @@
 package org.kornicameister.sise.core.graph;
 
+import java.util.List;
+
 /**
  * GraphSearchStrategy is an interface
  * which shows how to traverse through
@@ -17,7 +19,9 @@ package org.kornicameister.sise.core.graph;
  * @since 0.0.1
  */
 public interface GraphSearchStrategy {
-    void traverse(GraphNode startNode);
+    void init(List<GraphNode> nodes);
 
-    void traverse(GraphNode startNode, GraphNode endNode);
+    List<GraphNode> traverse(int startNode);
+
+    List<GraphNode> traverse(int startNode, int endNode);
 }
