@@ -25,7 +25,7 @@ public class Graph implements Iterable<GraphNode> {
     private List<GraphNode> path;
 
     public Graph(GraphNode... nodes) {
-        this.nodes = new ArrayList<GraphNode>(Arrays.asList(nodes));
+        this.nodes = new ArrayList<>(Arrays.asList(nodes));
     }
 
     public Graph(GraphSearchStrategy strategy, GraphNode... nodes) {
@@ -68,5 +68,9 @@ public class Graph implements Iterable<GraphNode> {
     @Override
     public Iterator<GraphNode> iterator() {
         return this.nodes.iterator();
+    }
+
+    public List<GraphNode> getNodes() {
+        return this.nodes;
     }
 }
