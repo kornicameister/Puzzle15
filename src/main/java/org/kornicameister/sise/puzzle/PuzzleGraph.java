@@ -5,7 +5,7 @@ import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.puzzle.exception.PuzzleBlankFilledMissing;
 import org.kornicameister.sise.puzzle.exception.PuzzleNotSolvableException;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
-import org.kornicameister.sise.puzzle.solvable.InversionSolvableExamination;
+import org.kornicameister.sise.puzzle.stratagies.InversionAccessibleNodeStrategy;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class PuzzleGraph implements PuzzleSolver {
     private final Logger LOGGER = Logger.getLogger(PuzzleGraph.class.getName());
-    private final InversionSolvableExamination examination = new InversionSolvableExamination();
+    private final InversionAccessibleNodeStrategy examination = new InversionAccessibleNodeStrategy();
     private Graph graph;
 
     @Override

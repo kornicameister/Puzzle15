@@ -9,13 +9,15 @@ import java.util.List;
  * @since 0.0.1
  */
 public class ArrayUtilities {
-    public static <V> V[] flatten(V[][] array) {
-        List<V> flatten = new ArrayList<>(array.length * array[0].length);
-        for (int i = 0; i < array.length; i++) {
+    public static Integer[] flatten(Integer[][] array) {
+        List<Integer> flatten = new ArrayList<>(array.length * array[0].length);
+        int index = 0;
+        for (Integer[] anArray : array) {
             for (int j = 0; j < array[0].length; j++) {
-                flatten.set(i * j, array[i][j]);
+                flatten.add(null);
+                flatten.set(index++, anArray[j]);
             }
         }
-        return (V[]) flatten.toArray();
+        return flatten.toArray(new Integer[flatten.size()]);
     }
 }
