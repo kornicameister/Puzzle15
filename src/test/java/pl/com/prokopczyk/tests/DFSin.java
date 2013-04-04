@@ -14,7 +14,8 @@ public class DFSin {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Integer [][]start={{1,0,2},{4,5,3},{7,8,6}};
+		
+		Integer [][]start={{1,2,3},{4,0,5},{7,8,6}};
 		Integer [][]stop={{1,2,3},{4,5,6},{7,8,0}};
 		Integer[][]kopia=DFSStrategy.arrayCopy(start);
 		PuzzleNode startowy=new PuzzleNode("", start );
@@ -24,12 +25,14 @@ public class DFSin {
 		List<GraphNode>nodes=new ArrayList<>();
 		nodes.add(startowy);
 		strat.init(nodes);
-		strat.setOrder("URLD");
+		strat.setOrder("LDUR");
 //		if (startowy.equals(sp))
 //			System.out.println("taaaaak");
 //		if (startowy.hashCode()==sp.hashCode())
 //			System.out.println("tak2");
-		List<GraphNode> result=strat.traverse(startowy, koncowyy);
+		strat.traverse(startowy, koncowyy);
+		List<GraphNode> result=strat.getPath();
+				
 		System.out.println("Turns:"+strat.getTurns());
 		System.out.println(result.size());
 		List<Character> charlist=new ArrayList<>();
