@@ -52,6 +52,7 @@ public class PuzzleNode extends Node {
         if (!super.equals(o)) return false;
 
         PuzzleNode that = (PuzzleNode) o;
+    
 
         return order.equals(that.order)
                 && Arrays.deepEquals(this.puzzle, that.puzzle);
