@@ -1,6 +1,7 @@
 package pl.com.prokopczyk.tests;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kornicameister.sise.core.graph.GraphNode;
@@ -23,7 +24,7 @@ public class DFSin {
 		List<GraphNode>nodes=new ArrayList<>();
 		nodes.add(startowy);
 		strat.init(nodes);
-		strat.setOrder("RDLU");
+		strat.setOrder("URLD");
 //		if (startowy.equals(sp))
 //			System.out.println("taaaaak");
 //		if (startowy.hashCode()==sp.hashCode())
@@ -31,6 +32,18 @@ public class DFSin {
 		List<GraphNode> result=strat.traverse(startowy, koncowyy);
 		System.out.println("Turns:"+strat.getTurns());
 		System.out.println(result.size());
+		List<Character> charlist=new ArrayList<>();
+		charlist.add('A');
+		charlist.add('b');
+		charlist.add('c');
+		charlist.add('d');
+		
+		
+		for (int i=0;i<5;i++)
+		{
+			System.out.println(charlist.toString());
+			Collections.shuffle(charlist);
+		}
 //		
 		
 		

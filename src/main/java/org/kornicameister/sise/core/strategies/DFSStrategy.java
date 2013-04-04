@@ -1,6 +1,7 @@
 package org.kornicameister.sise.core.strategies;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -87,8 +88,22 @@ public class DFSStrategy {
 	}
 
 	private void generateNeighbours(GraphNode startnode) {
+		List<Character> charlist=new ArrayList<>();
+		if (order.length()==1)
+		{
+			
+			charlist.add('D');
+			charlist.add('U');
+			charlist.add('L');
+			charlist.add('R');
+			Collections.shuffle(charlist);
+		}
+		else{
+			for (int i = 0; i < order.length(); i++)
+				charlist.add(order.charAt(i));
+		}
 
-		for (int i = 0; i < order.length(); i++) {
+		for (int i = 0; i < charlist.size(); i++) {
 			// System.out.println(order.length());
 			// System.out.println(backupNodes.size());
 			if (startnode instanceof PuzzleNode) {
@@ -98,7 +113,7 @@ public class DFSStrategy {
 
 				// System.out.println(positions[0]+"  "+positions[1]);
 
-				char direction = order.charAt(i);
+				char direction = charlist.get(i);
 				switch (direction) {
 
 				case 'U': {
@@ -106,7 +121,8 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0] - 1][positions[1]];
 						newStateArray[positions[0] - 1][positions[1]] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-						backupNodes.add(tempNode);
+						if(!backupNodes.add(tempNode))
+							System.out.println("Duplikat");
 						startnode.addNeighbour(tempNode,
 								new UnvisitedAccessibleStrategy(), direction);
 					}
@@ -118,7 +134,8 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0]][positions[1] + 1];
 						newStateArray[positions[0]][positions[1] + 1] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-						backupNodes.add(tempNode);
+						if(!backupNodes.add(tempNode))
+							System.out.println("Duplikat");
 						startnode.addNeighbour(tempNode,
 								new UnvisitedAccessibleStrategy(), direction);
 
@@ -131,7 +148,8 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0]][positions[1] - 1];
 						newStateArray[positions[0]][positions[1] - 1] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-						backupNodes.add(tempNode);
+						if(!backupNodes.add(tempNode))
+							System.out.println("Duplikat");
 						startnode.addNeighbour(tempNode,
 								new UnvisitedAccessibleStrategy(), direction);
 
@@ -144,7 +162,8 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0] + 1][positions[1]];
 						newStateArray[positions[0] + 1][positions[1]] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-						backupNodes.add(tempNode);
+						if(!backupNodes.add(tempNode))
+							System.out.println("Duplikat");
 						startnode.addNeighbour(tempNode,
 								new UnvisitedAccessibleStrategy(), direction);
 
