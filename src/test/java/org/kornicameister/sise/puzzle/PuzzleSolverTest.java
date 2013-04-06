@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.is;
  * @since 0.0.1
  */
 public class PuzzleSolverTest {
-    private final static String FIVETEEN = "src/main/resources/fiveteen";
+    private final static String FIVETEEN = "src/main/resources/fifteen";
     private final static Integer[][] SOLVABLE_PUZZLE = new Integer[][]{
             {12, 1, 10, 2},
             {7, 11, 4, 14},
