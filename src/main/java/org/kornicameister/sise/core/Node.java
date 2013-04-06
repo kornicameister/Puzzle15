@@ -25,6 +25,7 @@ public class Node implements GraphNode {
 
     public Node(final String label, GraphEdge... neighbours) {
         this.label = label;
+        if(neighbours.length>0)
         this.neighbours.addAll(Arrays.asList(neighbours));
     }
 
@@ -35,6 +36,10 @@ public class Node implements GraphNode {
     @Override
     public void addNeighbour(GraphNode graphNode, NodeAccessibleStrategy strategy) {
         this.neighbours.add(new Edge(this, graphNode, strategy));
+    }
+    @Override
+    public void addNeighbour(GraphNode graphNode, NodeAccessibleStrategy strategy,char direction) {
+        this.neighbours.add(new Edge(this, graphNode, strategy,direction));
     }
 
     @Override

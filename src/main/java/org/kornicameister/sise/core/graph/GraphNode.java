@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface GraphNode extends Comparable {
     void addNeighbour(GraphNode node, NodeAccessibleStrategy strategy);
+    void addNeighbour(GraphNode node, NodeAccessibleStrategy strategy, char direction);
 
     List<GraphEdge> getNeighbours();
 

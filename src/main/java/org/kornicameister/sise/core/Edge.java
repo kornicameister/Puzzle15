@@ -16,12 +16,18 @@ public class Edge implements GraphEdge {
     private final GraphNode predecessor;
     private final GraphNode successor;
     private NodeAccessibleStrategy accessibilityStrategy;
+    private Character direction;
 
     public Edge(GraphNode predecessor, GraphNode successor, NodeAccessibleStrategy strategy) {
         this.predecessor = predecessor;
         this.successor = successor;
         this.accessibilityStrategy = strategy;
     }
+    public Edge(GraphNode predecessor, GraphNode successor, NodeAccessibleStrategy strategy, char dir ) {
+        this(predecessor,successor,strategy);
+        direction=dir;
+    }
+    
 
     public GraphNode getPredecessor() {
         return predecessor;
@@ -32,7 +38,10 @@ public class Edge implements GraphEdge {
         return successor;
     }
 
-    @Override
+    public Character getDirection() {
+		return direction;
+	}
+	@Override
     public void setAccessibleStrategy(NodeAccessibleStrategy strategy) {
         this.accessibilityStrategy = strategy;
     }

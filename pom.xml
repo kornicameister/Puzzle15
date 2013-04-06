@@ -8,6 +8,13 @@
     <artifactId>Puzzle15</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <developers>
+             <developer>
+                      <id>kornicameister</id>
+                      <name>Tomasz Trębski</name>
+             </developer>
+    </developers>
+
     <properties>
         <commons-cli.version>1.3-Snapshot</commons-cli.version>
         <junit.version>4.11</junit.version>
