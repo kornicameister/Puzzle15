@@ -28,18 +28,19 @@ public class DFSin {
 		List<GraphNode> nodes = new ArrayList<>();
 		nodes2.add(startowy);
 		dfsStrategy.init(nodes2);
-		dfsStrategy.setOrder("LDRU");
+		dfsStrategy.setOrder("LDPG");
 		strat.init(nodes);
-		strat.setOrder("LDRU");
+		strat.setOrder("LDPG");
 		// if (startowy.equals(sp))
 		// System.out.println("taaaaak");
 		// if (startowy.hashCode()==sp.hashCode())
 		// System.out.println("tak2");
 		// strat.traverse(startowy, koncowyy);
-		List<GraphNode> result = strat.iDFS(startowy, koncowyy, 4);
+		List<GraphNode> result = strat.iDFS(startowy, koncowyy, 4,false);
 		if (result == null) {
 			System.out.println("Nic nie znalazlem");
 		} else {
+			
 			System.out.println("Turns length:" + strat.getTurns().length());
 			System.out.println("Turns:" + strat.getTurns());
 			System.out.println(result.size());
@@ -54,6 +55,7 @@ public class DFSin {
 		if (listadfs == null) {
 			System.out.println("Nic nie znalazlem");
 		} else {
+			System.out.println(dfsStrategy.getReport());
 			System.out.println("Turns length:" + dfsStrategy.getTurns().length());
 			System.out.println("Turns:" + dfsStrategy.getTurns());
 			System.out.println(listadfs.size());

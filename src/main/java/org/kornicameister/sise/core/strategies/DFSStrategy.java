@@ -16,6 +16,8 @@ import org.kornicameister.sise.puzzle.node.PuzzleNode;
 import com.rits.cloning.Cloner;
 
 public class DFSStrategy {
+	int maxRecursionDepth=0;
+	int visitedNodes=0;
 	boolean success = false;
 	private List<GraphNode> backupNodes;
 	private List<GraphNode> path = new ArrayList<GraphNode>();
@@ -54,20 +56,29 @@ public class DFSStrategy {
 	public void traverse(GraphNode startNode, GraphNode endNode) {
 
 		if (!startNode.isVisited()) {
+			
 			startNode.setVisited(true);
 			this.path.add(startNode);
-			if (compare(((PuzzleNode) startNode).getPuzzle(),
-					((PuzzleNode) endNode).getPuzzle())) {
+			visitedNodes++;
+			if( maxRecursionDepth<this.path.size())
+				maxRecursionDepth=this.path.size();
+//			if (compare(((PuzzleNode) startNode).getPuzzle(),
+//					((PuzzleNode) endNode).getPuzzle())) {
+//				success = true;
+//				return;
+//
+//			}
+			if (startNode.equals(endNode)) {
 				success = true;
 				return;
 
 			}
+			
 			generateNeighbours(startNode);
 
 			for (GraphEdge e : startNode.getNeighbours()) {
 
 				if (!e.getSuccessor().isVisited()) {
-					// System.out.println("Ile sasiadow:"+startNode.getNeighbours().size());
 					visitedEdges.add(e);
 					traverse(e.getSuccessor(), endNode);
 					if (success) {
@@ -80,7 +91,6 @@ public class DFSStrategy {
 			}
 			
 			this.path.remove(findEqualElement(startNode, path));
-			// System.out.println(path.size());
 
 		}
 
@@ -96,56 +106,34 @@ public class DFSStrategy {
 	}
 
 	private void generateNeighbours(GraphNode startnode) {
-		//System.out.println("przed generowaniem:" + startnode.isVisited());
 		List<Character> charlist = new ArrayList<>();
 		if (order.length() == 1) {
 
 			charlist.add('D');
-			charlist.add('U');
+			charlist.add('G');
 			charlist.add('L');
-			charlist.add('R');
+			charlist.add('P');
 			Collections.shuffle(charlist);
 		} else {
 			for (int i = 0; i < order.length(); i++)
 				charlist.add(order.charAt(i));
 		}
-		//System.out.println(charlist.toString());
 
 		for (int i = 0; i < charlist.size(); i++) {
-			// System.out.println(order.length());
-			// System.out.println(backupNodes.size());
+
 			if (startnode instanceof PuzzleNode) {
 				Integer[][] newStateArray = arrayCopy(((PuzzleNode) startnode)
 						.getPuzzle());
 
 				Integer[] positions = findBlankPosition(newStateArray);
-
-			//	System.out.println(positions[0] + "  " + positions[1]);
-
 				char direction = charlist.get(i);
 				switch (direction) {
 
-				case 'U': {
+				case 'G': {
 					if (positions[0] > 0) {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0] - 1][positions[1]];
 						newStateArray[positions[0] - 1][positions[1]] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-						// if(getEqual(tempNode, backupNodes)!=null)
-						// System.out.println("Przed dodaniem sasiada:"+getEqual(tempNode,
-						// backupNodes).isVisited());
-						// if(!backupNodes.add(tempNode))
-						// {
-						// System.out.println("Duplikat");
-						// System.out.println(tempNode.isVisited());
-						// }
-						// else
-						//
-						// System.out.println("Dodaje");
-						// startnode.addNeighbour(getEqual(tempNode,
-						// backupNodes),
-						// new UnvisitedAccessibleStrategy(), direction);
-						// System.out.println("Po dodaniu sasiada:"+getEqual(tempNode,
-						// backupNodes).isVisited());
 						int pos = findEqualElement(tempNode, backupNodes);
 						if (pos == -1) {
 							backupNodes.add(tempNode);
@@ -164,7 +152,7 @@ public class DFSStrategy {
 					break;
 
 				}
-				case 'R': {
+				case 'P': {
 					if (positions[1] < newStateArray[0].length - 1) {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0]][positions[1] + 1];
 						newStateArray[positions[0]][positions[1] + 1] = 0;
@@ -236,8 +224,6 @@ public class DFSStrategy {
 				}
 			}
 		}
-		//System.out.println("Po generowaniu: " + startnode.isVisited());
-
 	}
 
 	private Integer[] findBlankPosition(Integer[][] arr) {
@@ -288,14 +274,7 @@ public class DFSStrategy {
 		return str.toString().trim();
 	}
 
-	GraphNode getEqual(GraphNode sample, Set<GraphNode> all) {
-		for (GraphNode one : all) {
-			if (one.equals(sample)) {
-				return one;
-			}
-		}
-		return null;
-	}
+
 
 	int findEqualElement(GraphNode node, List<GraphNode> lista) {
 		for (int i = 0; i < lista.size(); i++) {
@@ -305,5 +284,10 @@ public class DFSStrategy {
 		}
 		return -1;
 	}
+	public String getReport()
+	{
+		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(path.size());
+	}
+	
 
 }

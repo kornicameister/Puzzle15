@@ -15,6 +15,9 @@ import org.kornicameister.sise.puzzle.node.PuzzleNode;
 import com.rits.cloning.Cloner;
 
 public class IDFSStrategy  {
+	int maxRecursionDepth=0;
+	int visitedNodes=0;
+	
 
 	boolean success = false;
 	private List<GraphNode> backupNodes;
@@ -59,10 +62,20 @@ public class IDFSStrategy  {
 			int maxDepth) {
 
 		if (!startNode.isVisited()) {
+			
 			startNode.setVisited(true);
 			this.path.add(startNode);
-			if (compare(((PuzzleNode) startNode).getPuzzle(),
-					((PuzzleNode) endNode).getPuzzle())
+			visitedNodes++;
+			if( maxRecursionDepth<this.path.size())
+				maxRecursionDepth=this.path.size();
+//			if (compare(((PuzzleNode) startNode).getPuzzle(),
+//					((PuzzleNode) endNode).getPuzzle())
+//					&& depth==maxDepth) {
+//				success = true;
+//				return;
+//
+//			}
+			if (startNode.equals(endNode)
 					&& depth==maxDepth) {
 				success = true;
 				return;
@@ -73,7 +86,7 @@ public class IDFSStrategy  {
 			for (GraphEdge e : startNode.getNeighbours()) {
 
 				if (!e.getSuccessor().isVisited()) {
-					// System.out.println("Ile sasiadow:"+startNode.getNeighbours().size());
+
 					
 					if (depth <= maxDepth)
 					{
@@ -101,14 +114,17 @@ public class IDFSStrategy  {
 	}
 
 	public List<GraphNode> iDFS(GraphNode startNode, GraphNode endNode,
-			int maxDepth) {
+			int maxDepth, boolean isGenerator) {
 		for (int i = 0; i <= maxDepth; i++) {
 			startNode.setVisited(false);
 			backupNodes.add(startNode);
 			path.clear();
+			visitedEdges.clear();
 			traverse(startNode, endNode,0, i);
 			if (success)
 				return path;
+			if (i==maxDepth && isGenerator)
+				return backupNodes;
 			backupNodes.clear();
 			path.clear();
 			visitedEdges.clear();
@@ -131,9 +147,9 @@ public class IDFSStrategy  {
 		if (order.length() == 1) {
 
 			charlist.add('D');
-			charlist.add('U');
+			charlist.add('G');
 			charlist.add('L');
-			charlist.add('R');
+			charlist.add('P');
 			Collections.shuffle(charlist);
 		} else {
 			for (int i = 0; i < order.length(); i++)
@@ -155,27 +171,12 @@ public class IDFSStrategy  {
 				char direction = charlist.get(i);
 				switch (direction) {
 
-				case 'U': {
+				case 'G': {
 					if (positions[0] > 0) {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0] - 1][positions[1]];
 						newStateArray[positions[0] - 1][positions[1]] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-						// if(getEqual(tempNode, backupNodes)!=null)
-						// System.out.println("Przed dodaniem sasiada:"+getEqual(tempNode,
-						// backupNodes).isVisited());
-						// if(!backupNodes.add(tempNode))
-						// {
-						// System.out.println("Duplikat");
-						// System.out.println(tempNode.isVisited());
-						// }
-						// else
-						//
-						// System.out.println("Dodaje");
-						// startnode.addNeighbour(getEqual(tempNode,
-						// backupNodes),
-						// new UnvisitedAccessibleStrategy(), direction);
-						// System.out.println("Po dodaniu sasiada:"+getEqual(tempNode,
-						// backupNodes).isVisited());
+
 						int pos = findEqualElement(tempNode, backupNodes);
 						if (pos == -1) {
 							backupNodes.add(tempNode);
@@ -194,7 +195,7 @@ public class IDFSStrategy  {
 					break;
 
 				}
-				case 'R': {
+				case 'P': {
 					if (positions[1] < newStateArray[0].length - 1) {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0]][positions[1] + 1];
 						newStateArray[positions[0]][positions[1] + 1] = 0;
@@ -318,15 +319,6 @@ public class IDFSStrategy  {
 		return str.toString().trim();
 	}
 
-	GraphNode getEqual(GraphNode sample, Set<GraphNode> all) {
-		for (GraphNode one : all) {
-			if (one.equals(sample)) {
-				return one;
-			}
-		}
-		return null;
-	}
-
 	int findEqualElement(GraphNode node, List<GraphNode> lista) {
 		for (int i = 0; i < lista.size(); i++) {
 			if (compare(((PuzzleNode) node).getPuzzle(),
@@ -335,6 +327,11 @@ public class IDFSStrategy  {
 		}
 		return -1;
 	}
+	public String getReport()
+	{
+		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(path.size());
+	}
+	
 
 }
 
