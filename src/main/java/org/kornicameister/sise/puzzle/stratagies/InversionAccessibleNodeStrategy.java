@@ -41,7 +41,7 @@ public class InversionAccessibleNodeStrategy implements NodeAccessibleStrategy {
 
     @Override
     public boolean isAccessible(GraphNode from, GraphNode to) {
-        return from.isVisited() && this.isAccessible(to);
+        return !to.isVisited() && this.isAccessible(to);
     }
 
     /**
@@ -53,7 +53,7 @@ public class InversionAccessibleNodeStrategy implements NodeAccessibleStrategy {
      * @return true of node can be a source of pleasure
      * @throws PuzzleBlankFilledMissing
      */
-    public boolean isSolvable(GraphNode node) throws PuzzleBlankFilledMissing {
+    protected boolean isSolvable(GraphNode node) throws PuzzleBlankFilledMissing {
         PuzzleNode puzzleNode = (PuzzleNode) node;
         final int width = puzzleNode.getPuzzle().length;
         boolean widthEven = width % 2 == 0,
@@ -66,22 +66,41 @@ public class InversionAccessibleNodeStrategy implements NodeAccessibleStrategy {
         }
 
         if (!widthEven) {
-            LOGGER.info(String.format("Puzzle's width is not even, width = %d", width));
             solvable = inversion % 2 == 0;
         } else {
-            LOGGER.info(String.format("Puzzle's width even, width=%d,blankRowIndex=%d", width, blankRowIndex));
             solvable = (blankRowIndex % 2 == 0) == (inversion % 2 != 0);
         }
-
-        if (solvable) {
-            LOGGER.info(String.format("Puzzle is solvable at conditions [gridWithEven=%s,inversionsEven=%s]",
-                    Boolean.toString(widthEven),
-                    Boolean.toString(inversion % 2 == 0))
-            );
-        } else {
-            LOGGER.warning("Puzzle is not solvable");
-        }
         return solvable;
+    }
+
+    /**
+     * Counts the number of inversions for current puzzle node.
+     * For more details, visit this <a href="http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html">link</a>
+     * about Puzzle15 being solvable or not theorem.
+     *
+     * @param puzzleNode node to be examined
+     * @return the number of inversions
+     */
+    protected Integer countInversions(PuzzleNode puzzleNode) {
+        Integer[] flatten = ArrayUtilities.flatten(puzzleNode.getPuzzle());
+        int inversion = 0;
+        int[] inversionStep = new int[flatten.length];
+        for (int i = 0; i < flatten.length - 1; i++) {
+            if (!flatten[i].equals(BLANK_FIELD)) {
+                for (int k = i + 1; k < flatten.length; k++) {
+                    if (flatten[i].compareTo(flatten[k]) > 0 && !flatten[k].equals(BLANK_FIELD)) {
+                        inversion += 1;
+                    }
+                }
+            }
+            inversionStep[i] = inversion;
+            inversion = 0;
+        }
+        inversion = 0;
+        for (int anInversionStep : inversionStep) {
+            inversion += anInversionStep;
+        }
+        return inversion;
     }
 
     /**
@@ -94,7 +113,7 @@ public class InversionAccessibleNodeStrategy implements NodeAccessibleStrategy {
      * @param puzzleNode to be examined
      * @return index > 0 if row has been located, or index < 0 which causes big trouble
      */
-    private int findBlankRow(PuzzleNode puzzleNode) {
+    protected int findBlankRow(PuzzleNode puzzleNode) {
         int index = -1;
         Integer[][] puzzle = puzzleNode.getPuzzle();
         for (int i = puzzle.length - 1; i >= 0; i--) {
@@ -107,31 +126,5 @@ public class InversionAccessibleNodeStrategy implements NodeAccessibleStrategy {
             }
         }
         return index;
-    }
-
-    /**
-     * Counts the number of inversions for current puzzle node.
-     * For more details, visit this <a href="http://www.cs.bham.ac.uk/~mdr/teaching/modules04/java2/TilesSolvability.html">link</a>
-     * about Puzzle15 being solvable or not theorem.
-     *
-     * @param puzzleNode node to be examined
-     * @return the number of inversions
-     */
-    private Integer countInversions(PuzzleNode puzzleNode) {
-        Integer[] flatten = ArrayUtilities.flatten(puzzleNode.getPuzzle());
-        int inversion = 0;
-        for (int i = 0; i < flatten.length - 1; i++) {
-            if (!flatten[i].equals(BLANK_FIELD)) {
-                for (int k = i + 1; k < flatten.length; k++) {
-                    if (flatten[i].compareTo(flatten[k]) > 0 && !flatten[k].equals(BLANK_FIELD)) {
-                        inversion += 1;
-                    } else if (flatten[k].equals(BLANK_FIELD) && Math.abs(i - k) == 1) {
-                        inversion += 1;
-                        break;
-                    }
-                }
-            }
-        }
-        return inversion;
     }
 }

@@ -28,7 +28,9 @@ public interface GraphSearchStrategy {
      */
     void init(List<GraphNode> nodes);
 
-    List<GraphNode> traverse(int startNode);
+    GraphNode getNextAvailableNode(GraphNode node);
 
-    List<GraphNode> traverse(int startNode, int endNode);
+    List<GraphNode> traverse(GraphNode startNode);
+
+    List<GraphNode> traverse(GraphNode startNode, GraphNode endNode);
 }
