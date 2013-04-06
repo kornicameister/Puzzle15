@@ -39,8 +39,8 @@ public class GraphTest {
                 // reading neighbours of the i-it node
                 final String line = scanner.next();
                 String[] neighbours = line.split(",");
-                for (int i = 0; i < neighbours.length; i++) {
-                    nodes[currentNode].addNeighbour(nodes[Integer.parseInt(neighbours[i])], strategy);
+                for (String neighbour : neighbours) {
+                    nodes[currentNode].addNeighbour(nodes[Integer.parseInt(neighbour)], strategy);
                 }
                 currentNode++;
             }
