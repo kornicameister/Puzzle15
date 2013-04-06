@@ -28,6 +28,8 @@ public interface GraphSearchStrategy {
      */
     void init(List<GraphNode> nodes);
 
+    String getReport();
+
     GraphNode getNextAvailableNode(GraphNode node);
 
     List<GraphNode> traverse(GraphNode startNode);

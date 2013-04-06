@@ -22,10 +22,18 @@ public class BFSPuzzleStrategy extends BFSStrategy implements PuzzleNodeBuilder 
     private static final Character[] MOVES = {'L', 'P', 'G', 'D'};
     private static Integer ID = 0;
     private final NodeAccessibleStrategy strategy;
+    protected Integer nodesGenerated = 0;
 
     public BFSPuzzleStrategy() {
         LOGGER.setLevel(Level.INFO);
         this.strategy = new InversionAccessibleNodeStrategy();
+    }
+
+    @Override
+    public String getReport() {
+        StringBuilder sb = new StringBuilder(super.getReport());
+        sb.append("Generated nodes:\t").append(this.nodesGenerated).append("\n");
+        return sb.toString();
     }
 
     @Override
@@ -35,6 +43,7 @@ public class BFSPuzzleStrategy extends BFSStrategy implements PuzzleNodeBuilder 
                 PuzzleNode puzzleNode = (PuzzleNode) node;
                 final List<GraphNode> possibleNeighbours = this.getPossibleNeighbours(puzzleNode);
                 if (possibleNeighbours.size() > 0) {
+                    this.nodesGenerated += possibleNeighbours.size();
                     for (GraphNode puzzleNode1 : possibleNeighbours) {
                         puzzleNode.addNeighbour(puzzleNode1, this.strategy);
                     }

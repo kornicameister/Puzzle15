@@ -97,14 +97,23 @@ public class PuzzleSolverTest {
     }
 
     @Test
-    public void testSolveForMax4Moves() {
+    public void testSolveFromFifteen() {
         Integer key = 0;
         int counter = 0;
-        while (!key.equals(8)) {                // BY-FAR currently acceptable computation time
+        String[] order = {"L", "P", "G", "D"};
+        while (!key.equals(9)) {                // BY-FAR currently acceptable computation time
             final List<Integer[][]> integers = this.puzzleMap.get(key);
             for (Integer[][] puzzle : integers) {
-                System.out.println(String.format("Solving %s at [%d,%d]", Arrays.deepToString(puzzle), key, counter++));
-                Graph graph = new Graph((new PuzzleNode("Init", "R", puzzle)));
+
+                // generate order for this pass
+                Collections.shuffle(Arrays.asList(order));
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < order.length; i++) {
+                    sb.append(order[i]);
+                }
+
+                System.out.println(String.format("Solving %s at [%d,%d,%s]", Arrays.deepToString(puzzle), key, counter++, sb.toString()));
+                Graph graph = new Graph((new PuzzleNode("Init", sb.toString(), puzzle)));
                 graph.setStrategy(new BFSPuzzleStrategy());
 
                 PuzzleSolver puzzleSolver = new PuzzleSolver(graph);
@@ -115,7 +124,7 @@ public class PuzzleSolverTest {
                 if (graph.getPath() == null) {
                     System.out.println("Failed to locate solution");
                 } else {
-                    System.out.println(String.format("Solved at %d path size", graph.getPath().size()));
+                    System.out.println(graph.getStrategy().getReport());
                 }
             }
             counter = 0;

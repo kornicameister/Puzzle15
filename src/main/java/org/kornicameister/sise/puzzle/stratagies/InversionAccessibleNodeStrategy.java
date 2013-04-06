@@ -53,7 +53,7 @@ public class InversionAccessibleNodeStrategy implements NodeAccessibleStrategy {
      * @return true of node can be a source of pleasure
      * @throws PuzzleBlankFilledMissing
      */
-    protected boolean isSolvable(GraphNode node) throws PuzzleBlankFilledMissing {
+    public boolean isSolvable(GraphNode node) throws PuzzleBlankFilledMissing {
         PuzzleNode puzzleNode = (PuzzleNode) node;
         final int width = puzzleNode.getPuzzle().length;
         boolean widthEven = width % 2 == 0,
