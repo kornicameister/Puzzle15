@@ -16,7 +16,7 @@ import org.kornicameister.sise.puzzle.node.PuzzleNode;
 import com.rits.cloning.Cloner;
 
 public class DFSStrategy {
-	boolean success=false;
+	boolean success = false;
 	private List<GraphNode> backupNodes;
 	private List<GraphNode> path = new ArrayList<GraphNode>();
 	private List<GraphEdge> visitedEdges = new ArrayList<GraphEdge>();
@@ -32,19 +32,19 @@ public class DFSStrategy {
 	private String order;
 
 	public void init(List<GraphNode> nodes) {
-		this.backupNodes =new ArrayList<>();
-		this.backupNodes=nodes;
+		this.backupNodes = new ArrayList<>();
+		this.backupNodes = nodes;
 
 	}
 
 	public List<GraphNode> traverse(int startNode) {
-		//nie jest mi to do niczego potrzebne
+		// nie jest mi to do niczego potrzebne
 		return null;
 	}
 
 	public List<GraphNode> traverse(int startNode, int endNode) {
-		//nie jest mi to do niczego potrzebne
-				return null;
+		// nie jest mi to do niczego potrzebne
+		return null;
 	}
 
 	public void setOrder(String order) {
@@ -52,37 +52,36 @@ public class DFSStrategy {
 	}
 
 	public void traverse(GraphNode startNode, GraphNode endNode) {
-		
-		if(!startNode.isVisited())
-		{
-		startNode.setVisited(true);
-		this.path.add(startNode);
-		if (compare(((PuzzleNode) startNode).getPuzzle(),
-				((PuzzleNode) endNode).getPuzzle())) {
-			success=true;
-			return ;
 
-		} 
+		if (!startNode.isVisited()) {
+			startNode.setVisited(true);
+			this.path.add(startNode);
+			if (compare(((PuzzleNode) startNode).getPuzzle(),
+					((PuzzleNode) endNode).getPuzzle())) {
+				success = true;
+				return;
+
+			}
 			generateNeighbours(startNode);
 
 			for (GraphEdge e : startNode.getNeighbours()) {
 
 				if (!e.getSuccessor().isVisited()) {
-					//System.out.println("Ile sasiadow:"+startNode.getNeighbours().size());
+					// System.out.println("Ile sasiadow:"+startNode.getNeighbours().size());
 					visitedEdges.add(e);
-					traverse(e.getSuccessor(),endNode);
+					traverse(e.getSuccessor(), endNode);
+					if (success) {
+						return;
+					}
+					visitedEdges.remove(e);
 				}
-				if(success)
-				{
-					return;
-				}
+				
 
+			}
 			
-		}
-		visitedEdges.remove(visitedEdges.size() - 1);
-		this.path.remove(findEqualElement(startNode, path));
-		//System.out.println(path.size());
-		
+			this.path.remove(findEqualElement(startNode, path));
+			// System.out.println(path.size());
+
 		}
 
 	}
@@ -97,22 +96,20 @@ public class DFSStrategy {
 	}
 
 	private void generateNeighbours(GraphNode startnode) {
-		System.out.println("przed generowaniem:"+startnode.isVisited());
-		List<Character> charlist=new ArrayList<>();
-		if (order.length()==1)
-		{
-			
+		//System.out.println("przed generowaniem:" + startnode.isVisited());
+		List<Character> charlist = new ArrayList<>();
+		if (order.length() == 1) {
+
 			charlist.add('D');
 			charlist.add('U');
 			charlist.add('L');
 			charlist.add('R');
 			Collections.shuffle(charlist);
-		}
-		else{
+		} else {
 			for (int i = 0; i < order.length(); i++)
 				charlist.add(order.charAt(i));
 		}
-		System.out.println(charlist.toString());
+		//System.out.println(charlist.toString());
 
 		for (int i = 0; i < charlist.size(); i++) {
 			// System.out.println(order.length());
@@ -120,12 +117,10 @@ public class DFSStrategy {
 			if (startnode instanceof PuzzleNode) {
 				Integer[][] newStateArray = arrayCopy(((PuzzleNode) startnode)
 						.getPuzzle());
-				
-			
-				
+
 				Integer[] positions = findBlankPosition(newStateArray);
 
-				 System.out.println(positions[0]+"  "+positions[1]);
+			//	System.out.println(positions[0] + "  " + positions[1]);
 
 				char direction = charlist.get(i);
 				switch (direction) {
@@ -135,32 +130,36 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0] - 1][positions[1]];
 						newStateArray[positions[0] - 1][positions[1]] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-//						if(getEqual(tempNode, backupNodes)!=null)
-//							System.out.println("Przed dodaniem sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-//						if(!backupNodes.add(tempNode))
-//						{
-//							System.out.println("Duplikat");
-//							System.out.println(tempNode.isVisited());
-//						}
-//						else
-//						
-//							System.out.println("Dodaje");
-//						startnode.addNeighbour(getEqual(tempNode, backupNodes),
-//								new UnvisitedAccessibleStrategy(), direction);
-//						System.out.println("Po dodaniu sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-						int pos=findEqualElement(tempNode, backupNodes);
-						if (pos==-1)
-						{
+						// if(getEqual(tempNode, backupNodes)!=null)
+						// System.out.println("Przed dodaniem sasiada:"+getEqual(tempNode,
+						// backupNodes).isVisited());
+						// if(!backupNodes.add(tempNode))
+						// {
+						// System.out.println("Duplikat");
+						// System.out.println(tempNode.isVisited());
+						// }
+						// else
+						//
+						// System.out.println("Dodaje");
+						// startnode.addNeighbour(getEqual(tempNode,
+						// backupNodes),
+						// new UnvisitedAccessibleStrategy(), direction);
+						// System.out.println("Po dodaniu sasiada:"+getEqual(tempNode,
+						// backupNodes).isVisited());
+						int pos = findEqualElement(tempNode, backupNodes);
+						if (pos == -1) {
 							backupNodes.add(tempNode);
-							startnode.addNeighbour(tempNode,new UnvisitedAccessibleStrategy(), direction);
-							
+							startnode.addNeighbour(tempNode,
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
+						} else {
+							startnode.addNeighbour(backupNodes.get(pos),
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
 						}
-						else
-						{
-							startnode.addNeighbour(backupNodes.get(pos),new UnvisitedAccessibleStrategy(), direction);
-							
-						}
-					
+
 					}
 					break;
 
@@ -170,29 +169,19 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0]][positions[1] + 1];
 						newStateArray[positions[0]][positions[1] + 1] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-//						if(getEqual(tempNode, backupNodes)!=null)
-//							System.out.println("Przed dodaniem sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-//						if(!backupNodes.add(tempNode))
-//						{
-//							System.out.println("Duplikat");
-//							System.out.println(tempNode.isVisited());
-//						}
-//						else
-//							System.out.println("Dodaje");
-//						startnode.addNeighbour(getEqual(tempNode, backupNodes),
-//								new UnvisitedAccessibleStrategy(), direction);
-//						System.out.println("Po dodaniu sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-						int pos=findEqualElement(tempNode, backupNodes);
-						if (pos==-1)
-						{
+
+						int pos = findEqualElement(tempNode, backupNodes);
+						if (pos == -1) {
 							backupNodes.add(tempNode);
-							startnode.addNeighbour(tempNode,new UnvisitedAccessibleStrategy(), direction);
-							
-						}
-						else
-						{
-							startnode.addNeighbour(backupNodes.get(pos),new UnvisitedAccessibleStrategy(), direction);
-							
+							startnode.addNeighbour(tempNode,
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
+						} else {
+							startnode.addNeighbour(backupNodes.get(pos),
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
 						}
 					}
 					break;
@@ -203,29 +192,19 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0]][positions[1] - 1];
 						newStateArray[positions[0]][positions[1] - 1] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-//						if(getEqual(tempNode, backupNodes)!=null)
-//							System.out.println("Przed dodaniem sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-//						if(!backupNodes.add(tempNode))
-//						{
-//							System.out.println("Duplikat");
-//							System.out.println(tempNode.isVisited());
-//						}
-//						else
-//							System.out.println("Dodaje");
-//						startnode.addNeighbour(getEqual(tempNode, backupNodes),
-//								new UnvisitedAccessibleStrategy(), direction);
-//						System.out.println("Po dodaniu sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-						int pos=findEqualElement(tempNode, backupNodes);
-						if (pos==-1)
-						{
+
+						int pos = findEqualElement(tempNode, backupNodes);
+						if (pos == -1) {
 							backupNodes.add(tempNode);
-							startnode.addNeighbour(tempNode,new UnvisitedAccessibleStrategy(), direction);
-							
-						}
-						else
-						{
-							startnode.addNeighbour(backupNodes.get(pos),new UnvisitedAccessibleStrategy(), direction);
-							
+							startnode.addNeighbour(tempNode,
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
+						} else {
+							startnode.addNeighbour(backupNodes.get(pos),
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
 						}
 
 					}
@@ -237,40 +216,27 @@ public class DFSStrategy {
 						newStateArray[positions[0]][positions[1]] = newStateArray[positions[0] + 1][positions[1]];
 						newStateArray[positions[0] + 1][positions[1]] = 0;
 						PuzzleNode tempNode = new PuzzleNode("", newStateArray);
-//						if(getEqual(tempNode, backupNodes)!=null)
-//						System.out.println("Przed dodaniem sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-//						if(!backupNodes.add(tempNode))
-//						{
-//							System.out.println("Duplikat");
-//							System.out.println(tempNode.isVisited());
-//						}
-//						else
-//							System.out.println("Dodaje");
-//						startnode.addNeighbour(getEqual(tempNode, backupNodes),
-//								new UnvisitedAccessibleStrategy(), direction);
-//						System.out.println("Po dodaniu sasiada:"+getEqual(tempNode, backupNodes).isVisited());
-//						
-						int pos=findEqualElement(tempNode, backupNodes);
-						if (pos==-1)
-						{
+						int pos = findEqualElement(tempNode, backupNodes);
+						if (pos == -1) {
 							backupNodes.add(tempNode);
-							startnode.addNeighbour(tempNode,new UnvisitedAccessibleStrategy(), direction);
-							
-						}
-						else
-						{
-							startnode.addNeighbour(backupNodes.get(pos),new UnvisitedAccessibleStrategy(), direction);
-							
+							startnode.addNeighbour(tempNode,
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
+						} else {
+							startnode.addNeighbour(backupNodes.get(pos),
+									new UnvisitedAccessibleStrategy(),
+									direction);
+
 						}
 
 					}
-					
 
 				}
 				}
 			}
 		}
-		System.out.println("Po generowaniu: "+startnode.isVisited());
+		//System.out.println("Po generowaniu: " + startnode.isVisited());
 
 	}
 
@@ -312,29 +278,27 @@ public class DFSStrategy {
 		return result;
 
 	}
-	public String getTurns()
-	{
-		StringBuilder str=new StringBuilder();
-		for (GraphEdge e:visitedEdges)
-		{
+
+	public String getTurns() {
+		StringBuilder str = new StringBuilder();
+		for (GraphEdge e : visitedEdges) {
 			str.append("");
-			str.append(((Edge)e).getDirection());
+			str.append(((Edge) e).getDirection());
 		}
 		return str.toString().trim();
 	}
+
 	GraphNode getEqual(GraphNode sample, Set<GraphNode> all) {
-		  for (GraphNode one : all) {
-		    if (one.equals(sample)) {
-		      return one;
-		    }
-		  } 
-		  return null;
+		for (GraphNode one : all) {
+			if (one.equals(sample)) {
+				return one;
+			}
 		}
-	
-	int findEqualElement(GraphNode node, List<GraphNode>lista)
-	{
-		for (int i=0;i<lista.size();i++)
-		{
+		return null;
+	}
+
+	int findEqualElement(GraphNode node, List<GraphNode> lista) {
+		for (int i = 0; i < lista.size(); i++) {
 			if (compare(((PuzzleNode) node).getPuzzle(),
 					((PuzzleNode) lista.get(i)).getPuzzle()))
 				return i;
