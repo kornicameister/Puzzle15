@@ -28,7 +28,6 @@ public class AStarHeuristicsStrategy implements GraphSearchStrategy {
 
     public AStarHeuristicsStrategy(int idHeuristic) {
         this.idHeuristic = idHeuristic;
-
     }
 
     @Override
@@ -82,8 +81,6 @@ public class AStarHeuristicsStrategy implements GraphSearchStrategy {
             if (!compare(((PuzzleNode) start.get(i)).getPuzzle(),
                     ((PuzzleNode) end.get(i)).getPuzzle())) iloscNiepoprawnych++;
         return iloscNiepoprawnych;
-
-
     }
 
     private int distance(List<GraphNode> start, List<GraphNode> end) {

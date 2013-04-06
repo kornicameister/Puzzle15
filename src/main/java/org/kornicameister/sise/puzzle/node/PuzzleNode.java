@@ -54,8 +54,6 @@ public class PuzzleNode extends Node {
         }
 
         PuzzleNode that = (PuzzleNode) o;
-    
-
         return Arrays.deepEquals(this.puzzle, that.puzzle);
     }
 

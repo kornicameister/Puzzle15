@@ -2,7 +2,7 @@ package org.kornicameister.sise.puzzle.core;
 
 import org.kornicameister.sise.core.graph.GraphNode;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * @author kornicameister
@@ -10,5 +10,5 @@ import java.util.List;
  * @since 0.0.1
  */
 public interface PuzzleNodeBuilder {
-    List<GraphNode> getPossibleNeighbours(GraphNode puzzleNode);
+    Map<Character, GraphNode> getPossibleNeighbours(GraphNode puzzleNode);
 }
