@@ -88,7 +88,7 @@ public class IDFSStrategy  {
 				if (!e.getSuccessor().isVisited()) {
 
 					
-					if (depth <= maxDepth)
+					if (depth < maxDepth)
 					{
 						visitedEdges.add(e);
 						traverse(e.getSuccessor(), endNode, depth + 1, maxDepth);
@@ -115,7 +115,7 @@ public class IDFSStrategy  {
 
 	public List<GraphNode> iDFS(GraphNode startNode, GraphNode endNode,
 			int maxDepth, boolean isGenerator) {
-		for (int i = 0; i <= maxDepth; i++) {
+		for (int i = 0; i < maxDepth; i++) {
 			startNode.setVisited(false);
 			backupNodes.add(startNode);
 			path.clear();
@@ -123,7 +123,7 @@ public class IDFSStrategy  {
 			traverse(startNode, endNode,0, i);
 			if (success)
 				return path;
-			if (i==maxDepth && isGenerator)
+			if (i==maxDepth-1 && isGenerator)
 				return backupNodes;
 			backupNodes.clear();
 			path.clear();
@@ -329,7 +329,7 @@ public class IDFSStrategy  {
 	}
 	public String getReport()
 	{
-		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(path.size());
+		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(visitedEdges.size());
 	}
 	
 

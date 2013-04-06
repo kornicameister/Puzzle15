@@ -22,12 +22,12 @@ public class StateGenerator {
 		List<GraphNode> nodes = new ArrayList<>();
 		strat.init(nodes);
 		strat.setOrder("DLPG");
-		List<GraphNode> result = strat.iDFS(startowy, koncowyy, 2, true);
+		List<GraphNode> result = strat.iDFS(startowy, koncowyy, 1, true);
 		System.out.println("Result size: "+result.size());
 		for (GraphNode node:result)
 		{
 			//System.out.println(node.toString());
-			System.out.println(node.isVisited());
+			//System.out.println(node.isVisited());
 			startowy = new PuzzleNode("", start);
 			node.setVisited(false);
 			Integer [][] a=((PuzzleNode)node).getPuzzle();
@@ -43,10 +43,11 @@ public class StateGenerator {
 			idfs.setOrder("LDPG");
 			
 			
-			List<GraphNode> resultIDFS = idfs.iDFS(temp, startowy, 4,false);
+			List<GraphNode> resultIDFS = idfs.iDFS(temp, startowy, 2,false);
 			if (resultIDFS == null) {
 				System.out.println("Nic nie znalazlem");
 			} else {
+				System.out.println(idfs.getTurns());
 				System.out.println(idfs.getReport());
 				System.out.println();
 //				System.out.println("Turns length:" + idfs.getTurns().length());
@@ -56,21 +57,21 @@ public class StateGenerator {
 				
 
 			}
-			startowy = new PuzzleNode("", start);
-			node.setVisited(false);
-			dfs.traverse(node,startowy);
-			List<GraphNode> listadfs = dfs.getPath();
-			if (listadfs == null) {
-				System.out.println("Nic nie znalazlem");
-			} else {
-				System.out.println(dfs.getReport());
-				System.out.println("Turns length:" + dfs.getTurns().length());
-				System.out.println("Turns:" + dfs.getTurns());
-				System.out.println(listadfs.size());
-
-				
-
-			}
+//			startowy = new PuzzleNode("", start);
+//			node.setVisited(false);
+//			dfs.traverse(node,startowy);
+//			List<GraphNode> listadfs = dfs.getPath();
+//			if (listadfs == null) {
+//				System.out.println("Nic nie znalazlem");
+//			} else {
+//				System.out.println(dfs.getReport());
+//				System.out.println("Turns length:" + dfs.getTurns().length());
+//				System.out.println("Turns:" + dfs.getTurns());
+//				System.out.println(listadfs.size());
+//
+//				
+//
+//			}
 			
 			
 			

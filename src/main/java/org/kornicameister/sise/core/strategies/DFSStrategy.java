@@ -286,7 +286,7 @@ public class DFSStrategy {
 	}
 	public String getReport()
 	{
-		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(path.size());
+		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(visitedEdges.size());
 	}
 	
 
