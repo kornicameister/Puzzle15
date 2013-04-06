@@ -6,6 +6,7 @@ import org.kornicameister.sise.core.strategies.BFSStrategy;
 import org.kornicameister.sise.puzzle.builder.PuzzleNeighborsBuilder;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
 
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +24,12 @@ public class BFSPuzzleStrategy extends BFSStrategy {
     public BFSPuzzleStrategy() {
         LOGGER.setLevel(Level.INFO);
         this.strategy = new InversionAccessibleNodeStrategy();
-        this.neighborsBuilder = new PuzzleNeighborsBuilder();
+    }
+
+    @Override
+    public void init(List<GraphNode> nodes) {
+        super.init(nodes);
+        this.neighborsBuilder = new PuzzleNeighborsBuilder(nodes);
     }
 
     @Override

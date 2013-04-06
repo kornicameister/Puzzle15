@@ -18,6 +18,10 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
     private static Integer ID = 0;
     private List<GraphNode> generatedNodes = new ArrayList<>();
 
+    public PuzzleNeighborsBuilder(List<GraphNode> originalNodes) {
+        this.generatedNodes.addAll(originalNodes);
+    }
+
     @Override
     public Map<Character, GraphNode> getPossibleNeighbours(GraphNode node) {
         Map<Character, GraphNode> puzzleNodeList = new HashMap<>();
