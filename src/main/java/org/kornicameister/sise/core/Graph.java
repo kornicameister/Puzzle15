@@ -35,10 +35,20 @@ public class Graph implements Iterable<GraphNode> {
 
     public void traverse(int startNode) {
         this.strategy.init(this.nodes);
-        this.path = this.strategy.traverse(startNode);
+        this.path = this.strategy.traverse(this.getNode(startNode));
     }
 
     public void traverse(int startNode, int endNode) {
+        this.strategy.init(this.nodes);
+        this.path = this.strategy.traverse(this.getNode(startNode), this.getNode(endNode));
+    }
+
+    public void traverse(GraphNode startNode) {
+        this.strategy.init(this.nodes);
+        this.path = this.strategy.traverse(startNode);
+    }
+
+    public void traverse(GraphNode startNode, GraphNode endNode) {
         this.strategy.init(this.nodes);
         this.path = this.strategy.traverse(startNode, endNode);
     }
@@ -56,6 +66,23 @@ public class Graph implements Iterable<GraphNode> {
     }
 
     @Override
+    public Iterator<GraphNode> iterator() {
+        return this.nodes.iterator();
+    }
+
+    public List<GraphNode> getNodes() {
+        return this.nodes;
+    }
+
+    public GraphNode getNode(int i) {
+        return nodes.get(i);
+    }
+
+    public boolean addNode(GraphNode graphNode) {
+        return nodes.add(graphNode);
+    }
+
+    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Graph");
@@ -65,12 +92,5 @@ public class Graph implements Iterable<GraphNode> {
         return sb.toString();
     }
 
-    @Override
-    public Iterator<GraphNode> iterator() {
-        return this.nodes.iterator();
-    }
 
-    public List<GraphNode> getNodes() {
-        return this.nodes;
-    }
 }

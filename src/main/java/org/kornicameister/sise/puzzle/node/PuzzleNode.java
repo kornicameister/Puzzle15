@@ -47,20 +47,20 @@ public class PuzzleNode extends Node {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof PuzzleNode)) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        } else if (!(o instanceof PuzzleNode)) {
+            return false;
+        }
 
         PuzzleNode that = (PuzzleNode) o;
 
-        return order.equals(that.order)
-                && Arrays.deepEquals(this.puzzle, that.puzzle);
+        return Arrays.deepEquals(this.puzzle, that.puzzle);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + order.hashCode();
         result = 31 * result + Arrays.deepHashCode(this.puzzle);
         return result;
     }
@@ -68,8 +68,8 @@ public class PuzzleNode extends Node {
     @Override
     public int compareTo(Object object) {
         int result = super.compareTo(object);
-        PuzzleNode node = (PuzzleNode) object;
         if (result == 0) {
+            PuzzleNode node = (PuzzleNode) object;
             Integer thisPuzzleHashCode = Arrays.deepHashCode(this.puzzle);
             Integer thatPuzzleHashCode = Arrays.deepHashCode(node.puzzle);
             result = thisPuzzleHashCode.compareTo(thatPuzzleHashCode);
@@ -84,8 +84,9 @@ public class PuzzleNode extends Node {
         sb.append("{super =").append(super.toString());
         sb.append("},");
         sb.append("{order='").append(order).append('\'');
-        sb.append(", puzzle=").append(puzzle == null ? "null" : Arrays.asList(puzzle).toString());
+        sb.append(", puzzle=").append(puzzle == null ? "null" : Arrays.deepToString(this.puzzle));
         sb.append('}');
         return sb.toString();
     }
+
 }

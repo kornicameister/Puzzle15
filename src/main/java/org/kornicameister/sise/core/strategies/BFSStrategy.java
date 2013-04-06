@@ -18,79 +18,70 @@ import java.util.*;
  */
 public class BFSStrategy implements GraphSearchStrategy {
     private List<GraphNode> backupNodes;
-    private List<GraphNode> path;
 
     @Override
     public void init(List<GraphNode> nodes) {
         this.backupNodes = nodes;
     }
 
-    @Override
-    public List<GraphNode> traverse(int startNode) {
+    protected GraphNode getClonedNode(GraphNode startNode) {
         List<GraphNode> nodes = this.cloneNodes(this.backupNodes);
         for (GraphNode node : nodes) {
-            if (node.equals(this.backupNodes.get(startNode))) {
-                return this.traverse(node);
+            if (node.equals(startNode)) {
+                return node;
             }
         }
         return null;
     }
 
     @Override
-    public List<GraphNode> traverse(int startNode, int endNode) {
-        List<GraphNode> nodes = this.cloneNodes(this.backupNodes);
-        GraphNode start = null, end = null;
-        for (GraphNode node : nodes) {
-            if (node.equals(this.backupNodes.get(startNode))) {
-                start = node;
-                break;
-            }
-        }
-        for (GraphNode node : nodes) {
-            if (node.equals(this.backupNodes.get(endNode))) {
-                end = node;
-                break;
-            }
-        }
-        return this.traverse(start, end);
-    }
+    public List<GraphNode> traverse(GraphNode startNode) {
+        startNode = this.getClonedNode(startNode);
 
-    protected List<GraphNode> traverse(GraphNode startNode) {
-        this.path = new ArrayList<>();
+        List<GraphNode> path = new ArrayList<>();
         Queue<GraphNode> queue = new ArrayDeque<>();
         startNode.setVisited(true);
-        this.path.add(startNode);
+        path.add(startNode);
         queue.add(startNode);
 
 
         GraphNode node, node2;
         while (!queue.isEmpty()) {
             node = queue.remove();
-            while ((node2 = this.getNextUnvisited(node)) != null) {
+            while ((node2 = this.getNextAvailableNode(node)) != null) {
                 node2.setVisited(true);
-                this.path.add(node2);
+                path.add(node2);
                 queue.add(node2);
             }
         }
-        return this.path;
+        return path;
     }
 
-    protected List<GraphNode> traverse(GraphNode startNode, GraphNode endNode) {
-        this.path = new ArrayList<>();
+    @Override
+    public List<GraphNode> traverse(GraphNode startNode, GraphNode endNode) {
+        startNode = this.getClonedNode(startNode);
+        endNode = this.getClonedNode(endNode);
+
+        if (startNode.equals(endNode)) {
+            return new ArrayList<>();
+        }
+
+        List<GraphNode> path = new ArrayList<>();
         Queue<GraphNode> queue = new ArrayDeque<>();
         startNode.setVisited(true);
-        this.path.add(startNode);
+        path.add(startNode);
         queue.add(startNode);
 
 
         GraphNode node, node2;
         while (!queue.isEmpty()) {
             node = queue.remove();
-            while ((node2 = this.getNextUnvisited(node)) != null) {
+            while ((node2 = this.getNextAvailableNode(node)) != null) {
                 node2.setVisited(true);
-                this.path.add(node2);
+                path.add(node2);
                 if (node2.equals(endNode)) {
-                    return this.path;
+                    queue.clear();
+                    return path;
                 }
                 queue.add(node2);
             }
@@ -98,7 +89,8 @@ public class BFSStrategy implements GraphSearchStrategy {
         return null;
     }
 
-    protected GraphNode getNextUnvisited(GraphNode node) {
+    @Override
+    public GraphNode getNextAvailableNode(GraphNode node) {
         for (GraphEdge neighbour : node.getNeighbours()) {
             if (neighbour.isAccessible()) {
                 return neighbour.getSuccessor();
@@ -107,7 +99,7 @@ public class BFSStrategy implements GraphSearchStrategy {
         return null;
     }
 
-    private List<GraphNode> cloneNodes(List<GraphNode> nodes) {
+    protected List<GraphNode> cloneNodes(List<GraphNode> nodes) {
         List<GraphNode> nodeList = new LinkedList<>();
         Cloner cloner = new Cloner();
         for (GraphNode node : nodes) {
