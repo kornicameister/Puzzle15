@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.is;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class PuzzleSolverTest {
+public class PuzzleSolverImplTest {
     private final static String FIVETEEN = "src/main/resources/fifteen";
     private final static Integer[][] SOLVABLE_PUZZLE = new Integer[][]{
             {12, 1, 10, 2},
@@ -86,11 +86,11 @@ public class PuzzleSolverTest {
         Graph graph = new Graph((new PuzzleNode("Init", "LPGD", SOLVABLE_PUZZLE_2)));
         graph.setStrategy(new BFSPuzzleStrategy());
 
-        PuzzleSolver puzzleSolver = new PuzzleSolver(graph);
-        puzzleSolver.setExamination(new InversionAccessibleNodeStrategy());
+        PuzzleSolverImpl puzzleSolverImpl = new PuzzleSolverImpl(graph);
+        puzzleSolverImpl.setExamination(new InversionAccessibleNodeStrategy());
 
-        Assert.assertThat(puzzleSolver.isSolvable(), is(true));
-        puzzleSolver.solve();
+        Assert.assertThat(puzzleSolverImpl.isSolvable(), is(true));
+        puzzleSolverImpl.solve();
         for (GraphNode node : graph.getPath()) {
             System.out.println(node);
         }
@@ -116,11 +116,11 @@ public class PuzzleSolverTest {
                 Graph graph = new Graph((new PuzzleNode("Init", sb.toString(), puzzle)));
                 graph.setStrategy(new BFSPuzzleStrategy());
 
-                PuzzleSolver puzzleSolver = new PuzzleSolver(graph);
-                puzzleSolver.setExamination(new InversionAccessibleNodeStrategy());
+                PuzzleSolverImpl puzzleSolverImpl = new PuzzleSolverImpl(graph);
+                puzzleSolverImpl.setExamination(new InversionAccessibleNodeStrategy());
 
-                Assert.assertThat(puzzleSolver.isSolvable(), is(true));
-                puzzleSolver.solve();
+                Assert.assertThat(puzzleSolverImpl.isSolvable(), is(true));
+                puzzleSolverImpl.solve();
                 if (graph.getPath() == null) {
                     System.out.println("Failed to locate solution");
                 } else {
@@ -135,7 +135,7 @@ public class PuzzleSolverTest {
     @Test
     public void testIsSolvable() throws Exception {
         System.out.println(String.format("Checkup for solvable %s", Arrays.deepToString(SOLVABLE_PUZZLE)));
-        PuzzleSolver graph = new PuzzleSolver(new Graph(new PuzzleNode("Init", SOLVABLE_PUZZLE)));
+        PuzzleSolverImpl graph = new PuzzleSolverImpl(new Graph(new PuzzleNode("Init", SOLVABLE_PUZZLE)));
         graph.setExamination(new InversionAccessibleNodeStrategy());
         Assert.assertThat(graph.isSolvable(), is(true));
     }
@@ -143,7 +143,7 @@ public class PuzzleSolverTest {
     @Test
     public void testIsNotSolvable() throws Exception {
         System.out.println(String.format("Checkup for non-solvable %s", Arrays.deepToString(NON_SOLVABLE_PUZZLE)));
-        PuzzleSolver graph = new PuzzleSolver(new Graph(new PuzzleNode("Init", NON_SOLVABLE_PUZZLE)));
+        PuzzleSolverImpl graph = new PuzzleSolverImpl(new Graph(new PuzzleNode("Init", NON_SOLVABLE_PUZZLE)));
         graph.setExamination(new InversionAccessibleNodeStrategy());
         Assert.assertThat(graph.isSolvable(), is(false));
     }
@@ -151,7 +151,7 @@ public class PuzzleSolverTest {
     @Test
     public void testIsNotSolvable2() throws Exception {
         System.out.println(String.format("Checkup for non-solvable %s", Arrays.deepToString(NON_SOLVABLE_PUZZLE_2)));
-        PuzzleSolver graph = new PuzzleSolver(new Graph(new PuzzleNode("Init", NON_SOLVABLE_PUZZLE_2)));
+        PuzzleSolverImpl graph = new PuzzleSolverImpl(new Graph(new PuzzleNode("Init", NON_SOLVABLE_PUZZLE_2)));
         graph.setExamination(new InversionAccessibleNodeStrategy());
         Assert.assertThat(graph.isSolvable(), is(false));
     }

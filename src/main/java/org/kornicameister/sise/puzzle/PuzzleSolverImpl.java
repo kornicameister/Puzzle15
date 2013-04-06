@@ -4,6 +4,7 @@ import com.rits.cloning.Cloner;
 import org.kornicameister.sise.core.Graph;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.NodeAccessibleStrategy;
+import org.kornicameister.sise.puzzle.core.PuzzleSolver;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
 
 /**
@@ -11,16 +12,16 @@ import org.kornicameister.sise.puzzle.node.PuzzleNode;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class PuzzleSolver implements org.kornicameister.sise.puzzle.core.PuzzleSolver {
+public class PuzzleSolverImpl implements PuzzleSolver {
     private NodeAccessibleStrategy examination;
     private Graph graph;
 
-    public PuzzleSolver(Graph graph) {
+    public PuzzleSolverImpl(Graph graph) {
         this.graph = graph;
         this.generateFinalNode(graph.getNode(0));
     }
 
-    public PuzzleSolver(Graph graph, NodeAccessibleStrategy strategy) {
+    public PuzzleSolverImpl(Graph graph, NodeAccessibleStrategy strategy) {
         this(graph);
         this.examination = strategy;
     }
@@ -73,7 +74,7 @@ public class PuzzleSolver implements org.kornicameister.sise.puzzle.core.PuzzleS
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        sb.append("PuzzleSolver");
+        sb.append("PuzzleSolverImpl");
         sb.append("{graph=").append(graph);
         sb.append('}');
         return sb.toString();
