@@ -3,6 +3,7 @@ package org.kornicameister.sise.puzzle.heuristic;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.heuristic.Heuristic;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
+import org.kornicameister.sise.utilities.Point;
 
 /**
  * Heuristic calculates distance between two nodes using
@@ -21,9 +22,36 @@ public class PuzzleManhattanHeuristic implements Heuristic {
         if (start instanceof PuzzleNode && end instanceof PuzzleNode) {
             PuzzleNode startPuzzleNode = (PuzzleNode) start,
                     puzzleEndNode = (PuzzleNode) end;
-            return (double) (Math.abs(startPuzzleNode.getX() - puzzleEndNode.getX()) +
-                    Math.abs(startPuzzleNode.getY() - puzzleEndNode.getY()));
+
+            final Integer[][] sPuzzle = startPuzzleNode.getPuzzle(),
+                    ePuzzle = puzzleEndNode.getPuzzle();
+
+            double distance = 0.0;
+
+            Point cordsInFinal;
+            for (int i = 0; i < sPuzzle.length; i++) {
+                for (int j = 0; j < sPuzzle.length; j++) {
+                    if (!sPuzzle[i][j].equals(ePuzzle[i][j])) {
+                        cordsInFinal = this.findCordsInFinal(sPuzzle[i][j], ePuzzle);
+                        distance += Math.abs(i - cordsInFinal.getX()) + Math.abs(j - cordsInFinal.getY());
+                    }
+                }
+            }
+
+            return distance;
         }
         return 0.0;
+    }
+
+    private Point findCordsInFinal(final Integer value, final Integer[][] ePuzzle) {
+        Point cordsInFinal = null;
+        for (int i = 0; i < ePuzzle.length; i++) {
+            for (int j = 0; j < ePuzzle.length; j++) {
+                if (ePuzzle[i][j].equals(value)) {
+                    cordsInFinal = new Point(i, j);
+                }
+            }
+        }
+        return cordsInFinal;
     }
 }

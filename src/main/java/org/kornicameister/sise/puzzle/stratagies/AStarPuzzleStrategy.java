@@ -5,7 +5,6 @@ import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.HeuristicGraphSearchStrategy;
 import org.kornicameister.sise.core.heuristic.Heuristic;
 import org.kornicameister.sise.puzzle.builder.PuzzleNeighborsBuilder;
-import org.kornicameister.sise.puzzle.core.PuzzleNodeBuilder;
 import org.kornicameister.sise.puzzle.edge.AStarEdge;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -27,11 +26,11 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     protected Integer nodesVisited = 0;
     protected Integer generatedNodes = 0;
     protected Integer changedPath = 0;
-    private PuzzleNodeBuilder nodeBuilder;
+    private PuzzleNeighborsBuilder nodeBuilder;
     private Heuristic heuristic;
     private List<GraphNode> backupNodes;
     private Integer pathLength;
-    private Integer missedNodes = 0;
+    private Integer skippedNodes = 0;
 
     public AStarPuzzleStrategy(Heuristic heuristic) {
         this.heuristic = heuristic;
@@ -50,8 +49,8 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         sb.append("Report").append("\n");
         sb.append("Time:\t\t\t\t\t").append(this.computationTime).append(" ms\n");
         sb.append("Path length:\t\t\t").append(this.pathLength).append("\n");
-        sb.append("Generated nodes:\t\t").append(this.generatedNodes).append("\n");
-        sb.append("Missed nodes:\t\t\t").append(this.missedNodes).append("\n");
+        sb.append("Generated nodes:\t\t").append(this.nodeBuilder.getGeneratedNodes()).append("\n");
+        sb.append("Skipped nodes:\t\t\t").append(this.skippedNodes).append("\n");
         sb.append("Visited nodes:\t\t\t").append(this.nodesVisited).append("\n");
         sb.append("Changed path:\t\t\t").append(this.changedPath).append("\n");
         return sb.toString();
@@ -85,6 +84,9 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         }
 
         PriorityQueue<AStarEdge> priorityQueue = new PriorityQueue<>(INITIAL_CAPACITY);
+        AStarEdge goal = null;
+
+
         AStarEdge startEdge = new AStarEdge(
                 fromPuzzleNode,
                 0.0,
@@ -93,8 +95,6 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
 
         openSet.put(fromPuzzleNode.getID(), startEdge);
         priorityQueue.add(startEdge);
-
-        AStarEdge goal = null;
 
         while (this.openSet.size() > 0) {
 
@@ -138,12 +138,13 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
                         }
 
                     } else {
-                        this.missedNodes += 1;
+                        this.skippedNodes += 1;
                     }
                 }
 
             }
         }
+
 
         if (goal != null) {
             Stack<PuzzleNode> stack = new Stack<>();

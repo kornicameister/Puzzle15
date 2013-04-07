@@ -3,8 +3,8 @@ package org.kornicameister.sise.puzzle.stratagies;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kornicameister.sise.core.Graph;
+import org.kornicameister.sise.puzzle.AbstractPuzzleTest;
 import org.kornicameister.sise.puzzle.PuzzleSolverImpl;
-import org.kornicameister.sise.puzzle.PuzzleSolverImplTest;
 import org.kornicameister.sise.puzzle.heuristic.PuzzleManhattanHeuristic;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
 
@@ -19,14 +19,14 @@ import static org.hamcrest.CoreMatchers.is;
  * @version 0.0.1
  * @since 0.0.1
  */
-public class AStarPuzzleStrategyTest extends PuzzleSolverImplTest {
+public class AStarPuzzleStrategyTest extends AbstractPuzzleTest {
 
     @Test
     public void testAStrategyWithFixedOrder() {
-        Integer key = 0;
+        Integer key = -1;
         int counter = 0;
         String[] order = {"L", "P", "G", "D"};
-        while (!key.equals(11)) {                // BY-FAR currently acceptable computation time
+        while (!key.equals(21)) {                // BY-FAR currently acceptable computation time
             final List<Integer[][]> integers = this.puzzleMap.get(key);
             for (Integer[][] puzzle : integers) {
 

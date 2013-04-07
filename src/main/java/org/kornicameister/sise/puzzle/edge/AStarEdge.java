@@ -95,6 +95,7 @@ public class AStarEdge implements GraphEdge, Comparable<AStarEdge> {
         sb.append(", successor=").append(successor);
         sb.append(", gCost=").append(gCost);
         sb.append(", hCost=").append(hCost);
+        sb.append(", fCost=").append(this.getFCost());
         sb.append('}');
         return sb.toString();
     }
