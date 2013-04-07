@@ -30,9 +30,30 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
         PuzzleNode puzzleNode = (PuzzleNode) node;
         Integer[][] puzzle = puzzleNode.getPuzzle();
         Point fromCords = puzzleNode.getBlankFieldCords();
-        List<Character> moves = new ArrayList<>();
         final String order = puzzleNode.getOrder();
 
+        for (Character direction : this.generateMoves(order)) {
+            switch (direction) {
+                case 'L':
+                    this.moveToTheLeft(puzzleNodeList, puzzleNode, fromCords, order, direction);
+                    break;
+                case 'P':
+                    this.moveToTheRight(puzzleNodeList, puzzleNode, puzzle[0], fromCords, order, direction);
+                    break;
+                case 'G':
+                    this.moveUp(puzzleNodeList, puzzleNode, fromCords, order, direction);
+                    break;
+                case 'D':
+                    this.moveDown(puzzleNodeList, puzzleNode, puzzle, fromCords, order, direction);
+                    break;
+            }
+        }
+
+        return puzzleNodeList;
+    }
+
+    private List<Character> generateMoves(final String order) {
+        List<Character> moves = new ArrayList<>();
         if (order.equals(RANDOM_ORDER)) {
             Character[] movesRandom = MOVES.clone();
             Collections.shuffle(Arrays.asList(movesRandom));
@@ -43,101 +64,95 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
             moves.add(order.charAt(2));
             moves.add(order.charAt(3));
         }
+        return moves;
+    }
 
-        for (Character direction : moves) {
-            switch (direction) {
-                case 'L': {    //move to the left
-                    final Point toCords = fromCords.newPointByOffset(0, -1);
-                    if (toCords.getY() >= 0) {
+    private void moveDown(final Map<Character, GraphNode> puzzleNodeList, final PuzzleNode puzzleNode, final Integer[][] puzzle, final Point fromCords, final String order, final Character direction) {
+        final Point toCords = fromCords.newPointByOffset(1, 0);
+        if (toCords.getX() < puzzle.length) {
 
-                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
-                                new Cloner().deepClone(puzzleNode).getPuzzle(),
-                                fromCords,
-                                toCords
-                        );
+            Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
+                    new Cloner().deepClone(puzzleNode).getPuzzle(),
+                    fromCords,
+                    toCords
+            );
 
-                        final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
+            final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
 
-                        if (this.generatedNodes.contains(newNode)) {
-                            puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
-                        } else {
-                            this.generatedNodes.add(newNode);
-                            puzzleNodeList.put(direction, newNode);
-                        }
-
-                    }
-                }
-                break;
-                case 'P': {   //move to the right
-                    final Point toCords = fromCords.newPointByOffset(0, 1);
-                    if (toCords.getY() < puzzle[0].length) {
-
-                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
-                                new Cloner().deepClone(puzzleNode).getPuzzle(),
-                                fromCords,
-                                toCords
-                        );
-
-                        final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
-
-                        if (this.generatedNodes.contains(newNode)) {
-                            puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
-                        } else {
-                            this.generatedNodes.add(newNode);
-                            puzzleNodeList.put(direction, newNode);
-                        }
-
-                    }
-                }
-                break;
-                case 'G': {    //move up
-                    final Point toCords = fromCords.newPointByOffset(-1, 0);
-                    if (toCords.getX() >= 0) {
-
-                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
-                                new Cloner().deepClone(puzzleNode).getPuzzle(),
-                                fromCords,
-                                toCords
-                        );
-
-                        final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
-
-                        if (this.generatedNodes.contains(newNode)) {
-                            puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
-                        } else {
-                            this.generatedNodes.add(newNode);
-                            puzzleNodeList.put(direction, newNode);
-                        }
-
-                    }
-                }
-                break;
-                case 'D': {  //move down
-                    final Point toCords = fromCords.newPointByOffset(1, 0);
-                    if (toCords.getX() < puzzle.length) {
-
-                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
-                                new Cloner().deepClone(puzzleNode).getPuzzle(),
-                                fromCords,
-                                toCords
-                        );
-
-                        final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
-
-                        if (this.generatedNodes.contains(newNode)) {
-                            puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
-                        } else {
-                            this.generatedNodes.add(newNode);
-                            puzzleNodeList.put(direction, newNode);
-                        }
-
-                    }
-                }
-                break;
+            if (this.generatedNodes.contains(newNode)) {
+                puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
+            } else {
+                this.generatedNodes.add(newNode);
+                puzzleNodeList.put(direction, newNode);
             }
-        }
 
-        return puzzleNodeList;
+        }
+    }
+
+    private void moveToTheRight(final Map<Character, GraphNode> puzzleNodeList, final PuzzleNode puzzleNode, final Integer[] integers, final Point fromCords, final String order, final Character direction) {
+        final Point toCords = fromCords.newPointByOffset(0, 1);
+        if (toCords.getY() < integers.length) {
+
+            Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
+                    new Cloner().deepClone(puzzleNode).getPuzzle(),
+                    fromCords,
+                    toCords
+            );
+
+            final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
+
+            if (this.generatedNodes.contains(newNode)) {
+                puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
+            } else {
+                this.generatedNodes.add(newNode);
+                puzzleNodeList.put(direction, newNode);
+            }
+
+        }
+    }
+
+    private void moveToTheLeft(final Map<Character, GraphNode> puzzleNodeList, final PuzzleNode puzzleNode, final Point fromCords, final String order, final Character direction) {
+        final Point toCords = fromCords.newPointByOffset(0, -1);
+        if (toCords.getY() >= 0) {
+
+            Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
+                    new Cloner().deepClone(puzzleNode).getPuzzle(),
+                    fromCords,
+                    toCords
+            );
+
+            final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
+
+            if (this.generatedNodes.contains(newNode)) {
+                puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
+            } else {
+                this.generatedNodes.add(newNode);
+                puzzleNodeList.put(direction, newNode);
+            }
+
+        }
+    }
+
+    private void moveUp(final Map<Character, GraphNode> puzzleNodeList, final PuzzleNode puzzleNode, final Point fromCords, final String order, final Character direction) {
+        final Point toCords = fromCords.newPointByOffset(-1, 0);
+        if (toCords.getX() >= 0) {
+
+            Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
+                    new Cloner().deepClone(puzzleNode).getPuzzle(),
+                    fromCords,
+                    toCords
+            );
+
+            final PuzzleNode newNode = new PuzzleNode(String.format("PuzzleNode-gen-%d", ID++), order, puzzleCopy);
+
+            if (this.generatedNodes.contains(newNode)) {
+                puzzleNodeList.put(direction, this.generatedNodes.get(this.generatedNodes.indexOf(newNode)));
+            } else {
+                this.generatedNodes.add(newNode);
+                puzzleNodeList.put(direction, newNode);
+            }
+
+        }
     }
 
     public int getGeneratedNodes() {
