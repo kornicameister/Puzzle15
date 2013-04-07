@@ -15,7 +15,7 @@ import java.util.Arrays;
  * @since 0.0.1
  */
 public class PuzzleNode extends Node {
-    private final Integer[][] puzzle;
+    protected final Integer[][] puzzle;
     private String order;
 
     public PuzzleNode(String label,
@@ -87,5 +87,4 @@ public class PuzzleNode extends Node {
         sb.append('}');
         return sb.toString();
     }
-
 }

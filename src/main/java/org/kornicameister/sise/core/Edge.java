@@ -13,24 +13,33 @@ import org.kornicameister.sise.core.graph.NodeAccessibleStrategy;
  * @since 0.0.1
  */
 public class Edge implements GraphEdge {
-    private final GraphNode predecessor;
-    private final GraphNode successor;
+    protected GraphNode predecessor;
+    protected GraphNode successor;
     private NodeAccessibleStrategy accessibilityStrategy;
     private Character direction;
 
+    public Edge(GraphNode predecessor, GraphNode successor, NodeAccessibleStrategy strategy, char dir) {
+        this(predecessor, successor, strategy);
+        direction = dir;
+    }
+
     public Edge(GraphNode predecessor, GraphNode successor, NodeAccessibleStrategy strategy) {
-        this.predecessor = predecessor;
-        this.successor = successor;
+        this(predecessor, successor);
         this.accessibilityStrategy = strategy;
     }
-    public Edge(GraphNode predecessor, GraphNode successor, NodeAccessibleStrategy strategy, char dir ) {
-        this(predecessor,successor,strategy);
-        direction=dir;
-    }
-    
 
-    public GraphNode getPredecessor() {
-        return predecessor;
+    public Edge(GraphNode predecessor, GraphNode successor) {
+        this.predecessor = predecessor;
+        this.successor = successor;
+    }
+
+    public Character getDirection() {
+        return direction;
+    }
+
+    @Override
+    public void setAccessibleStrategy(NodeAccessibleStrategy strategy) {
+        this.accessibilityStrategy = strategy;
     }
 
     @Override
@@ -38,17 +47,29 @@ public class Edge implements GraphEdge {
         return successor;
     }
 
-    public Character getDirection() {
-		return direction;
-	}
-	@Override
-    public void setAccessibleStrategy(NodeAccessibleStrategy strategy) {
-        this.accessibilityStrategy = strategy;
+    public void setSuccessor(GraphNode successor) {
+        this.successor = successor;
+    }
+
+    @Override
+    public GraphNode getPredecessor() {
+        return predecessor;
     }
 
     @Override
     public boolean isAccessible() {
         return this.accessibilityStrategy.isAccessible(this.predecessor, this.successor);
+    }
+
+    public void setPredecessor(GraphNode predecessor) {
+        this.predecessor = predecessor;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = predecessor.hashCode();
+        result = 31 * result + successor.hashCode();
+        return result;
     }
 
     @Override
@@ -63,19 +84,13 @@ public class Edge implements GraphEdge {
     }
 
     @Override
-    public int hashCode() {
-        int result = predecessor.hashCode();
-        result = 31 * result + successor.hashCode();
-        return result;
-    }
-
-    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Edge");
-        sb.append("{predecessor=").append(predecessor);
+        sb.append("{accessibilityStrategy=").append(accessibilityStrategy);
+        sb.append(", direction=").append(direction);
+        sb.append(", predecessor=").append(predecessor);
         sb.append(", successor=").append(successor);
-        sb.append(", accessibilityStrategy=").append(accessibilityStrategy);
         sb.append('}');
         return sb.toString();
     }

@@ -16,5 +16,7 @@ public interface GraphEdge {
 
     GraphNode getSuccessor();
 
+    GraphNode getPredecessor();
+
     boolean isAccessible();
 }

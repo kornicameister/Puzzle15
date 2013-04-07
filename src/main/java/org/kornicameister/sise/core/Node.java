@@ -19,14 +19,21 @@ import java.util.List;
  * @since 0.0.1
  */
 public class Node implements GraphNode {
-    private String label = "";
-    private List<GraphEdge> neighbours = new ArrayList<>();
-    private boolean visited = false;
+    private static Integer ID = 0;
+    protected List<GraphEdge> neighbours = new ArrayList<>();
+    protected Integer id;
+    protected String label = "";
+    protected boolean visited = false;
 
     public Node(final String label, GraphEdge... neighbours) {
         this.label = label;
-        if(neighbours.length>0)
-        this.neighbours.addAll(Arrays.asList(neighbours));
+        if (neighbours.length > 0)
+            this.neighbours.addAll(Arrays.asList(neighbours));
+        this.id = ID++;
+    }
+
+    public Integer getID() {
+        return this.id;
     }
 
     public String getLabel() {
@@ -37,9 +44,10 @@ public class Node implements GraphNode {
     public void addNeighbour(GraphNode graphNode, NodeAccessibleStrategy strategy) {
         this.neighbours.add(new Edge(this, graphNode, strategy));
     }
+
     @Override
-    public void addNeighbour(GraphNode graphNode, NodeAccessibleStrategy strategy,char direction) {
-        this.neighbours.add(new Edge(this, graphNode, strategy,direction));
+    public void addNeighbour(GraphNode graphNode, NodeAccessibleStrategy strategy, char direction) {
+        this.neighbours.add(new Edge(this, graphNode, strategy, direction));
     }
 
     @Override
@@ -58,6 +66,14 @@ public class Node implements GraphNode {
     }
 
     @Override
+    public int hashCode() {
+        int result = label.hashCode();
+        result = 31 * result + neighbours.hashCode();
+        result = 31 * result + (visited ? 1 : 0);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -69,18 +85,12 @@ public class Node implements GraphNode {
     }
 
     @Override
-    public int hashCode() {
-        int result = label.hashCode();
-        result = 31 * result + neighbours.hashCode();
-        result = 31 * result + (visited ? 1 : 0);
-        return result;
-    }
-
-    @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("Node");
-        sb.append("{label='").append(this.label);
+        sb.append("{id=").append(id);
+        sb.append(", label='").append(label).append('\'');
+        sb.append(", visited=").append(visited);
         sb.append('}');
         return sb.toString();
     }

@@ -44,7 +44,7 @@ public class PuzzleSolverImplTest {
             {1, 12, 14, 9},
             {3, 15, 2, 0}
     };
-    private Map<Integer, List<Integer[][]>> puzzleMap = new HashMap<>();
+    protected Map<Integer, List<Integer[][]>> puzzleMap = new HashMap<>();
 
     @Before
     public void setUp() throws Exception {

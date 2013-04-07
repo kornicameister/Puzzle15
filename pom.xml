@@ -9,10 +9,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <developers>
-             <developer>
-                      <id>kornicameister</id>
-                      <name>Tomasz Trębski</name>
-             </developer>
+        <developer>
+            <id>kornicameister</id>
+            <name>Tomasz Trębski</name>
+        </developer>
     </developers>
 
     <properties>
@@ -21,6 +21,7 @@
         <commons-lang3.version>3.1</commons-lang3.version>
         <cloning.version>1.9.0</cloning.version>
         <jdk.version>1.7</jdk.version>
+        <guava.version>14.0.1</guava.version>
     </properties>
 
     <dependencies>
@@ -43,6 +44,11 @@
             <groupId>uk.com.robust-it</groupId>
             <artifactId>cloning</artifactId>
             <version>${cloning.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 

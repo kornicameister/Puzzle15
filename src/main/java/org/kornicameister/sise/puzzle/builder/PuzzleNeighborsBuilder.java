@@ -4,6 +4,7 @@ import com.rits.cloning.Cloner;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.puzzle.core.PuzzleNodeBuilder;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
+import org.kornicameister.sise.utilities.Point;
 
 import java.util.*;
 
@@ -167,35 +168,4 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
         return null;
     }
 
-    private class Point {
-        private int x;
-        private int y;
-
-        public Point(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public Point newPointByOffset(int x, int y) {
-            return new Point(this.x + x, this.y + y);
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder();
-            sb.append("Point");
-            sb.append("{x=").append(x);
-            sb.append(", y=").append(y);
-            sb.append('}');
-            return sb.toString();
-        }
-    }
 }
