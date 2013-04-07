@@ -54,11 +54,15 @@ public class PuzzleNode extends Node {
     }
 
     public int getX() {
-        return blankFieldCords.getX();
+        return this.blankFieldCords.getX();
     }
 
     public int getY() {
-        return blankFieldCords.getY();
+        return this.blankFieldCords.getY();
+    }
+
+    public Point getBlankFieldCords() {
+        return this.blankFieldCords;
     }
 
     public String getOrder() {
@@ -116,4 +120,6 @@ public class PuzzleNode extends Node {
         }
         return result;
     }
+
+
 }

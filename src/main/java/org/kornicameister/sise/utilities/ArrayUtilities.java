@@ -20,4 +20,17 @@ public class ArrayUtilities {
         }
         return flatten.toArray(new Integer[flatten.size()]);
     }
+
+    public static Integer[][] swapByIndex(Integer[][] target, Point from, Point to) {
+        int fX = from.getX(),
+                fY = from.getY(),
+                tX = to.getX(),
+                tY = to.getY();
+
+        Integer temp = target[fX][fY];
+        target[fX][fY] = target[tX][tY];
+        target[tX][tY] = temp;
+
+        return target;
+    }
 }

@@ -4,6 +4,7 @@ import com.rits.cloning.Cloner;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.puzzle.core.PuzzleNodeBuilder;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
+import org.kornicameister.sise.utilities.ArrayUtilities;
 import org.kornicameister.sise.utilities.Point;
 
 import java.util.*;
@@ -28,7 +29,7 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
         Map<Character, GraphNode> puzzleNodeList = new HashMap<>();
         PuzzleNode puzzleNode = (PuzzleNode) node;
         Integer[][] puzzle = puzzleNode.getPuzzle();
-        Point fromCords = this.findBlankField(puzzleNode);
+        Point fromCords = puzzleNode.getBlankFieldCords();
         List<Character> moves = new ArrayList<>();
         final String order = puzzleNode.getOrder();
 
@@ -49,7 +50,7 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
                     final Point toCords = fromCords.newPointByOffset(0, -1);
                     if (toCords.getY() >= 0) {
 
-                        Integer[][] puzzleCopy = this.swapByIndex(
+                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
                                 new Cloner().deepClone(puzzleNode).getPuzzle(),
                                 fromCords,
                                 toCords
@@ -71,7 +72,7 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
                     final Point toCords = fromCords.newPointByOffset(0, 1);
                     if (toCords.getY() < puzzle[0].length) {
 
-                        Integer[][] puzzleCopy = this.swapByIndex(
+                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
                                 new Cloner().deepClone(puzzleNode).getPuzzle(),
                                 fromCords,
                                 toCords
@@ -93,7 +94,7 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
                     final Point toCords = fromCords.newPointByOffset(-1, 0);
                     if (toCords.getX() >= 0) {
 
-                        Integer[][] puzzleCopy = this.swapByIndex(
+                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
                                 new Cloner().deepClone(puzzleNode).getPuzzle(),
                                 fromCords,
                                 toCords
@@ -115,7 +116,7 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
                     final Point toCords = fromCords.newPointByOffset(1, 0);
                     if (toCords.getX() < puzzle.length) {
 
-                        Integer[][] puzzleCopy = this.swapByIndex(
+                        Integer[][] puzzleCopy = ArrayUtilities.swapByIndex(
                                 new Cloner().deepClone(puzzleNode).getPuzzle(),
                                 fromCords,
                                 toCords
@@ -141,31 +142,6 @@ public class PuzzleNeighborsBuilder implements PuzzleNodeBuilder {
 
     public int getGeneratedNodes() {
         return generatedNodes.size();
-    }
-
-    private Integer[][] swapByIndex(Integer[][] target, Point from, Point to) {
-        int fX = from.getX(),
-                fY = from.getY(),
-                tX = to.getX(),
-                tY = to.getY();
-
-        Integer temp = target[fX][fY];
-        target[fX][fY] = target[tX][tY];
-        target[tX][tY] = temp;
-
-        return target;
-    }
-
-    private Point findBlankField(PuzzleNode node) {
-        Integer[][] puzzle = node.getPuzzle();
-        for (int i = 0; i < puzzle.length; i++) {
-            for (int j = 0; j < puzzle[0].length; j++) {
-                if (puzzle[i][j].equals(0)) {
-                    return new Point(i, j);
-                }
-            }
-        }
-        return null;
     }
 
 }
