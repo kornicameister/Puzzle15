@@ -15,7 +15,7 @@ import org.kornicameister.sise.puzzle.node.PuzzleNode;
 
 import com.rits.cloning.Cloner;
 
-public class DFSStrategy {
+public class DFSStrategy implements GraphSearchStrategy {
 	int maxRecursionDepth=0;
 	int visitedNodes=0;
 	boolean success = false;
@@ -53,7 +53,7 @@ public class DFSStrategy {
 		this.order = order;
 	}
 
-	public void traverse(GraphNode startNode, GraphNode endNode) {
+	public List<GraphNode> traverse(GraphNode startNode, GraphNode endNode) {
 
 		if (!startNode.isVisited()) {
 			
@@ -70,7 +70,7 @@ public class DFSStrategy {
 //			}
 			if (startNode.equals(endNode)) {
 				success = true;
-				return;
+				return path;
 
 			}
 			
@@ -82,7 +82,7 @@ public class DFSStrategy {
 					visitedEdges.add(e);
 					traverse(e.getSuccessor(), endNode);
 					if (success) {
-						return;
+						return path;
 					}
 					visitedEdges.remove(e);
 				}
@@ -93,6 +93,7 @@ public class DFSStrategy {
 			this.path.remove(findEqualElement(startNode, path));
 
 		}
+		return null;
 
 	}
 
@@ -284,9 +285,28 @@ public class DFSStrategy {
 		}
 		return -1;
 	}
-	public String getReport()
-	{
-		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(visitedEdges.size());
+	
+	   @Override
+	    public String getReport() {
+	        StringBuilder sb = new StringBuilder();
+	        sb.append(this.getClass().getSimpleName()).append("\n");
+	        sb.append("Report").append("\n");
+	        sb.append("Path length:\t\t").append(this.path.size()).append("\n");
+	        sb.append("Visited nodes:\t\t").append(this.backupNodes.size()).append("\n");
+	        sb.append("Max recursion depth:\t\t").append(this.maxRecursionDepth).append("\n");
+	        return sb.toString();
+	    }
+
+	@Override
+	public GraphNode getNextAvailableNode(GraphNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<GraphNode> traverse(GraphNode startNode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 
