@@ -31,18 +31,13 @@ public class DFSin {
 		dfsStrategy.setOrder("LDPG");
 		strat.init(nodes);
 		strat.setOrder("LDPG");
-		// if (startowy.equals(sp))
-		// System.out.println("taaaaak");
-		// if (startowy.hashCode()==sp.hashCode())
-		// System.out.println("tak2");
-		// strat.traverse(startowy, koncowyy);
 		List<GraphNode> result = strat.iDFS(startowy, koncowyy, 4,false);
 		if (result == null) {
 			System.out.println("Nic nie znalazlem");
 		} else {
 			
-			System.out.println("Turns length:" + strat.getTurns().length());
-			System.out.println("Turns:" + strat.getTurns());
+//			System.out.println("Turns length:" + strat.getTurns().length());
+//			System.out.println("Turns:" + strat.getTurns());
 			System.out.println(result.size());
 
 			

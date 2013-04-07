@@ -16,47 +16,132 @@ public class StateGenerator {
 		Integer[][] start = { { 1, 2, 3,4 }, {  5, 6,7,8 }, { 9,10,11,12},{13,14,15,0 } };
 		Integer[][] stop = { { 0,15,14,13 }, { 12,11,10,9 }, { 8,7,6,5 },{4,3,2,1} };
 		
+		
+		List<List<GraphNode>> warstwy =new ArrayList<List<GraphNode>>();
+		String []kolejnosc={"LPGD", "DLPG","PGDL", "DGLP"};
+		for (int i=1; i<7;i++)
+		{
+			PuzzleNode startowy = new PuzzleNode("", start);
+			PuzzleNode koncowyy = new PuzzleNode("", stop);
+			IDFSStrategy strat = new IDFSStrategy();
+			List<GraphNode> nodes = new ArrayList<>();
+			strat.init(nodes);
+			strat.setOrder("DLPG");
+			List<GraphNode> result = strat.iDFS(startowy, koncowyy, i, true);
+			warstwy.add(result);
+			//System.out.println("Rozmiar warstw:"+warstwy.size());
+			
+			if (i>1)
+			{
+				for (int j=0;j<i-1;j++)
+				warstwy.get(i-1).removeAll(warstwy.get(j));
+			}
+			
+			
+			
+		}
+		warstwy.get(0).remove(0);
+		for (int j=0;j<kolejnosc.length;j++)
+		{
+			System.out.println("\\newline");
+			System.out.println("Kolejnosc przeszukiwania:" + kolejnosc[j] );
+		for (int i=0;i<warstwy.size();i++)
+		{
+			int solutionLength=0, visited=0, maxDepth=0, generatedNodes=0;
+			List<GraphNode> result=warstwy.get(i);
+			for (GraphNode node:result)
+			{
+				PuzzleNode startowy = new PuzzleNode("", start);
+				node.setVisited(false);
+				Integer [][] a=((PuzzleNode)node).getPuzzle();
+				PuzzleNode temp=new PuzzleNode("",a);
+				IDFSStrategy idfs = new IDFSStrategy();
+				List<GraphNode> nodesForIDFS = new ArrayList<>();
+				idfs.init(nodesForIDFS);
+				idfs.setOrder("R");
+				List<GraphNode> resultIDFS = idfs.iDFS(temp, startowy, i+2,false);
+				if (resultIDFS == null) {
+					System.out.println("Nic nie znalazlem dla i="+i);
+				} else {
+					solutionLength+=idfs.getTurns().length();
+					visited+=idfs.getVisitedNodes();
+					maxDepth+=idfs.getMaxRecursionDepth();
+					generatedNodes+=idfs.getBackupNodes().size();
+
+	
+					
+	
+				}
+				
+			
+			
+			
+		}
+			System.out.println("Odleglosc rozwiazania: "+(i+1));
+			System.out.println("\\begin{itemize}");
+			System.out.println("\\item Œrednia dlugosc rozwiazania: "+((double)solutionLength)/(double)result.size());
+			System.out.println("\\item Œrednia ilosc odwiedzonych stanow: "+((double)visited)/(double)result.size());
+			System.out.println("\\item Œrednia maksymalna glebokosc rekursji: "+((double)maxDepth)/(double)result.size());
+			System.out.println("\\item Œrednia ilosc wygenerowanych stanow: "+((double)generatedNodes)/(double)result.size());
+			System.out.println("\\end{itemize}");
+		}
+		}
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		PuzzleNode startowy = new PuzzleNode("", start);
 		PuzzleNode koncowyy = new PuzzleNode("", stop);
 		IDFSStrategy strat = new IDFSStrategy();
 		List<GraphNode> nodes = new ArrayList<>();
 		strat.init(nodes);
 		strat.setOrder("DLPG");
-		List<GraphNode> result = strat.iDFS(startowy, koncowyy, 1, true);
-		System.out.println("Result size: "+result.size());
-		for (GraphNode node:result)
-		{
-			//System.out.println(node.toString());
-			//System.out.println(node.isVisited());
-			startowy = new PuzzleNode("", start);
-			node.setVisited(false);
-			Integer [][] a=((PuzzleNode)node).getPuzzle();
-			PuzzleNode temp=new PuzzleNode("",a);
-			IDFSStrategy idfs = new IDFSStrategy();
-			DFSStrategy dfs = new DFSStrategy();
-			List<GraphNode> nodesForDFS = new ArrayList<>();
-			List<GraphNode> nodesForIDFS = new ArrayList<>();
-			nodesForDFS.add(node);
-			dfs.init(nodesForDFS);
-			dfs.setOrder("LDPG");
-			idfs.init(nodesForIDFS);
-			idfs.setOrder("LDPG");
-			
-			
-			List<GraphNode> resultIDFS = idfs.iDFS(temp, startowy, 2,false);
-			if (resultIDFS == null) {
-				System.out.println("Nic nie znalazlem");
-			} else {
-				System.out.println(idfs.getTurns());
-				System.out.println(idfs.getReport());
-				System.out.println();
-//				System.out.println("Turns length:" + idfs.getTurns().length());
-//				System.out.println("Turns:" + idfs.getTurns());
-//				System.out.println(result.size());
-
-				
-
-			}
+		//List<GraphNode> result = strat.iDFS(startowy, koncowyy, 9, true);
+		
+		
+		
+		
+//		System.out.println("Result size: "+result.size());
+//		for (GraphNode node:result)
+//		{
+//			//System.out.println(node.toString());
+//			//System.out.println(node.isVisited());
+//			startowy = new PuzzleNode("", start);
+//			node.setVisited(false);
+//			Integer [][] a=((PuzzleNode)node).getPuzzle();
+//			PuzzleNode temp=new PuzzleNode("",a);
+//			IDFSStrategy idfs = new IDFSStrategy();
+//			DFSStrategy dfs = new DFSStrategy();
+//			List<GraphNode> nodesForDFS = new ArrayList<>();
+//			List<GraphNode> nodesForIDFS = new ArrayList<>();
+//			nodesForDFS.add(node);
+//			dfs.init(nodesForDFS);
+//			dfs.setOrder("LDPG");
+//			idfs.init(nodesForIDFS);
+//			idfs.setOrder("LDPG");
+//			
+//			
+//			List<GraphNode> resultIDFS = idfs.iDFS(temp, startowy, 2,false);
+//			if (resultIDFS == null) {
+//				System.out.println("Nic nie znalazlem");
+//			} else {
+//				System.out.println(idfs.getTurns());
+//				System.out.println(idfs.getReport());
+//				System.out.println();
+////				System.out.println("Turns length:" + idfs.getTurns().length());
+////				System.out.println("Turns:" + idfs.getTurns());
+////				System.out.println(result.size());
+//
+//				
+//
+//			}
 //			startowy = new PuzzleNode("", start);
 //			node.setVisited(false);
 //			dfs.traverse(node,startowy);
@@ -78,9 +163,4 @@ public class StateGenerator {
 			
 			
 		}
-		
-	}
-		
-	
-
 }

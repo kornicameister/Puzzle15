@@ -15,9 +15,25 @@ import org.kornicameister.sise.puzzle.node.PuzzleNode;
 import com.rits.cloning.Cloner;
 
 public class IDFSStrategy  {
-	int maxRecursionDepth=0;
-	int visitedNodes=0;
+	private int maxRecursionDepth=0;
+	private int visitedNodes=0;
 	
+
+	public List<GraphNode> getBackupNodes() {
+		return backupNodes;
+	}
+
+	public void setVisitedNodes(int visitedNodes) {
+		this.visitedNodes = visitedNodes;
+	}
+
+	public int getMaxRecursionDepth() {
+		return maxRecursionDepth;
+	}
+
+	public int getVisitedNodes() {
+		return visitedNodes;
+	}
 
 	boolean success = false;
 	private List<GraphNode> backupNodes;
@@ -45,10 +61,6 @@ public class IDFSStrategy  {
 		return null;
 	}
 
-	public List<GraphNode> traverse(int startNode, int endNode) {
-		// nie jest mi to do niczego potrzebne
-		return null;
-	}
 
 	public void setOrder(String order) {
 		this.order = order;
@@ -58,7 +70,7 @@ public class IDFSStrategy  {
 	
 	
 	
-	public void traverse(GraphNode startNode, GraphNode endNode, int depth,
+	public List<GraphNode> traverse(GraphNode startNode, GraphNode endNode, int depth,
 			int maxDepth) {
 
 		if (!startNode.isVisited()) {
@@ -78,7 +90,7 @@ public class IDFSStrategy  {
 			if (startNode.equals(endNode)
 					&& depth==maxDepth) {
 				success = true;
-				return;
+				return path;
 
 			}
 			generateNeighbours(startNode);
@@ -93,7 +105,7 @@ public class IDFSStrategy  {
 						visitedEdges.add(e);
 						traverse(e.getSuccessor(), endNode, depth + 1, maxDepth);
 						if (success) {
-							return;
+							return path;
 						}
 					}
 					
@@ -108,6 +120,7 @@ public class IDFSStrategy  {
 			// System.out.println(path.size());
 
 		}
+		return null;
 
 		
 
@@ -327,11 +340,21 @@ public class IDFSStrategy  {
 		}
 		return -1;
 	}
-	public String getReport()
-	{
-		return "Visited nodes="+Integer.toString(visitedNodes)+"\nMax Recursion Depth="+Integer.toString(maxRecursionDepth)+"\nProcessed states="+backupNodes.size()+"\nSolution Length="+Integer.toString(visitedEdges.size());
-	}
+
+	    public String getReport() {
+	        StringBuilder sb = new StringBuilder();
+	        sb.append(this.getClass().getSimpleName()).append("\n");
+	        sb.append("Report").append("\n");
+	        sb.append("Path length:\t\t").append(this.path.size()).append("\n");
+	        sb.append("Visited nodes:\t\t").append(this.backupNodes.size()).append("\n");
+	        sb.append("Max recursion depth:\t\t").append(this.maxRecursionDepth).append("\n");
+	        return sb.toString();
+	    }
+	    
+
 	
+
+
 
 }
 
