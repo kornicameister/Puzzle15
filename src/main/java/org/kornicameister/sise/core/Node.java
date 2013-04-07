@@ -51,6 +51,11 @@ public class Node implements GraphNode {
     }
 
     @Override
+    public void addNeighbour(final GraphEdge edge) {
+        this.neighbours.add(edge);
+    }
+
+    @Override
     public List<GraphEdge> getNeighbours() {
         return neighbours;
     }

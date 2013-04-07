@@ -2,6 +2,7 @@ package org.kornicameister.sise.puzzle.node;
 
 import org.kornicameister.sise.core.Node;
 import org.kornicameister.sise.core.graph.GraphEdge;
+import org.kornicameister.sise.utilities.Point;
 
 import java.util.Arrays;
 
@@ -15,7 +16,9 @@ import java.util.Arrays;
  * @since 0.0.1
  */
 public class PuzzleNode extends Node {
+    private static final Integer BLANK_FIELD = 0;
     protected final Integer[][] puzzle;
+    private Point blankFieldCords;
     private String order;
 
     public PuzzleNode(String label,
@@ -31,6 +34,31 @@ public class PuzzleNode extends Node {
         super(label, neighbours);
         this.order = order;
         this.puzzle = puzzle;
+        this.calculateXY();
+    }
+
+    private void calculateXY() {
+        final Integer[][] puzzle = this.puzzle;
+        for (int i = 0; i < puzzle.length; i++) {
+            for (int j = 0; j < puzzle.length; j++) {
+                if (puzzle[i][j].equals(BLANK_FIELD)) {
+                    this.blankFieldCords = new Point(i, j);
+                }
+            }
+        }
+    }
+
+    public PuzzleNode(Integer id, String label, String order, Integer[][] puzzle, GraphEdge... neighbours) {
+        this(label, order, puzzle, neighbours);
+        this.id = id;
+    }
+
+    public int getX() {
+        return blankFieldCords.getX();
+    }
+
+    public int getY() {
+        return blankFieldCords.getY();
     }
 
     public String getOrder() {
@@ -46,6 +74,13 @@ public class PuzzleNode extends Node {
     }
 
     @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + Arrays.deepHashCode(this.puzzle);
+        return result;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -58,10 +93,16 @@ public class PuzzleNode extends Node {
     }
 
     @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + Arrays.deepHashCode(this.puzzle);
-        return result;
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("PuzzleNode");
+        sb.append("{super =").append(super.toString());
+        sb.append("},");
+        sb.append("{blankFieldCords=").append(blankFieldCords);
+        sb.append(", order='").append(order).append('\'');
+        sb.append(", puzzle=").append(puzzle == null ? "null" : Arrays.asList(puzzle).toString());
+        sb.append('}');
+        return sb.toString();
     }
 
     @Override
@@ -74,17 +115,5 @@ public class PuzzleNode extends Node {
             result = thisPuzzleHashCode.compareTo(thatPuzzleHashCode);
         }
         return result;
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("PuzzleNode");
-        sb.append("{super =").append(super.toString());
-        sb.append("},");
-        sb.append("{order='").append(order).append('\'');
-        sb.append(", puzzle=").append(puzzle == null ? "null" : Arrays.deepToString(this.puzzle));
-        sb.append('}');
-        return sb.toString();
     }
 }

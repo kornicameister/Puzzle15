@@ -51,7 +51,6 @@ public class Edge implements GraphEdge {
         this.successor = successor;
     }
 
-    @Override
     public GraphNode getPredecessor() {
         return predecessor;
     }

@@ -7,7 +7,6 @@ import org.kornicameister.sise.core.heuristic.Heuristic;
 import org.kornicameister.sise.puzzle.builder.PuzzleNeighborsBuilder;
 import org.kornicameister.sise.puzzle.core.PuzzleNodeBuilder;
 import org.kornicameister.sise.puzzle.edge.AStarEdge;
-import org.kornicameister.sise.puzzle.node.AStarPuzzleNode;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -26,12 +25,13 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     private final Map<Integer, AStarEdge> closedSet = new HashMap<>();
     protected Long computationTime = 0l;
     protected Integer nodesVisited = 0;
-    protected Integer newNodesVisited = 0;
-    protected Integer revisitedNodes = 0;
+    protected Integer generatedNodes = 0;
+    protected Integer changedPath = 0;
     private PuzzleNodeBuilder nodeBuilder;
     private Heuristic heuristic;
     private List<GraphNode> backupNodes;
     private Integer pathLength;
+    private Integer missedNodes = 0;
 
     public AStarPuzzleStrategy(Heuristic heuristic) {
         this.heuristic = heuristic;
@@ -50,9 +50,10 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         sb.append("Report").append("\n");
         sb.append("Time:\t\t\t\t\t").append(this.computationTime).append(" ms\n");
         sb.append("Path length:\t\t\t").append(this.pathLength).append("\n");
-        sb.append("All visited nodes:\t\t").append(this.nodesVisited).append("\n");
-        sb.append("New visited nodes:\t\t").append(this.newNodesVisited).append("\n");
-        sb.append("Re  visited nodes:\t\t").append(this.revisitedNodes).append("\n");
+        sb.append("Generated nodes:\t\t").append(this.generatedNodes).append("\n");
+        sb.append("Missed nodes:\t\t\t").append(this.missedNodes).append("\n");
+        sb.append("Visited nodes:\t\t\t").append(this.nodesVisited).append("\n");
+        sb.append("Changed path:\t\t\t").append(this.changedPath).append("\n");
         return sb.toString();
     }
 
@@ -69,19 +70,14 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     @Override
     public List<GraphNode> traverse(GraphNode fromNode, GraphNode toNode) {
         Long startTime = System.nanoTime();
-        AStarPuzzleNode fromPuzzleNode = null;
-        AStarPuzzleNode toPuzzleNode = null;
+        PuzzleNode fromPuzzleNode = null;
+        PuzzleNode toPuzzleNode = null;
 
-        if (!(fromNode instanceof AStarPuzzleNode) && fromNode instanceof PuzzleNode) {
-            fromPuzzleNode = this.convertToAStartPuzzleNode(fromNode);
-        } else if (fromNode instanceof AStarPuzzleNode) {
-            fromPuzzleNode = (AStarPuzzleNode) fromNode;
+        if (fromNode instanceof PuzzleNode) {
+            fromPuzzleNode = (PuzzleNode) fromNode;
         }
-
-        if (!(toNode instanceof AStarPuzzleNode) && toNode instanceof PuzzleNode) {
-            toPuzzleNode = this.convertToAStartPuzzleNode(toNode);
-        } else if (toNode instanceof AStarPuzzleNode) {
-            toPuzzleNode = (AStarPuzzleNode) toNode;
+        if (toNode instanceof PuzzleNode) {
+            toPuzzleNode = (PuzzleNode) toNode;
         }
 
         if (fromPuzzleNode == null || toPuzzleNode == null) {
@@ -112,7 +108,8 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
             } else {
                 this.closedSet.put(x.getID(), x);
 
-                for (AStarEdge neighbour : this.findNeighbours(x).getSuccessor().getStarNeighbours()) {
+                for (GraphEdge graphEdge : this.findNeighbours(x).getSuccessor().getNeighbours()) {
+                    AStarEdge neighbour = (AStarEdge) graphEdge;
                     if (!this.closedSet.containsKey(neighbour.getID())) {
 
                         Double newG = x.getGCost() + this.heuristic.heuristicValue(
@@ -132,15 +129,16 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
 
                             this.openSet.put(edge.getID(), edge);
                             priorityQueue.add(edge);
-                            this.newNodesVisited += 1;
+                            this.nodesVisited += 1;
                         } else if (newG < edge.getGCost()) {
                             edge.setGCost(newG);
                             edge.setHCost(this.heuristic.heuristicValue(edge.getSuccessor(), toPuzzleNode));
                             edge.setPredecessor(x);
-                            this.revisitedNodes += 1;
+                            this.changedPath += 1;
                         }
 
-                        this.nodesVisited += 1;
+                    } else {
+                        this.missedNodes += 1;
                     }
                 }
 
@@ -148,7 +146,7 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         }
 
         if (goal != null) {
-            Stack<AStarPuzzleNode> stack = new Stack<>();
+            Stack<PuzzleNode> stack = new Stack<>();
             List<GraphNode> list = new ArrayList<>();
             stack.push(goal.getSuccessor());
             AStarEdge parent = goal.getPredecessor();
@@ -166,25 +164,17 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         return null;
     }
 
-    private AStarPuzzleNode convertToAStartPuzzleNode(GraphNode node) {
-        PuzzleNode puzzleNode = (PuzzleNode) node;
-        return new AStarPuzzleNode(
-                puzzleNode.getID(),
-                puzzleNode.getLabel(),
-                puzzleNode.getOrder(),
-                puzzleNode.getPuzzle(),
-                puzzleNode.getNeighbours().toArray(new GraphEdge[]{})
-        );
-    }
-
     public AStarEdge findNeighbours(AStarEdge edge) {
-        AStarPuzzleNode node = edge.getSuccessor();
+        PuzzleNode node = edge.getSuccessor();
         if (node.getNeighbours().size() == 0) {
             final Map<Character, GraphNode> possibleNeighbours = nodeBuilder.getPossibleNeighbours(node);
             if (possibleNeighbours.size() > 0) {
+                this.generatedNodes += possibleNeighbours.size();
                 for (Map.Entry<Character, GraphNode> pass : possibleNeighbours.entrySet()) {
-                    AStarPuzzleNode aStarPuzzleNode = this.convertToAStartPuzzleNode(pass.getValue());
-                    node.addStartNeighbour(new AStarEdge(edge, aStarPuzzleNode));
+                    GraphNode graphNode = pass.getValue();
+                    if (graphNode instanceof PuzzleNode) {
+                        node.addNeighbour(new AStarEdge(edge, (PuzzleNode) pass.getValue()));
+                    }
                 }
             }
         }

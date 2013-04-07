@@ -12,6 +12,8 @@ public interface GraphNode extends Comparable {
 
     void addNeighbour(GraphNode node, NodeAccessibleStrategy strategy, char direction);
 
+    void addNeighbour(GraphEdge edge);
+
     List<GraphEdge> getNeighbours();
 
     boolean isVisited();

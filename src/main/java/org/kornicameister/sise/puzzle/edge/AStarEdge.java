@@ -1,38 +1,51 @@
 package org.kornicameister.sise.puzzle.edge;
 
-import org.kornicameister.sise.puzzle.node.AStarPuzzleNode;
+import org.kornicameister.sise.core.graph.GraphEdge;
+import org.kornicameister.sise.core.graph.NodeAccessibleStrategy;
+import org.kornicameister.sise.puzzle.node.PuzzleNode;
 
 /**
  * @author kornicameister
  * @version 0.0.1
  * @since 0.0.1
  */
-public class AStarEdge implements Comparable<AStarEdge> {
+public class AStarEdge implements GraphEdge, Comparable<AStarEdge> {
     private AStarEdge predecessor;
-    private AStarPuzzleNode successor;
+    private PuzzleNode successor;
     private Double gCost;
     private Double hCost;
 
-    public AStarEdge(AStarPuzzleNode successor, Double gCost, Double hCost) {
+    public AStarEdge(PuzzleNode successor, Double gCost, Double hCost) {
         this(null, successor, gCost, hCost);
     }
 
-    public AStarEdge(AStarEdge predecessor, AStarPuzzleNode successor, Double gCost, Double hCost) {
+    public AStarEdge(AStarEdge predecessor, PuzzleNode successor, Double gCost, Double hCost) {
         this.predecessor = predecessor;
         this.successor = successor;
         this.gCost = gCost;
         this.hCost = hCost;
     }
 
-    public AStarEdge(AStarEdge predecessor, AStarPuzzleNode successor) {
+    public AStarEdge(AStarEdge predecessor, PuzzleNode successor) {
         this(predecessor, successor, 0.0, 0.0);
     }
 
-    public AStarPuzzleNode getSuccessor() {
+    @Override
+    public void setAccessibleStrategy(NodeAccessibleStrategy strategy) {
+
+    }
+
+    @Override
+    public PuzzleNode getSuccessor() {
         return this.successor;
     }
 
-    public void setSuccessor(AStarPuzzleNode successor) {
+    @Override
+    public boolean isAccessible() {
+        return true;
+    }
+
+    public void setSuccessor(PuzzleNode successor) {
         this.successor = successor;
     }
 
