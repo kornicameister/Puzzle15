@@ -72,6 +72,8 @@ public class IDFSStrategy  {
 	
 	public List<GraphNode> traverse(GraphNode startNode, GraphNode endNode, int depth,
 			int maxDepth) {
+		if(order==null)
+			order=((PuzzleNode)startNode).getOrder();
 
 		if (!startNode.isVisited()) {
 			

@@ -22,6 +22,7 @@ public class DFSStrategy implements GraphSearchStrategy {
 	private List<GraphNode> backupNodes;
 	private List<GraphNode> path = new ArrayList<GraphNode>();
 	private List<GraphEdge> visitedEdges = new ArrayList<GraphEdge>();
+	
 
 	public List<GraphNode> getPath() {
 		return path;
@@ -31,7 +32,7 @@ public class DFSStrategy implements GraphSearchStrategy {
 		return visitedEdges;
 	}
 
-	private String order;
+	private String order=null;
 
 	public void init(List<GraphNode> nodes) {
 		this.backupNodes = new ArrayList<>();
@@ -54,6 +55,9 @@ public class DFSStrategy implements GraphSearchStrategy {
 	}
 
 	public List<GraphNode> traverse(GraphNode startNode, GraphNode endNode) {
+		if(order==null)
+			order=((PuzzleNode)startNode).getOrder();
+		
 
 		if (!startNode.isVisited()) {
 			
