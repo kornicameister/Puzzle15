@@ -10,8 +10,9 @@ package org.kornicameister.sise.core;
  */
 public enum Graphs {
     BFS("b", "Breadth First Search"),
-    DFD("d", "Depth First Search"),
-    IDFS("i", "Iterative deepening Depth First Search");
+    DFS("d", "Depth First Search"),
+    IDFS("i", "Iterative deepening Depth First Search"),
+    AStar("a", "A* path finder");
     private final String acronym;
     private final String desc;
 

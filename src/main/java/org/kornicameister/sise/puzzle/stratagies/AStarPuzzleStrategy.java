@@ -39,6 +39,10 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         this.heuristic = heuristic;
     }
 
+    public AStarPuzzleStrategy() {
+        super();
+    }
+
     @Override
     public void init(List<GraphNode> nodes) {
         this.nodeBuilder = new PuzzleNeighborsBuilder(nodes);

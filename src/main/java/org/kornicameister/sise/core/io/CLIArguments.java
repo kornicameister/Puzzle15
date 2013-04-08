@@ -8,6 +8,7 @@ package org.kornicameister.sise.core.io;
 public enum CLIArguments {
     STRATEGY,
     ORDER,
-    INPUT,
+    INPUT_F,
+    INPUT_C,
     HEURISTIC
 }

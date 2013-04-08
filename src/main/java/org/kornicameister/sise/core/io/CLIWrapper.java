@@ -6,7 +6,6 @@ import org.kornicameister.sise.core.Graphs;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 /**
  * This class wraps around cli utilities from Apache
@@ -19,7 +18,6 @@ import java.util.logging.Logger;
  * @since 0.0.1
  */
 public class CLIWrapper {
-    private static final Logger LOGGER = Logger.getLogger(CLIWrapper.class.getName());
     /**
      * Wrapper around valid options for Puzzle
      */
@@ -33,7 +31,7 @@ public class CLIWrapper {
         // footer for helper
         StringBuilder builder = new StringBuilder("\nVariables:\n");
         builder.append("order -> array of {L - left, P - right, G - up, D - down} or {R - random}\n");
-        builder.append("strategy_id -> one of the following [b,d,i]\n");
+        builder.append("heuristic_id -> one of the following [1-Manhattan, 2-InvalidCount]\n");
         CLIWrapper.helpFooter = builder.toString();
 
         //algorithm options
@@ -50,9 +48,9 @@ public class CLIWrapper {
         }
         group.addOption(Option.builder("a")
                 .longOpt("a")
-                .argName("strategy_id heuristic_id")
+                .argName("heuristic_id")
                 .hasArgs()
-                .numberOfArgs(2)
+                .numberOfArgs(1)
                 .valueSeparator(' ')
                 .optionalArg(false)
                 .desc("Heuristic")
@@ -105,12 +103,12 @@ public class CLIWrapper {
                 Properties mode = cmd.getOptionProperties("f");
                 if (mode.keySet().contains("cmd")) {
                     cmdInputEnabled = true;
-                    argMap.put(CLIArguments.INPUT, System.in);
+                    argMap.put(CLIArguments.INPUT_C, null);
                 } else if (mode.keySet().contains("file")) {
                     inputFilePath = (String) mode.get("file");
-                    argMap.put(CLIArguments.INPUT, inputFilePath);
+                    argMap.put(CLIArguments.INPUT_F, inputFilePath);
                 }
-                LOGGER.info(String.format("Input mode detected, [mode=%s,src=%s]",
+                System.out.println(String.format("Input mode detected, [mode=%s,src=%s]",
                         (cmdInputEnabled ? "cmd" : "file"),
                         (inputFilePath == null ? "System.in" : inputFilePath)
                 ));
@@ -119,8 +117,12 @@ public class CLIWrapper {
             // determine heuristic
             if (cmd.hasOption("a")) {
                 String[] heuristics = cmd.getOptionValues("a");
-                strategy = heuristics[0];
-                heuristicId = Integer.parseInt(heuristics[1]);
+                heuristicId = Integer.parseInt(heuristics[0]);
+                if (heuristicId > 2) {
+                    System.err.println(String.format("No heuristic for ID=%d", heuristicId));
+                    this.printHelp();
+                    return null;
+                }
                 heuristicEnabled = true;
             }
 
@@ -131,16 +133,14 @@ public class CLIWrapper {
                     if ((order = (String) cmd.getParsedOptionValue(graphs.getAcronym())) != null) {
                         argMap.put(CLIArguments.STRATEGY, graphs);
                         argMap.put(CLIArguments.ORDER, order);
-                        LOGGER.info(String.format("Algorithm detected [algorithm=%s / order=%s]", graphs.name(), order));
+                        System.out.println(String.format("Algorithm detected [algorithm=%s / order=%s]", graphs.name(), order));
                         break;
                     }
                 } else {
-                    if (strategy.equals(graphs.getAcronym())) {
-                        argMap.put(CLIArguments.STRATEGY, graphs);
-                        argMap.put(CLIArguments.HEURISTIC, heuristicId);
-                        LOGGER.info(String.format("Algorithm detected [algorithm=%s / heuristicId=%d]", graphs.name(), heuristicId));
-                        break;
-                    }
+                    argMap.put(CLIArguments.STRATEGY, Graphs.AStar);
+                    argMap.put(CLIArguments.HEURISTIC, heuristicId);
+                    System.out.println(String.format("Algorithm detected [algorithm=%s / heuristicId=%d]", Graphs.AStar.name(), heuristicId));
+                    break;
                 }
             }
         } catch (ParseException e) {

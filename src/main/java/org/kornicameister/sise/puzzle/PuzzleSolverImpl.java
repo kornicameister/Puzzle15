@@ -81,4 +81,7 @@ public class PuzzleSolverImpl implements PuzzleSolver {
     }
 
 
+    public NodeAccessibleStrategy getExamination() {
+        return this.examination;
+    }
 }
