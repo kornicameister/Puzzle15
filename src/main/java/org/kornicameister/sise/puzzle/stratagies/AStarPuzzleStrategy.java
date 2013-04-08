@@ -20,17 +20,20 @@ import java.util.concurrent.TimeUnit;
  */
 public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     private static final int INITIAL_CAPACITY = 20;
-    private final Map<Integer, AStarEdge> openSet = new HashMap<>();
-    private final Map<Integer, AStarEdge> closedSet = new HashMap<>();
     protected Long computationTime = 0l;
     protected Integer nodesVisited = 0;
     protected Integer generatedNodes = 0;
     protected Integer changedPath = 0;
+    protected Integer steps = 0;
     private PuzzleNeighborsBuilder nodeBuilder;
     private Heuristic heuristic;
-    private List<GraphNode> backupNodes;
     private Integer pathLength;
     private Integer skippedNodes = 0;
+    private Double startingCost = null;
+    private List<Double> costs = new ArrayList<>();
+    private Integer pQueueSize;
+    private Integer openSetSize;
+    private Integer closedSetSize;
 
     public AStarPuzzleStrategy(Heuristic heuristic) {
         this.heuristic = heuristic;
@@ -38,7 +41,6 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
 
     @Override
     public void init(List<GraphNode> nodes) {
-        this.backupNodes = nodes;
         this.nodeBuilder = new PuzzleNeighborsBuilder(nodes);
     }
 
@@ -47,12 +49,19 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName()).append("\n");
         sb.append("Report").append("\n");
+        sb.append("Heuristic:\t\t\t\t").append(this.heuristic.getClass().getSimpleName()).append("\n");
+        sb.append("Steps :\t\t\t\t\t").append(this.steps).append("\n");
         sb.append("Time:\t\t\t\t\t").append(this.computationTime).append(" ms\n");
         sb.append("Path length:\t\t\t").append(this.pathLength).append("\n");
+        sb.append("Start cost:\t\t\t\t").append(this.startingCost).append("\n");
+        sb.append("Avg cost:\t\t\t\t").append(this.countAvgCost(this.costs)).append("\n");
         sb.append("Generated nodes:\t\t").append(this.nodeBuilder.getGeneratedNodes()).append("\n");
         sb.append("Skipped nodes:\t\t\t").append(this.skippedNodes).append("\n");
         sb.append("Visited nodes:\t\t\t").append(this.nodesVisited).append("\n");
         sb.append("Changed path:\t\t\t").append(this.changedPath).append("\n");
+        sb.append("Queue size:\t\t\t\t").append(this.pQueueSize).append("\n");
+        sb.append("OSet size:\t\t\t\t").append(this.openSetSize).append("\n");
+        sb.append("CSet path:\t\t\t\t").append(this.closedSetSize).append("\n");
         return sb.toString();
     }
 
@@ -83,7 +92,10 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
             throw new IllegalArgumentException("Passed nodes not type of AStarPuzzleNode");
         }
 
-        PriorityQueue<AStarEdge> priorityQueue = new PriorityQueue<>(INITIAL_CAPACITY);
+
+        final Map<Integer, AStarEdge> openSet = new HashMap<>();
+        final Map<Integer, AStarEdge> closedSet = new HashMap<>();
+        final PriorityQueue<AStarEdge> priorityQueue = new PriorityQueue<>(INITIAL_CAPACITY);
         AStarEdge goal = null;
 
 
@@ -96,8 +108,9 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
         openSet.put(fromPuzzleNode.getID(), startEdge);
         priorityQueue.add(startEdge);
 
-        while (this.openSet.size() > 0) {
+        while (openSet.size() > 0) {
 
+            this.steps += 1;
             AStarEdge x = priorityQueue.poll();
             openSet.remove(x.getID());
 
@@ -106,18 +119,21 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
                 this.computationTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
                 break;
             } else {
-                this.closedSet.put(x.getID(), x);
+                closedSet.put(x.getID(), x);
+                if (this.startingCost == null) {
+                    this.startingCost = x.getFCost();
+                }
 
                 for (GraphEdge graphEdge : this.findNeighbours(x).getSuccessor().getNeighbours()) {
                     AStarEdge neighbour = (AStarEdge) graphEdge;
-                    if (!this.closedSet.containsKey(neighbour.getID())) {
+                    if (!closedSet.containsKey(neighbour.getID())) {
 
                         Double newG = x.getGCost() + this.heuristic.heuristicValue(
                                 x.getSuccessor(),
                                 neighbour.getSuccessor()
                         );
 
-                        AStarEdge edge = this.openSet.get(neighbour.getID());
+                        AStarEdge edge = openSet.get(neighbour.getID());
 
                         if (edge == null) {
                             edge = new AStarEdge(
@@ -127,7 +143,7 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
                                     this.heuristic.heuristicValue(neighbour.getSuccessor(), toPuzzleNode)
                             );
 
-                            this.openSet.put(edge.getID(), edge);
+                            openSet.put(edge.getID(), edge);
                             priorityQueue.add(edge);
                             this.nodesVisited += 1;
                         } else if (newG < edge.getGCost()) {
@@ -151,6 +167,7 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
             List<GraphNode> list = new ArrayList<>();
             stack.push(goal.getSuccessor());
             AStarEdge parent = goal.getPredecessor();
+            this.costs.add(goal.getFCost());
             while (parent != null) {
                 stack.push(parent.getSuccessor());
                 parent = parent.getPredecessor();
@@ -158,11 +175,28 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
             while (stack.size() > 0) {
                 list.add(stack.pop());
             }
+
             this.pathLength = list.size();
+            this.pQueueSize = priorityQueue.size();
+            this.openSetSize = openSet.size();
+            this.closedSetSize = closedSet.size();
+
+            priorityQueue.clear();
+            openSet.clear();
+            closedSet.clear();
+
             return list;
         }
 
         return null;
+    }
+
+    private Double countAvgCost(final List<Double> costs) {
+        Double dd = 0.0;
+        for (Double d : costs) {
+            dd += d;
+        }
+        return (dd / costs.size()) * 1.0;
     }
 
     public AStarEdge findNeighbours(AStarEdge edge) {
