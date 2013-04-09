@@ -33,9 +33,10 @@ import java.util.concurrent.TimeUnit;
  * @since 0.0.1
  */
 public class Puzzle {
-	static boolean  idfs=false;
+    static boolean idfs = false;
+
     public static void main(String[] args) throws Exception {
-    	
+
         final Map<CLIArguments, Object> parse = CLIWrapper.getCMD().parse(args);
 
         if (parse == null) {
@@ -76,7 +77,7 @@ public class Puzzle {
                             strategy = new BFSPuzzleStrategy();
                             break;
                         case IDFS:
-                        	idfs=true;
+                            idfs = true;
                             //strategy = new IDFSStrategy();
                             break;
                         case DFS:
@@ -105,8 +106,8 @@ public class Puzzle {
                 .append("Puzzle:\t\t\t\t%s\n")
                 .append("-------------------------------\n")
                 .toString(),
-                idfs==false ?
-                strategy.getClass().getSimpleName():"IDFS",
+                idfs == false ?
+                        strategy.getClass().getSimpleName() : "IDFS",
                 heuristic != null ? heuristic.getClass().getSimpleName() : "skipped",
                 order,
                 Arrays.deepToString(puzzle)
@@ -132,20 +133,15 @@ public class Puzzle {
                 barRotating.setShowProgress(true);
                 {
                     if (puzzleSolverImpl.isSolvable()) {
-                    	if(idfs)
-                    	{
-                    		IDFSStrategy idfs=new IDFSStrategy();
-                    		idfs.init(new ArrayList<GraphNode>());
-                    		idfs.iDFS(puzzleSolverImpl.getGraph().getNode(0), puzzleSolverImpl.getGraph().getNode(1), 20, false);
-                    		answer=idfs.getReport();
-                    		 barRotating.setShowProgress(false);
-                    		System.out.println(answer);
-                    		return answer;
-                    	}
-                    	else{
-                        puzzleSolverImpl.solve();
-                        answer = graph.getStrategy().getReport();
-                    	}
+                        if (idfs) {
+                            IDFSStrategy idfs = new IDFSStrategy();
+                            idfs.init(new ArrayList<GraphNode>());
+                            idfs.iDFS(puzzleSolverImpl.getGraph().getNode(0), puzzleSolverImpl.getGraph().getNode(1), 20, false);
+                            answer = idfs.getReport();
+                        } else {
+                            puzzleSolverImpl.solve();
+                            answer = graph.getStrategy().getReport();
+                        }
                     } else {
                         answer = String.format("%s is not solvable based on %s",
                                 Arrays.deepToString(finalPuzzle1),
@@ -160,7 +156,7 @@ public class Puzzle {
 
         barRotating.start();
         worker.execute();
-        //System.out.println(worker.get());
+        System.out.println(worker.get());
     }
 
     static class PuzzleLoader {
