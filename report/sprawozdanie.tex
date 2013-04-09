@@ -97,7 +97,7 @@
 		\subsection{Parametry wejściowe}
 			Program obsługiwany jest z konsoli i wspiera definiowanie rodzaju strategii przeszukania grafu,
 			wyboru heurystyki oraz metody wprowadzenia danych:
-			\begin{itemize}
+			\begin{enumerate}
 				\item \textbf{Algorytmy przeszukania}:
 				\begin{enumerate}
 					\item \textbf{-b} dla BFS
@@ -108,22 +108,26 @@
 				\item \textbf{Argumenty dla strategii}:
 				\begin{enumerate}
 					\item dla strategii \textbf{BFS,DFS,IDFS} należy zdefiniować porządek generowania sąsiadów
-					\begin{itemize}
+					\begin{enumerate}
 						\item \textbf{R} dla losowego porządku
 						\item \textbf{LPGD} w dowolnej permutacji - stały porządek
-					\end{itemize}
+					\end{enumerate}
 					\item dla strategii \textbf{A*} należy wybrać jedną z dwóch dostępnych heurystyk:
-					\begin{itemize}
+					\begin{enumerate}
 						\item 1 dla \textbf{ManhattanDistance}
 						\item 2 dla \textbf{InvalidCount}
-					\end{itemize}
+					\end{enumerate}
 				\end{enumerate}
 				\item \textbf{Wprowadzanie danych}:
-				\begin{itemize}
+				\begin{enumerate}
 					\item \textbf{-f cmd} - stan wejściowy wprowadzany z konsoli
 					\item \textbf{-f file=\{plik z wejściowym węzłem\}}
-				\end{itemize}
-			\end{itemize}
+				\end{enumerate}
+				\begin{enumerate}
+					\item Program do wizualizacji rozwiązania:
+					Zadaniem programu jest uwidocznienie rozwiązania układanki. Jego parametrami są dwa pliki: output.txt - który obrazuje początkowe ustawienie kafelków oraz solution.txt który w pierwszej linii zawiera informacje o ilości ruchów. W następnej linii zawiera ciąg znaków złożonych z liter 'L', 'P', 'G', 'D' oznaczających kolejno Lewo, Prawo, Góra, Dół 
+				\end{enumerate}
+			\end{enumerate}
 		\subsection{Przykładowe użycia}
 			\begin{itemize}
 				\item \textbf{-a 1 -f cmd} - A* z ManhattanDistance, węzeł startowy z konsoli,
@@ -149,38 +153,38 @@
 		Kolejnosc przeszukiwania:LPGD
 		Odleglosc rozwiazania: 1
 		\begin{itemize}
-		\item Średnia dlugosc rozwiazania: 1.0
-		\item Średnia ilosc odwiedzonych stanow: 4.0
-		\item Średnia maksymalna glebokosc rekursji: 2.0
-		\item Średnia ilosc wygenerowanych stanow: 6.5
+			\item Średnia dlugosc rozwiazania: 1.0
+			\item Średnia ilosc odwiedzonych stanow: 4.0
+			\item Średnia maksymalna glebokosc rekursji: 2.0
+			\item Średnia ilosc wygenerowanych stanow: 6.5
 		\end{itemize}
 		Odleglosc rozwiazania: 2
 		\begin{itemize}
-		\item Średnia dlugosc rozwiazania: 2.0
-		\item Średnia ilosc odwiedzonych stanow: 15.75
-		\item Średnia maksymalna glebokosc rekursji: 3.0
-		\item Średnia ilosc wygenerowanych stanow: 15.0
+			\item Średnia dlugosc rozwiazania: 2.0
+			\item Średnia ilosc odwiedzonych stanow: 15.75
+			\item Średnia maksymalna glebokosc rekursji: 3.0
+			\item Średnia ilosc wygenerowanych stanow: 15.0
 		\end{itemize}
 		Odleglosc rozwiazania: 3
 		\begin{itemize}
-		\item Średnia dlugosc rozwiazania: 3.0
-		\item Średnia ilosc odwiedzonych stanow: 36.8
-		\item Średnia maksymalna glebokosc rekursji: 4.0
-		\item Średnia ilosc wygenerowanych stanow: 33.0
+			\item Średnia dlugosc rozwiazania: 3.0
+			\item Średnia ilosc odwiedzonych stanow: 36.8
+			\item Średnia maksymalna glebokosc rekursji: 4.0
+			\item Średnia ilosc wygenerowanych stanow: 33.0
 		\end{itemize}
 		Odleglosc rozwiazania: 4
 		\begin{itemize}
-		\item Średnia dlugosc rozwiazania: 4.0
-		\item Średnia ilosc odwiedzonych stanow: 69.04166666666667
-		\item Średnia maksymalna glebokosc rekursji: 5.0
-		\item Średnia ilosc wygenerowanych stanow: 47.916666666666664
+			\item Średnia dlugosc rozwiazania: 4.0
+			\item Średnia ilosc odwiedzonych stanow: 69.04166666666667
+			\item Średnia maksymalna glebokosc rekursji: 5.0
+			\item Średnia ilosc wygenerowanych stanow: 47.916666666666664
 		\end{itemize}
 		Odleglosc rozwiazania: 5
 		\begin{itemize}
-		\item Średnia dlugosc rozwiazania: 5.0
-		\item Średnia ilosc odwiedzonych stanow: 168.57407407407408
-		\item Średnia maksymalna glebokosc rekursji: 6.0
-		\item Średnia ilosc wygenerowanych stanow: 146.35185185185185
+			\item Średnia dlugosc rozwiazania: 5.0
+			\item Średnia ilosc odwiedzonych stanow: 168.57407407407408
+			\item Średnia maksymalna glebokosc rekursji: 6.0
+			\item Średnia ilosc wygenerowanych stanow: 146.35185185185185
 		\end{itemize}
 		Odleglosc rozwiazania: 6
 		\begin{itemize}
@@ -323,8 +327,6 @@
 		\end{itemize}
 		
 	\section{Wnioski}
-	
-	
 	
 	\begin{thebibliography}{0}
 	  \bibitem. http://en.wikipedia.org/wiki/Depth-first\_search
