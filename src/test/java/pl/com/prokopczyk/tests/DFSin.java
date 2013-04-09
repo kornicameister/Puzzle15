@@ -16,7 +16,7 @@ public class DFSin {
 	 */
 	public static void main(String[] args) {
 
-		Integer[][] start = { { 1, 0, 2 }, { 4, 5, 3 }, { 7, 8, 6 } };
+		Integer[][] start = { { 1, 2,3 }, { 4, 5, 6 }, { 7, 0, 8 } };
 		Integer[][] stop = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 0 } };
 		Integer[][] kopia = DFSStrategy.arrayCopy(start);
 		PuzzleNode startowy = new PuzzleNode("", start);
@@ -26,9 +26,9 @@ public class DFSin {
 		DFSStrategy dfsStrategy = new DFSStrategy();
 		List<GraphNode> nodes2 = new ArrayList<>();
 		List<GraphNode> nodes = new ArrayList<>();
-		nodes2.add(startowy);
-		dfsStrategy.init(nodes2);
-		dfsStrategy.setOrder("LDPG");
+		//nodes2.add(startowy);
+		//dfsStrategy.init(nodes2);
+		//dfsStrategy.setOrder("LDPG");
 		strat.init(nodes);
 		strat.setOrder("LDPG");
 		List<GraphNode> result = strat.iDFS(startowy, koncowyy, 4,false);

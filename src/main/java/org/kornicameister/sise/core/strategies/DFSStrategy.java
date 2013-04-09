@@ -58,8 +58,11 @@ public class DFSStrategy implements GraphSearchStrategy {
 		if(order==null)
 			order=((PuzzleNode)startNode).getOrder();
 		
-
+		try{
 		if (!startNode.isVisited()) {
+			
+				
+			
 			
 			startNode.setVisited(true);
 			this.path.add(startNode);
@@ -85,6 +88,7 @@ public class DFSStrategy implements GraphSearchStrategy {
 				if (!e.getSuccessor().isVisited()) {
 					visitedEdges.add(e);
 					traverse(e.getSuccessor(), endNode);
+					
 					if (success) {
 						return path;
 					}
@@ -97,6 +101,11 @@ public class DFSStrategy implements GraphSearchStrategy {
 			this.path.remove(findEqualElement(startNode, path));
 
 		}
+		}
+		catch(StackOverflowError t) {
+			t.printStackTrace();
+           return null;
+        }
 		return null;
 
 	}

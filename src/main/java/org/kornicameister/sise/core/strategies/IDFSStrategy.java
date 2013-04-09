@@ -107,6 +107,7 @@ public class IDFSStrategy  {
 						visitedEdges.add(e);
 						traverse(e.getSuccessor(), endNode, depth + 1, maxDepth);
 						if (success) {
+							System.out.println("Rozwiazane!!!!");
 							return path;
 						}
 					}
