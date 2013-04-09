@@ -2,11 +2,13 @@ package org.kornicameister.sise;
 
 import org.kornicameister.sise.core.Graph;
 import org.kornicameister.sise.core.Graphs;
+import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.GraphSearchStrategy;
 import org.kornicameister.sise.core.heuristic.Heuristic;
 import org.kornicameister.sise.core.io.CLIArguments;
 import org.kornicameister.sise.core.io.CLIWrapper;
 import org.kornicameister.sise.core.strategies.DFSStrategy;
+import org.kornicameister.sise.core.strategies.IDFSStrategy;
 import org.kornicameister.sise.puzzle.PuzzleSolverImpl;
 import org.kornicameister.sise.puzzle.heuristic.PuzzleCountInvalidHeuristics;
 import org.kornicameister.sise.puzzle.heuristic.PuzzleManhattanHeuristic;
@@ -31,8 +33,9 @@ import java.util.concurrent.TimeUnit;
  * @since 0.0.1
  */
 public class Puzzle {
-
+	static boolean  idfs=false;
     public static void main(String[] args) throws Exception {
+    	
         final Map<CLIArguments, Object> parse = CLIWrapper.getCMD().parse(args);
 
         if (parse == null) {
@@ -73,6 +76,7 @@ public class Puzzle {
                             strategy = new BFSPuzzleStrategy();
                             break;
                         case IDFS:
+                        	idfs=true;
                             //strategy = new IDFSStrategy();
                             break;
                         case DFS:
@@ -101,7 +105,8 @@ public class Puzzle {
                 .append("Puzzle:\t\t\t\t%s\n")
                 .append("-------------------------------\n")
                 .toString(),
-                strategy.getClass().getSimpleName(),
+                idfs==false ?
+                strategy.getClass().getSimpleName():"IDFS",
                 heuristic != null ? heuristic.getClass().getSimpleName() : "skipped",
                 order,
                 Arrays.deepToString(puzzle)
@@ -127,8 +132,20 @@ public class Puzzle {
                 barRotating.setShowProgress(true);
                 {
                     if (puzzleSolverImpl.isSolvable()) {
+                    	if(idfs)
+                    	{
+                    		IDFSStrategy idfs=new IDFSStrategy();
+                    		idfs.init(new ArrayList<GraphNode>());
+                    		idfs.iDFS(puzzleSolverImpl.getGraph().getNode(0), puzzleSolverImpl.getGraph().getNode(1), 20, false);
+                    		answer=idfs.getReport();
+                    		 barRotating.setShowProgress(false);
+                    		System.out.println(answer);
+                    		return answer;
+                    	}
+                    	else{
                         puzzleSolverImpl.solve();
                         answer = graph.getStrategy().getReport();
+                    	}
                     } else {
                         answer = String.format("%s is not solvable based on %s",
                                 Arrays.deepToString(finalPuzzle1),
@@ -143,7 +160,7 @@ public class Puzzle {
 
         barRotating.start();
         worker.execute();
-        System.out.println(worker.get());
+        //System.out.println(worker.get());
     }
 
     static class PuzzleLoader {

@@ -61,7 +61,11 @@ public class PuzzleSolverImpl implements PuzzleSolver {
         System.gc();
     }
 
-    @Override
+    public Graph getGraph() {
+		return graph;
+	}
+
+	@Override
     public final boolean isSolvable() {
         return this.examination.isAccessible(graph.getNodes().get(0));
     }
