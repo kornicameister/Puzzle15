@@ -174,4 +174,32 @@ public class AStarPuzzleStrategyTest extends AbstractPuzzleTest {
         System.out.println(graph.getStrategy().getReport());
 
     }
+
+    @Test
+    public void testCompareHeuristics2() {
+        Integer key = 17;
+        final List<Integer[][]> integers = this.puzzleMap.get(key);
+        final int i = new Random().nextInt(integers.size());
+        Integer[][] puzzle = integers.get(i);
+
+
+        System.out.println(String.format("Comparing heuristics %s at [%d,%d,%s]", Arrays.deepToString(puzzle), key, i, "LGPD"));
+        Graph graph = new Graph((new PuzzleNode("Init", "LGPD", puzzle)));
+        PuzzleSolverImpl puzzleSolverImpl = new PuzzleSolverImpl(graph);
+        puzzleSolverImpl.setExamination(new InversionAccessibleNodeStrategy());
+        Assert.assertThat(puzzleSolverImpl.isSolvable(), is(true));
+        graph.setStrategy(new AStarPuzzleStrategy(new PuzzleManhattanHeuristic()));
+        puzzleSolverImpl.solve();
+        System.out.println(graph.getStrategy().getReport());
+
+        System.out.println(String.format("Comparing heuristics %s at [%d,%d,%s]", Arrays.deepToString(puzzle), key, i, "R"));
+        graph = new Graph((new PuzzleNode("Init", "R", puzzle)));
+        puzzleSolverImpl = new PuzzleSolverImpl(graph);
+        puzzleSolverImpl.setExamination(new InversionAccessibleNodeStrategy());
+        Assert.assertThat(puzzleSolverImpl.isSolvable(), is(true));
+        graph.setStrategy(new AStarPuzzleStrategy(new PuzzleManhattanHeuristic()));
+        puzzleSolverImpl.solve();
+        System.out.println(graph.getStrategy().getReport());
+
+    }
 }
