@@ -92,6 +92,26 @@
 				\item \textbf{priorityQuere} - kolejka węzłów, posortowanych malejąco względem całkowitego kosztu;
 			\end{itemize}
 		\end{enumerate}
+	
+	\section{Heurystyki}
+		\begin{enumerate}
+			\item \textbf{ManhattanDistance} - heurystyka opiera się na obliczeniu odległości między dwoma punktami
+			w przestrzeni dwuwymiarowej. Ponieważ nasza układanka reprezentowana jest w jako tablica dwuwymiarowa,
+			heurystyka ManhattanDistance była naturalnym wyborem. Dla dwóch przekazanych stanów algorytm
+			oblicza odległość między kolejnymi elementami układanki i dodaje je do sumy odległości. Warto w tym
+			miejscu zaznaczyć, że jedynie takie ułożenie elementów w układance, które jest niepoprawne z punktu
+			widzenie przekazanego stanu końcowego, jest uwzględniane. 
+			Wartość heurystyki można obliczyć z poniższego wzoru:
+			\begin{equation}
+				h(s) = \sum_{i=0}^{N} \left(  | x_i(s) - \bar{x_i} | + | y_i(s) - \bar{y_i} | \right( 
+			\end{equation}
+			Wyjaśnienie:
+			\begin{itemize}
+				\item $h(s)$ - wartość heurystyki
+				\item $x_i(s)$, $y_i(s)$ - koordynaty stanu wejściowego (od którego przechodzimy)
+				\item $\bar{x_i}$, $\bar{y_i}$ - koordynaty stanu końcowego (do którego przechodzimy)
+			\end{itemize}
+		\end{enumerate}
 		
 	\section{Instrukcja obsługi programu}
 		\subsection{Parametry wejściowe}
@@ -1248,6 +1268,11 @@
 					\end{itemize}
 			
 	\section{Wnioski}
+		Zgodnie z przewidywaniami algorytm A* potwierdził, że jest nie jest algorytmem zachłannym. Dzięki użyciu
+		heurystyk udało się znacząco zmniejszyć długość ścieżek oraz czas potrzebny na jej obliczenie. 
+		\textbf{ManhattanDistance} był jedną z dwóch wybranych heurystyk. Okazała się niezaprzeczalnie lepsza
+		niż heurystyka, która oparta była o zliczanie elementów układanki, będących na niepoprawnych, z punktu
+		widzenia stanu końcowego - rozwiązania, pozycjach.
 	
 	\begin{thebibliography}{0}
 	  \bibitem. http://en.wikipedia.org/wiki/Depth-first\_search
