@@ -169,6 +169,10 @@ public class AStarPuzzleStrategyTest extends AbstractPuzzleTest {
         puzzleSolverImpl.solve();
         System.out.println(graph.getStrategy().getReport());
 
+        graph = new Graph((new PuzzleNode("Init", "R", puzzle)));
+        puzzleSolverImpl = new PuzzleSolverImpl(graph);
+        puzzleSolverImpl.setExamination(new InversionAccessibleNodeStrategy());
+        Assert.assertThat(puzzleSolverImpl.isSolvable(), is(true));
         graph.setStrategy(new AStarPuzzleStrategy(new PuzzleManhattanHeuristic()));
         puzzleSolverImpl.solve();
         System.out.println(graph.getStrategy().getReport());
