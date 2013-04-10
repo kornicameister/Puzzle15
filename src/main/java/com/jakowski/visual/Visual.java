@@ -91,14 +91,14 @@ public class Visual extends JComponent{
 				Thread.sleep(800);
 				break;
 			}
-			case 'R': 
+			case 'P': 
 			{
 				System.out.println("P");
 				moveRight();
 				Thread.sleep(800);
 				break;
 			}
-			case 'U':{
+			case 'G':{
 				System.out.println(move);
 				moveUp();
 				Thread.sleep(800);
