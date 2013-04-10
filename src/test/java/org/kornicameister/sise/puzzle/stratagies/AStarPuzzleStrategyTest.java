@@ -168,6 +168,7 @@ public class AStarPuzzleStrategyTest extends AbstractPuzzleTest {
         graph.setStrategy(new AStarPuzzleStrategy(new PuzzleCountInvalidHeuristics()));
         puzzleSolverImpl.solve();
         System.out.println(graph.getStrategy().getReport());
+        System.out.println(graph.getStrategy().getTurns());
 
         graph = new Graph((new PuzzleNode("Init", "R", puzzle)));
         puzzleSolverImpl = new PuzzleSolverImpl(graph);
@@ -176,6 +177,7 @@ public class AStarPuzzleStrategyTest extends AbstractPuzzleTest {
         graph.setStrategy(new AStarPuzzleStrategy(new PuzzleManhattanHeuristic()));
         puzzleSolverImpl.solve();
         System.out.println(graph.getStrategy().getReport());
+        System.out.println(graph.getStrategy().getTurns());
 
     }
 
@@ -195,6 +197,7 @@ public class AStarPuzzleStrategyTest extends AbstractPuzzleTest {
         graph.setStrategy(new AStarPuzzleStrategy(new PuzzleManhattanHeuristic()));
         puzzleSolverImpl.solve();
         System.out.println(graph.getStrategy().getReport());
+        System.out.println(graph.getStrategy().getTurns());
 
         System.out.println(String.format("Comparing heuristics %s at [%d,%d,%s]", Arrays.deepToString(puzzle), key, i, "R"));
         graph = new Graph((new PuzzleNode("Init", "R", puzzle)));
@@ -204,6 +207,7 @@ public class AStarPuzzleStrategyTest extends AbstractPuzzleTest {
         graph.setStrategy(new AStarPuzzleStrategy(new PuzzleManhattanHeuristic()));
         puzzleSolverImpl.solve();
         System.out.println(graph.getStrategy().getReport());
+        System.out.println(graph.getStrategy().getTurns());
 
     }
 }

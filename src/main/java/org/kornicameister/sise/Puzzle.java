@@ -128,7 +128,7 @@ public class Puzzle {
                 PuzzleSolverImpl puzzleSolverImpl = new PuzzleSolverImpl(graph);
                 puzzleSolverImpl.setExamination(new InversionAccessibleNodeStrategy());
 
-                String answer;
+                StringBuilder answer = new StringBuilder();
 
                 barRotating.setShowProgress(true);
                 {
@@ -137,21 +137,21 @@ public class Puzzle {
                             IDFSStrategy idfs = new IDFSStrategy();
                             idfs.init(new ArrayList<GraphNode>());
                             idfs.iDFS(puzzleSolverImpl.getGraph().getNode(0), puzzleSolverImpl.getGraph().getNode(1), 20, false);
-                            System.out.println("Path:"+ idfs.getTurns());
-                            answer = idfs.getReport();
+                            System.out.println("Path:" + idfs.getTurns());
+                            answer.append(idfs.getReport()).append("\n").append(idfs.getTurns());
                         } else {
                             puzzleSolverImpl.solve();
-                            answer = graph.getStrategy().getReport();
+                            answer.append(graph.getStrategy().getReport()).append("\n").append(graph.getStrategy().getTurns());
                         }
                     } else {
-                        answer = String.format("%s is not solvable based on %s",
+                        answer.append(String.format("%s is not solvable based on %s",
                                 Arrays.deepToString(finalPuzzle1),
-                                puzzleSolverImpl.getExamination().getClass().getSimpleName());
+                                puzzleSolverImpl.getExamination().getClass().getSimpleName()));
                     }
                 }
                 barRotating.setShowProgress(false);
                 System.out.println("\r\r\r\r");
-                return answer;
+                return answer.toString();
             }
         };
 

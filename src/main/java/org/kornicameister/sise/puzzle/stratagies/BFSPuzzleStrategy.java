@@ -1,5 +1,6 @@
 package org.kornicameister.sise.puzzle.stratagies;
 
+import org.kornicameister.sise.core.graph.GraphEdge;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.NodeAccessibleStrategy;
 import org.kornicameister.sise.core.strategies.BFSStrategy;
@@ -40,7 +41,7 @@ public class BFSPuzzleStrategy extends BFSStrategy {
     }
 
     @Override
-    public GraphNode getNextAvailableNode(GraphNode node) {
+    public GraphEdge getNextAvailableNode(GraphNode node) {
         if (node.getNeighbours().size() == 0) {
             if (node instanceof PuzzleNode) {
                 PuzzleNode puzzleNode = (PuzzleNode) node;

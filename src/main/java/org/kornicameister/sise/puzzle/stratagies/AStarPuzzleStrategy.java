@@ -34,6 +34,7 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     private Integer pQueueSize;
     private Integer openSetSize;
     private Integer closedSetSize;
+    private List<GraphEdge> visitedEdges;
 
     public AStarPuzzleStrategy(Heuristic heuristic) {
         this.heuristic = heuristic;
@@ -46,6 +47,7 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     @Override
     public void init(List<GraphNode> nodes) {
         this.nodeBuilder = new PuzzleNeighborsBuilder(nodes);
+        this.visitedEdges = new LinkedList<>();
     }
 
     @Override
@@ -70,7 +72,19 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     }
 
     @Override
-    public GraphNode getNextAvailableNode(GraphNode node) {
+    public String getTurns() {
+        StringBuilder str = new StringBuilder();
+        for (GraphEdge e : this.visitedEdges) {
+            AStarEdge edge = (AStarEdge) e;
+            str.append("");
+            str.append(edge.getDirection());
+        }
+        str.deleteCharAt(str.indexOf("!"));
+        return str.toString().trim();
+    }
+
+    @Override
+    public GraphEdge getNextAvailableNode(GraphNode node) {
         throw new NotImplementedException();
     }
 
@@ -144,7 +158,8 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
                                     x,
                                     neighbour.getSuccessor(),
                                     newG,
-                                    this.heuristic.heuristicValue(neighbour.getSuccessor(), toPuzzleNode)
+                                    this.heuristic.heuristicValue(neighbour.getSuccessor(), toPuzzleNode),
+                                    neighbour.getDirection()
                             );
 
                             openSet.put(edge.getID(), edge);
@@ -170,10 +185,12 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
             Stack<PuzzleNode> stack = new Stack<>();
             List<GraphNode> list = new ArrayList<>();
             stack.push(goal.getSuccessor());
+            this.visitedEdges.add(goal);
             AStarEdge parent = goal.getPredecessor();
             this.costs.add(goal.getFCost());
             while (parent != null) {
                 stack.push(parent.getSuccessor());
+                this.visitedEdges.add(parent);
                 parent = parent.getPredecessor();
             }
             while (stack.size() > 0) {
@@ -212,7 +229,7 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
                 for (Map.Entry<Character, GraphNode> pass : possibleNeighbours.entrySet()) {
                     GraphNode graphNode = pass.getValue();
                     if (graphNode instanceof PuzzleNode) {
-                        node.addNeighbour(new AStarEdge(edge, (PuzzleNode) pass.getValue()));
+                        node.addNeighbour(new AStarEdge(edge, (PuzzleNode) pass.getValue(), pass.getKey()));
                     }
                 }
             }

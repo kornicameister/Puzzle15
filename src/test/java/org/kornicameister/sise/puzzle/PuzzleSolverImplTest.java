@@ -65,6 +65,7 @@ public class PuzzleSolverImplTest extends AbstractPuzzleTest {
                     System.out.println("Failed to locate solution");
                 } else {
                     System.out.println(graph.getStrategy().getReport());
+                    System.out.println(graph.getStrategy().getTurns());
                 }
             }
             counter = 0;

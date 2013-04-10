@@ -14,20 +14,26 @@ public class AStarEdge implements GraphEdge, Comparable<AStarEdge> {
     private PuzzleNode successor;
     private Double gCost;
     private Double hCost;
+    private Character direction;
 
     public AStarEdge(PuzzleNode successor, Double gCost, Double hCost) {
-        this(null, successor, gCost, hCost);
+        this(null, successor, gCost, hCost, '!');
     }
 
-    public AStarEdge(AStarEdge predecessor, PuzzleNode successor, Double gCost, Double hCost) {
+    public AStarEdge(AStarEdge predecessor, PuzzleNode successor, Double gCost, Double hCost, Character direction) {
         this.predecessor = predecessor;
         this.successor = successor;
         this.gCost = gCost;
         this.hCost = hCost;
+        this.direction = direction;
+    }
+
+    public AStarEdge(AStarEdge predecessor, PuzzleNode successor, Character direction) {
+        this(predecessor, successor, 0.0, 0.0, direction);
     }
 
     public AStarEdge(AStarEdge predecessor, PuzzleNode successor) {
-        this(predecessor, successor, 0.0, 0.0);
+        this(predecessor, successor, 0.0, 0.0, '!');
     }
 
     @Override
@@ -40,13 +46,13 @@ public class AStarEdge implements GraphEdge, Comparable<AStarEdge> {
         return this.successor;
     }
 
+    public void setSuccessor(PuzzleNode successor) {
+        this.successor = successor;
+    }
+
     @Override
     public boolean isAccessible() {
         return true;
-    }
-
-    public void setSuccessor(PuzzleNode successor) {
-        this.successor = successor;
     }
 
     public AStarEdge getPredecessor() {
@@ -98,5 +104,9 @@ public class AStarEdge implements GraphEdge, Comparable<AStarEdge> {
         sb.append(", fCost=").append(this.getFCost());
         sb.append('}');
         return sb.toString();
+    }
+
+    public Character getDirection() {
+        return direction;
     }
 }

@@ -30,7 +30,9 @@ public interface GraphSearchStrategy {
 
     String getReport();
 
-    GraphNode getNextAvailableNode(GraphNode node);
+    String getTurns();
+
+    GraphEdge getNextAvailableNode(GraphNode node);
 
     List<GraphNode> traverse(GraphNode startNode);
 

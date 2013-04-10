@@ -1,6 +1,7 @@
 package org.kornicameister.sise.core.strategies;
 
 import com.rits.cloning.Cloner;
+import org.kornicameister.sise.core.Edge;
 import org.kornicameister.sise.core.graph.GraphEdge;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.GraphSearchStrategy;
@@ -22,10 +23,12 @@ public class BFSStrategy implements GraphSearchStrategy {
     protected Long computationTime = 0l;
     protected Integer pathLength = 0;
     private List<GraphNode> backupNodes;
+    private List<GraphEdge> visitedEdges;
 
     @Override
     public void init(List<GraphNode> nodes) {
         this.backupNodes = nodes;
+        this.visitedEdges = new LinkedList<>();
     }
 
     @Override
@@ -37,6 +40,16 @@ public class BFSStrategy implements GraphSearchStrategy {
         sb.append("Path length:\t\t").append(this.pathLength).append("\n");
         sb.append("Visited nodes:\t\t").append(this.nodesVisited).append("\n");
         return sb.toString();
+    }
+
+    @Override
+    public String getTurns() {
+        StringBuilder str = new StringBuilder();
+        for (GraphEdge e : this.visitedEdges) {
+            str.append("");
+            str.append(((Edge) e).getDirection());
+        }
+        return str.toString().trim();
     }
 
     protected GraphNode getClonedNode(GraphNode startNode) {
@@ -55,27 +68,26 @@ public class BFSStrategy implements GraphSearchStrategy {
         int visitedNodes = 0;
 
         startNode = this.getClonedNode(startNode);
-        List<GraphNode> path = new ArrayList<>();
         Queue<GraphNode> queue = new ArrayDeque<>();
         startNode.setVisited(true);
-        path.add(startNode);
         queue.add(startNode);
 
 
-        GraphNode node, node2;
+        GraphNode node;
+        GraphEdge edge;
+
         while (!queue.isEmpty()) {
             node = queue.remove();
-            while ((node2 = this.getNextAvailableNode(node)) != null) {
-                node2.setVisited(true);
+            while ((edge = this.getNextAvailableNode(node)) != null) {
+                edge.getSuccessor().setVisited(true);
                 visitedNodes++;
-                path.add(node2);
-                queue.add(node2);
+                queue.add(edge.getSuccessor());
             }
         }
         this.computationTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-        this.pathLength = path.size();
+        this.pathLength = this.visitedEdges.size();
         this.nodesVisited = visitedNodes;
-        return path;
+        return this.buildPath();
     }
 
     @Override
@@ -90,42 +102,49 @@ public class BFSStrategy implements GraphSearchStrategy {
             return new ArrayList<>();
         }
 
-        List<GraphNode> path = new ArrayList<>();
         Queue<GraphNode> queue = new ArrayDeque<>();
         startNode.setVisited(true);
-        path.add(startNode);
         queue.add(startNode);
 
 
-        GraphNode node, node2;
+        GraphNode node;
+        GraphEdge edge;
         while (!queue.isEmpty()) {
             node = queue.remove();
-            while ((node2 = this.getNextAvailableNode(node)) != null) {
+            while ((edge = this.getNextAvailableNode(node)) != null) {
 
-                node2.setVisited(true);
+                edge.getSuccessor().setVisited(true);
                 visitedNodes++;
-                path.add(node2);
+                this.visitedEdges.add(edge);
 
-                if (node2.equals(endNode)) {
+                if (edge.getSuccessor().equals(endNode)) {
 
                     this.computationTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-                    this.pathLength = path.size();
+                    this.pathLength = this.visitedEdges.size();
                     this.nodesVisited = visitedNodes;
 
                     queue.clear();
-                    return path;
+                    return this.buildPath();
                 }
-                queue.add(node2);
+                queue.add(edge.getSuccessor());
             }
         }
         return null;
     }
 
+    private List<GraphNode> buildPath() {
+        List<GraphNode> nodes = new LinkedList<>();
+        for (GraphEdge edge : this.visitedEdges) {
+            nodes.add(edge.getSuccessor());
+        }
+        return nodes;
+    }
+
     @Override
-    public GraphNode getNextAvailableNode(GraphNode node) {
+    public GraphEdge getNextAvailableNode(GraphNode node) {
         for (GraphEdge neighbour : node.getNeighbours()) {
             if (neighbour.isAccessible()) {
-                return neighbour.getSuccessor();
+                return neighbour;
             }
         }
         return null;
