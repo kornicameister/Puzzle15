@@ -137,6 +137,7 @@ public class Puzzle {
                             IDFSStrategy idfs = new IDFSStrategy();
                             idfs.init(new ArrayList<GraphNode>());
                             idfs.iDFS(puzzleSolverImpl.getGraph().getNode(0), puzzleSolverImpl.getGraph().getNode(1), 20, false);
+                            System.out.println("Path:"+ idfs.getTurns());
                             answer = idfs.getReport();
                         } else {
                             puzzleSolverImpl.solve();
