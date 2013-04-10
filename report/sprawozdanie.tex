@@ -10,7 +10,7 @@
 \coursesemester{VI}
 
 \coursename{SISE}
-\courseyear{2012/2012}
+\courseyear{2012/2013}
 
 \courseteacher{mgr inż. Jagoda Lazarek}
 \coursegroup{środa, 8:15}
@@ -111,6 +111,7 @@
 				\item $x_i(s)$, $y_i(s)$ - koordynaty stanu wejściowego (od którego przechodzimy)
 				\item $\bar{x_i}$, $\bar{y_i}$ - koordynaty stanu końcowego (do którego przechodzimy)
 			\end{itemize}
+		\item \textbf{Ilość złych wystąpień} - heurystyka szacuje odległość do stanu oczekiwanego. Zasada działania opiera się na porównaniu aktualnej tablicy z tablica oczekiwaną. Dzięki niej staramy się wyznaczyć najkrótszą drogę.
 		\end{enumerate}
 		
 	\section{Instrukcja obsługi programu}
@@ -143,11 +144,10 @@
 					\item \textbf{-f cmd} - stan wejściowy wprowadzany z konsoli
 					\item \textbf{-f file=\{plik z wejściowym węzłem\}}
 				\end{enumerate}
-				\begin{enumerate}
-					\item Program do wizualizacji rozwiązania:
+					\item \textbf{Program do wizualizacji rozwiązania:}
 					Zadaniem programu jest uwidocznienie rozwiązania układanki. Jego parametrami są dwa pliki: output.txt - który obrazuje początkowe ustawienie kafelków oraz solution.txt który w pierwszej linii zawiera informacje o ilości ruchów. W następnej linii zawiera ciąg znaków złożonych z liter 'L', 'P', 'G', 'D' oznaczających kolejno Lewo, Prawo, Góra, Dół 
 				\end{enumerate}
-			\end{enumerate}
+			
 		\subsection{Przykładowe użycia}
 			\begin{itemize}
 				\item \textbf{-a 1 -f cmd} - A* z ManhattanDistance, węzeł startowy z konsoli,
@@ -166,6 +166,11 @@
 		\begin{enumerate}
 			\item
 		\end{enumerate}
+		Klasy programu wizualizującego uzyskane rozwiązanie
+\begin{enumerate}
+\item Coordinates - przechowuje wartości x,y oraz wartość pojedynczego kafelka.
+\item Visual -  przechowuje tablice Coordinates oraz tablice znaków dla rozwiązania. Jej zadaniem jest wizualizacja rozwiązania układanki.
+\end{enumerate}
 		
 		\section{Część badawcza}
 			\subsection{iDFS}
@@ -1266,6 +1271,221 @@
 						\item OSet size:				2306
 						\item CSet path:				2305
 					\end{itemize}
+					\subsection{DFS}
+				\begin{center}
+				    \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    1 & DGPL & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 10 & 11 & 0 \\
+  						13 & 14 & 15 & 12 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item długość rozwiązania: 1.0
+\item ilość odwiedzonych stanów: 2.0
+\item  maksymalna głębokość rekurencji: 2.0
+\item  ilość wygenerowanych stanów: 4.0
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}
+					\begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    1 & LPDG & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 10 & 11 & 0 \\
+  						13 & 14 & 15 & 12 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item długość rozwiązania: 55.0
+\item ilość odwiedzonych stanów: 56.0
+\item  maksymalna głębokość rekurencji: 56.0
+\item  ilość wygenerowanych stanów: 112.0
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}
+				    
+				    \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    1 & GLDP & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 10 & 11 & 0 \\
+  						13 & 14 & 15 & 12 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item Wyczerpano zasoby pamięciowe
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}	
+ \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    2 & DGPL & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 10 & 0 & 12 \\
+  						13 & 14 & 11 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item długość rozwiązania: 2.0
+\item ilość odwiedzonych stanów: 3.0
+\item  maksymalna głębokość rekurencji: 3.0
+\item  ilość wygenerowanych stanów: 7.0
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}	
+				    \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    2 & LPDG & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 10 & 0 & 12 \\
+  						13 & 14 & 11 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item Wyczerpano zasoby pamięciowe
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}	
+				    
+				    
+				    
+				     \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    2 & GLDP & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 10 & 0 & 12 \\
+  						13 & 14 & 11 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item długość rozwiązania: 9834.0
+\item ilość odwiedzonych stanów: 9835.0
+\item  maksymalna głębokość rekurencji: 9835.0
+\item  ilość wygenerowanych stanów: 18172.0
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}
+				    
+				    
+				    				     \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    4 & DGLP & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 0 & 7 & 8 \\
+  						9 & 6 & 11 & 12 \\
+  						13 & 10 & 14 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item Wyczerpano zasoby pamięciowe
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}	
+				    
+				    				    				     \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    4 & LPDG  & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 0 & 7 & 8 \\
+  						9 & 6 & 11 & 12 \\
+  						13 & 10 & 14 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item Wyczerpano zasoby pamięciowe
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}		
+				    		    				    				    				     \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    4 & DPLG  & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 0 & 7 & 8 \\
+  						9 & 6 & 11 & 12 \\
+  						13 & 10 & 14 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item długość rozwiązania: 4.0
+\item ilość odwiedzonych stanów: 5.0
+\item  maksymalna głębokość rekurencji: 5.0
+\item  ilość wygenerowanych stanów: 12.0
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}		
+				    
+				    
+				    \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    6 & DPLG  & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 11 & 14 & 12 \\
+  						13 & 0 & 10 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item długość rozwiązania: 16.0
+\item ilość odwiedzonych stanów: 17.0
+\item  maksymalna głębokość rekurencji: 17.0
+\item  ilość wygenerowanych stanów: 33.0
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}
+				    
+				       \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				   6 & DGLP  & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 11 & 14 & 12 \\
+  						13 & 0 & 10 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item Wyczerpano zasoby pamięciowe
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}	
+				    
+				    				    \begin{tabular}{ | l | l | c | p{5cm} |}
+				    \hline
+				    \textbf{Odległość} & \textbf{Porządek} & \textbf{Układanka} & \textbf{Wynik} \\ \hline
+				    6 & LDPG  & 
+				    \begin{tabular}{ c c c c }
+  						1 & 2 & 3 & 4 \\
+  						5 & 6 & 7 & 8 \\
+  						9 & 11 & 14 & 12 \\
+  						13 & 0 & 10 & 15 \\
+					\end{tabular} &
+					\begin{itemize}
+					\item Wyczerpano zasoby pamięciowe
+					\end{itemize}\\
+				    \hline
+				    \end{tabular}    
+				    			    
+				    
+				    
+				    \end{center}
 			
 	\section{Wnioski}
 		Zgodnie z przewidywaniami algorytm A* potwierdził, że jest nie jest algorytmem zachłannym. Dzięki użyciu
@@ -1273,6 +1493,7 @@
 		\textbf{ManhattanDistance} był jedną z dwóch wybranych heurystyk. Okazała się niezaprzeczalnie lepsza
 		niż heurystyka, która oparta była o zliczanie elementów układanki, będących na niepoprawnych, z punktu
 		widzenia stanu końcowego - rozwiązania, pozycjach.
+		Algorytm iDFS zgodnie z oczekiwaniami zwraca najkrótsze z możliwych rozwiązań, jednak potrzebuje on do tego celu o wiele więcej zasobów niż pozostałe algorytmy. W przypadku algorytmu DFS spotkaliśmy się wielokrotnie z przepełnieniem dostępnej pamięci. Wyniki otrzymane przy użyciu algorytmu DFS nawet dla bardzo prostych układanek potrafią składać się z kilku tysięcy ruchów.   
 	
 	\begin{thebibliography}{0}
 	  \bibitem. http://en.wikipedia.org/wiki/Depth-first\_search
