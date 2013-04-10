@@ -19,6 +19,7 @@ public class DFSStrategy implements GraphSearchStrategy {
 	int maxRecursionDepth=0;
 	int visitedNodes=0;
 	boolean success = false;
+	boolean stack=false;
 	private List<GraphNode> backupNodes;
 	private List<GraphNode> path = new ArrayList<GraphNode>();
 	private List<GraphEdge> visitedEdges = new ArrayList<GraphEdge>();
@@ -57,6 +58,8 @@ public class DFSStrategy implements GraphSearchStrategy {
 	public List<GraphNode> traverse(GraphNode startNode, GraphNode endNode) {
 		if(order==null)
 			order=((PuzzleNode)startNode).getOrder();
+		if(stack)
+			return null;
 		
 		try{
 		if (!startNode.isVisited()) {
@@ -103,11 +106,25 @@ public class DFSStrategy implements GraphSearchStrategy {
 		}
 		}
 		catch(StackOverflowError t) {
-			t.printStackTrace();
+			stack=true;
+			System.out.println("Out of memory");
+			//t.printStackTrace();
            return null;
         }
 		return null;
 
+	}
+
+	public List<GraphNode> getBackupNodes() {
+		return backupNodes;
+	}
+
+	public int getMaxRecursionDepth() {
+		return maxRecursionDepth;
+	}
+
+	public int getVisitedNodes() {
+		return visitedNodes;
 	}
 
 	private List<GraphNode> cloneNodes(List<GraphNode> nodes) {

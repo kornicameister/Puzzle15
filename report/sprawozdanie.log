@@ -1,0 +1,401 @@
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2013.4.7)  10 APR 2013 01:07
+entering extended mode
+**sprawozdanie.tex
+(C:\Users\andrzej\Documents\GitHub\Puzzle15\report\sprawozdanie.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
+abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
+croatian, czech, danish, dutch, esperanto, estonian, farsi, finnish, french, ga
+lician, german, german-x-2012-05-30, greek, gujarati, hindi, hungarian, iceland
+ic, indonesian, interlingua, irish, italian, kannada, kurmanji, latin, latvian,
+ lithuanian, malayalam, marathi, mongolian, mongolianlmc, monogreek, ngerman, n
+german-x-2012-05-30, nynorsk, oriya, panjabi, pinyin, polish, portuguese, roman
+ian, russian, sanskrit, serbian, slovak, slovenian, spanish, swedish, swissgerm
+an, tamil, telugu, turkish, turkmen, ukenglish, ukrainian, uppersorbian, usengl
+ishmax, welsh, loaded.
+(C:\Users\andrzej\Documents\GitHub\Puzzle15\report\classrep.cls
+Document Class: classrep 2009/04/24 ICS Class Assignment Report
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\mwcls\mwart.cls
+Document Class: mwart 2009/09/27 v0.74 A LaTeX document class (MW)
+*** Beta version. Formatting may change
+*** in future versions of this class.
+\l@nohyphenation=\language69
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\mwcls\mw12.clo
+File: mw12.clo 2009/09/27 v0.74 A document class size option (MW)
+)
+\@parindent=\dimen102
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen103
+)
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\polski.sty
+Package: polski 2008/02/24 v1.3.3 Polish language package
+
+Document language package `polski' v1.3.3 <2008/02/24>
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\ot4enc.def"
+File: ot4enc.def 2005/09/27 v1.99g Standard LaTeX file
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\ltxmisc\url.sty"
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\inputenc.sty"
+Package: inputenc 2008/03/30 v1.1d Input encoding file
+\inpenc@prehook=\toks14
+\inpenc@posthook=\toks15
+
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\ucs\utf8x.def
+File: utf8x.def 2004/10/17 UCS: Input encoding UTF-8
+))
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\ucs\ucs.sty
+Package: ucs 2004/10/17 UCS: Unicode input support
+
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\ucs\uni-global.def
+File: uni-global.def 2012/08/28 UCS: Unicode global data
+)
+\uc@secondtry=\count87
+\uc@combtoks=\toks16
+\uc@combtoksb=\toks17
+\uc@temptokena=\toks18
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\fontenc.sty"
+Package: fontenc 2005/09/27 v1.99g Standard LaTeX package
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1enc.def"
+File: t1enc.def 2005/09/27 v1.99g Standard LaTeX file
+LaTeX Font Info:    Redeclaring font encoding T1 on input line 43.
+))
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\babel.sty"
+Package: babel 2008/07/08 v3.8m The Babel package
+
+*************************************
+* Local config file bblopts.cfg used
+*
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\bblopts.cfg"
+File: bblopts.cfg 2006/07/31 v1.0 MiKTeX 'babel' configuration
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\polish.ldf"
+Language: polish 2005/03/31 v1.2l Polish support from the babel system
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\generic\babel\babel.def"
+File: babel.def 2008/07/08 v3.8m Babel common definitions
+\babel@savecnt=\count88
+\U@D=\dimen104
+)
+Package babel Info: Making " an active character on input line 83.
+\pl@left=\dimen105
+\pl@down=\dimen106
+\pl@right=\dimen107
+\pl@temp=\dimen108
+))
+No file sprawozdanie.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT4/cmr/m/n on input line 26.
+LaTeX Font Info:    Try loading font information for OT4+cmr on input line 26.
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\polski\ot4cmr.fd
+File: ot4cmr.fd 2008/02/24 v1.2.1 Font defs for fonts PL (MW)
+)
+LaTeX Font Info:    ... okay on input line 26.
+
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\ucs\ucsencs.def
+File: ucsencs.def 2011/01/21 Fixes to fontencodings LGR, T3
+)
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\ucs\uni-1.def
+File: uni-1.def 2012/08/28 UCS: Unicode data U+0100..U+01FF
+)
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 27.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 27.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 27.
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+
+ []
+
+LaTeX Font Info:    Try loading font information for T1+cmtt on input line 27.
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\t1cmtt.fd"
+File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+(C:\Users\andrzej\AppData\Roaming\MiKTeX\2.9\tex\latex\ucs\uni-0.def
+File: uni-0.def 2012/08/28 UCS: Unicode data U+0000..U+00FF
+) [1
+
+{C:/Users/andrzej/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [2]
+[3] [4] [5]
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Overfull \hbox (6.59451pt too wide) in paragraph at lines 332--1209
+ [] 
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [6]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [7]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [10]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [11]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [12]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [13]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [14]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [15]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [16]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [17]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [18]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [19]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [20]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [21]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [22]
+[23] [24] (C:\Users\andrzej\Documents\GitHub\Puzzle15\report\sprawozdanie.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 2643 strings out of 493921
+ 31842 string characters out of 3144871
+ 184108 words of memory out of 3000000
+ 5947 multiletter control sequences out of 15000+200000
+ 12605 words of font info for 33 fonts, out of 3000000 for 9000
+ 841 hyphenation exceptions out of 8191
+ 31i,12n,26p,412b,501s stack positions out of 5000i,500n,10000p,200000b,50000s
+ <C:\Users\andrzej\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi60
+0\ecrm1095.pk> <C:\Users\andrzej\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknap
+pen\ec\dpi600\ecti1200.pk> <C:\Users\andrzej\AppData\Local\MiKTeX\2.9\fonts\pk\
+ljfour\jknappen\ec\dpi600\ecbx1200.pk> <C:\Users\andrzej\AppData\Local\MiKTeX\2
+.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm2074.pk> <C:\Users\andrzej\AppData\Lo
+cal\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1440.pk> <C:\Users\andrze
+j\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecbx1440.pk> <C:\
+Users\andrzej\AppData\Local\MiKTeX\2.9\fonts\pk\ljfour\jknappen\ec\dpi600\ecrm1
+200.pk>
+Output written on sprawozdanie.pdf (24 pages, 120339 bytes).
+PDF statistics:
+ 356 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

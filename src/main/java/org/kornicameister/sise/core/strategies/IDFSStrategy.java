@@ -15,6 +15,7 @@ import org.kornicameister.sise.puzzle.node.PuzzleNode;
 import com.rits.cloning.Cloner;
 
 public class IDFSStrategy  {
+	boolean stack=false;
 	private int maxRecursionDepth=0;
 	private int visitedNodes=0;
 	
@@ -74,7 +75,9 @@ public class IDFSStrategy  {
 			int maxDepth) {
 		if(order==null)
 			order=((PuzzleNode)startNode).getOrder();
-
+		if (stack)
+			return null;
+		try{
 		if (!startNode.isVisited()) {
 			
 			startNode.setVisited(true);
@@ -123,6 +126,13 @@ public class IDFSStrategy  {
 			// System.out.println(path.size());
 
 		}
+		}
+		catch(StackOverflowError t) {
+			stack=true;
+			System.out.println("Out of memory");
+			//t.printStackTrace();
+           return null;
+        }
 		return null;
 
 		
@@ -132,6 +142,8 @@ public class IDFSStrategy  {
 	public List<GraphNode> iDFS(GraphNode startNode, GraphNode endNode,
 			int maxDepth, boolean isGenerator) {
 		for (int i = 0; i < maxDepth; i++) {
+			if (stack)
+				return null;
 			startNode.setVisited(false);
 			backupNodes.add(startNode);
 			path.clear();
