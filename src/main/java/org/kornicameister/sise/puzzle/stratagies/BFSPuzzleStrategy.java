@@ -4,6 +4,7 @@ import org.kornicameister.sise.core.graph.GraphEdge;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.NodeAccessibleStrategy;
 import org.kornicameister.sise.core.strategies.BFSStrategy;
+import org.kornicameister.sise.core.strategies.UnvisitedAccessibleStrategy;
 import org.kornicameister.sise.puzzle.builder.PuzzleNeighborsBuilder;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
 
@@ -24,7 +25,7 @@ public class BFSPuzzleStrategy extends BFSStrategy {
 
     public BFSPuzzleStrategy() {
         LOGGER.setLevel(Level.INFO);
-        this.strategy = new InversionAccessibleNodeStrategy();
+        this.strategy = new UnvisitedAccessibleStrategy();
     }
 
     @Override

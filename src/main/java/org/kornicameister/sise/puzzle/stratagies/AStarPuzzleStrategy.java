@@ -74,6 +74,7 @@ public class AStarPuzzleStrategy implements HeuristicGraphSearchStrategy {
     @Override
     public String getTurns() {
         StringBuilder str = new StringBuilder();
+        Collections.reverse(this.visitedEdges);
         for (GraphEdge e : this.visitedEdges) {
             AStarEdge edge = (AStarEdge) e;
             str.append("");
