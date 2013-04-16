@@ -6,10 +6,11 @@ import org.kornicameister.sise.core.graph.NodeAccessibleStrategy;
 import org.kornicameister.sise.core.strategies.BFSStrategy;
 import org.kornicameister.sise.core.strategies.UnvisitedAccessibleStrategy;
 import org.kornicameister.sise.puzzle.builder.PuzzleNeighborsBuilder;
+import org.kornicameister.sise.puzzle.edge.BFSEdge;
 import org.kornicameister.sise.puzzle.node.PuzzleNode;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +21,7 @@ import java.util.logging.Logger;
  */
 public class BFSPuzzleStrategy extends BFSStrategy {
     private static final Logger LOGGER = Logger.getLogger(BFSPuzzleStrategy.class.getName());
-    private final NodeAccessibleStrategy strategy;
+    protected final NodeAccessibleStrategy strategy;
     protected PuzzleNeighborsBuilder neighborsBuilder;
 
     public BFSPuzzleStrategy() {
@@ -42,6 +43,51 @@ public class BFSPuzzleStrategy extends BFSStrategy {
     }
 
     @Override
+    public List<GraphNode> traverse(GraphNode startNode, GraphNode endNode) {
+        Long startTime = System.nanoTime();
+        int visitedNodes = 0;
+
+        startNode = this.getClonedNode(startNode);
+        endNode = this.getClonedNode(endNode);
+
+        if (startNode.equals(endNode)) {
+            return new ArrayList<>();
+        }
+
+        Queue<GraphNode> queue = new ArrayDeque<>();
+        Set<GraphEdge> visEdges = new HashSet<>();
+        startNode.setVisited(true);
+        queue.add(startNode);
+
+
+        GraphNode node;
+        GraphEdge edge;
+        while (!queue.isEmpty()) {
+            node = queue.remove();
+            while ((edge = this.getNextAvailableNode(node)) != null) {
+
+                edge.getSuccessor().setVisited(true);
+                visitedNodes++;
+                visEdges.add(edge);
+
+                if (edge.getSuccessor().equals(endNode)) {
+
+                    this.computationTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
+                    this.pathLength = this.visitedEdges.size();
+                    this.nodesVisited = visitedNodes;
+
+                    queue.clear();
+                    return this.buildPath(visEdges);
+                }
+                if (!queue.contains(edge.getSuccessor())) {
+                    queue.add(edge.getSuccessor());
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
     public GraphEdge getNextAvailableNode(GraphNode node) {
         if (node.getNeighbours().size() == 0) {
             if (node instanceof PuzzleNode) {
@@ -49,12 +95,20 @@ public class BFSPuzzleStrategy extends BFSStrategy {
                 final Map<Character, GraphNode> possibleNeighbours = neighborsBuilder.getPossibleNeighbours(puzzleNode);
                 if (possibleNeighbours.size() > 0) {
                     for (Map.Entry<Character, GraphNode> pass : possibleNeighbours.entrySet()) {
-                        puzzleNode.addNeighbour(pass.getValue(), this.strategy, pass.getKey());
+                        puzzleNode.addNeighbour(new BFSEdge(null, (PuzzleNode) pass.getValue(), pass.getKey(), this.strategy));
                     }
                 }
             }
         }
         return super.getNextAvailableNode(node);
+    }
+
+    private List<GraphNode> buildPath(final Set<GraphEdge> visEdges) {
+        List<GraphNode> nodes = new LinkedList<>();
+        for (GraphEdge edge : visEdges) {
+            nodes.add(edge.getSuccessor());
+        }
+        return nodes;
     }
 
 }

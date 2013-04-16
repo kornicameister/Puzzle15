@@ -22,8 +22,8 @@ public class BFSStrategy implements GraphSearchStrategy {
     protected Integer nodesVisited = 0;
     protected Long computationTime = 0l;
     protected Integer pathLength = 0;
-    private List<GraphNode> backupNodes;
-    private List<GraphEdge> visitedEdges;
+    protected List<GraphNode> backupNodes;
+    protected List<GraphEdge> visitedEdges;
 
     @Override
     public void init(List<GraphNode> nodes) {
@@ -132,7 +132,7 @@ public class BFSStrategy implements GraphSearchStrategy {
         return null;
     }
 
-    private List<GraphNode> buildPath() {
+    protected List<GraphNode> buildPath() {
         List<GraphNode> nodes = new LinkedList<>();
         for (GraphEdge edge : this.visitedEdges) {
             nodes.add(edge.getSuccessor());
