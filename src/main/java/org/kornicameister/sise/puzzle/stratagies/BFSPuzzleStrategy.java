@@ -54,61 +54,67 @@ public class BFSPuzzleStrategy extends BFSStrategy {
             return new ArrayList<>();
         }
 
-        Queue<GraphNode> queue = new ArrayDeque<>();
-        Set<GraphEdge> visEdges = new HashSet<>();
+        Queue<BFSEdge> queue = new ArrayDeque<>();
         startNode.setVisited(true);
-        queue.add(startNode);
+        queue.add(new BFSEdge(null, (PuzzleNode) startNode, Character.MAX_SURROGATE, this.strategy));
 
 
-        GraphNode node;
-        GraphEdge edge;
+        BFSEdge node;
+        BFSEdge edge;
         while (!queue.isEmpty()) {
             node = queue.remove();
             while ((edge = this.getNextAvailableNode(node)) != null) {
 
                 edge.getSuccessor().setVisited(true);
                 visitedNodes++;
-                visEdges.add(edge);
 
                 if (edge.getSuccessor().equals(endNode)) {
 
                     this.computationTime = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startTime);
-                    this.pathLength = this.visitedEdges.size();
+                    ;
                     this.nodesVisited = visitedNodes;
 
                     queue.clear();
-                    return this.buildPath(visEdges);
+                    this.visitedEdges = this.trimBySE(edge);
+                    this.pathLength = this.visitedEdges.size() - 1;
+                    return this.buildPath();
                 }
-                if (!queue.contains(edge.getSuccessor())) {
-                    queue.add(edge.getSuccessor());
+                if (!queue.contains(edge)) {
+                    queue.add(edge);
                 }
             }
         }
         return null;
     }
 
-    @Override
-    public GraphEdge getNextAvailableNode(GraphNode node) {
+    private List<GraphEdge> trimBySE(GraphEdge edge) {
+        BFSEdge goal = (BFSEdge) edge;
+
+        List<GraphEdge> visitedEdges = new ArrayList<>();
+        visitedEdges.add(goal);
+        BFSEdge parent = goal.getPredecessor();
+
+        while (parent != null) {
+            visitedEdges.add(parent);
+            parent = parent.getPredecessor();
+        }
+
+        Collections.reverse(visitedEdges);
+
+        return visitedEdges;
+    }
+
+    public BFSEdge getNextAvailableNode(BFSEdge edge) {
+        PuzzleNode node = edge.getSuccessor();
         if (node.getNeighbours().size() == 0) {
-            if (node instanceof PuzzleNode) {
-                PuzzleNode puzzleNode = (PuzzleNode) node;
-                final Map<Character, GraphNode> possibleNeighbours = neighborsBuilder.getPossibleNeighbours(puzzleNode);
-                if (possibleNeighbours.size() > 0) {
-                    for (Map.Entry<Character, GraphNode> pass : possibleNeighbours.entrySet()) {
-                        puzzleNode.addNeighbour(new BFSEdge(null, (PuzzleNode) pass.getValue(), pass.getKey(), this.strategy));
-                    }
+            final Map<Character, GraphNode> possibleNeighbours = neighborsBuilder.getPossibleNeighbours(node);
+            if (possibleNeighbours.size() > 0) {
+                for (Map.Entry<Character, GraphNode> pass : possibleNeighbours.entrySet()) {
+                    node.addNeighbour(new BFSEdge(edge, (PuzzleNode) pass.getValue(), pass.getKey(), this.strategy));
                 }
             }
         }
-        return super.getNextAvailableNode(node);
-    }
-
-    private List<GraphNode> buildPath(final Set<GraphEdge> visEdges) {
-        List<GraphNode> nodes = new LinkedList<>();
-        for (GraphEdge edge : visEdges) {
-            nodes.add(edge.getSuccessor());
-        }
-        return nodes;
+        return (BFSEdge) super.getNextAvailableNode(node);
     }
 
 }

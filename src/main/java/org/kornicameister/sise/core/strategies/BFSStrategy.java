@@ -1,7 +1,6 @@
 package org.kornicameister.sise.core.strategies;
 
 import com.rits.cloning.Cloner;
-import org.kornicameister.sise.core.Edge;
 import org.kornicameister.sise.core.graph.GraphEdge;
 import org.kornicameister.sise.core.graph.GraphNode;
 import org.kornicameister.sise.core.graph.GraphSearchStrategy;
@@ -45,9 +44,11 @@ public class BFSStrategy implements GraphSearchStrategy {
     @Override
     public String getTurns() {
         StringBuilder str = new StringBuilder();
-        for (GraphEdge e : this.visitedEdges) {
+        List<GraphEdge> visitedEdges1 = this.visitedEdges;
+        for (int i = 1; i < visitedEdges1.size(); i++) {
+            GraphEdge e = visitedEdges1.get(i);
             str.append("");
-            str.append(((Edge) e).getDirection());
+            str.append(e.getDirection());
         }
         return str.toString().trim();
     }

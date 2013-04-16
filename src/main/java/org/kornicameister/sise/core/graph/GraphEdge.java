@@ -16,5 +16,7 @@ public interface GraphEdge {
 
     GraphNode getSuccessor();
 
+    Character getDirection();
+
     boolean isAccessible();
 }

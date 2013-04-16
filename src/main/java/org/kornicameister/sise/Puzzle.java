@@ -106,7 +106,7 @@ public class Puzzle {
                 .append("Puzzle:\t\t\t\t%s\n")
                 .append("-------------------------------\n")
                 .toString(),
-                idfs == false ?
+                !idfs ?
                         strategy.getClass().getSimpleName() : "IDFS",
                 heuristic != null ? heuristic.getClass().getSimpleName() : "skipped",
                 order,
